@@ -50,18 +50,19 @@ class _BusinessDataColumnState extends State<BusinessDataColumn> with SingleTick
         spacer: const SizedBox(height: 16.0),
         children: [
           Container(
+            alignment: Alignment.center,
             decoration: const BoxDecoration(
               boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 20.0)],
               color: Colors.white,
             ),
             child: AnimatedIcon(
               key: _iconGlobalKey,
-              size: width,
+              size: width / 2,
               icon: widget._animatedIcon,
               progress: _iconController
             ),
             height: height,
-            width: width / 2,
+            width: width,
             padding: const EdgeInsets.all(40),
           ),
           Text(

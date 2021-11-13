@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transparent_image/transparent_image.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 import 'package:website/screens/widgets/widgets/business_data_row/business_data_row.dart';
+import 'package:website/screens/widgets/widgets/faqs_row/faqs_row.dart';
 
-import '../cubit/home_screen_cubit.dart';
-import 'widgets/savings_calculator_row/savings_calculator_row.dart';
+import 'widgets/savings_row/savings_row.dart';
+import 'widgets/pricing_row/pricing_row.dart';
+import 'widgets/typical_savings_number/bloc/typical_savings_number_bloc.dart';
+import 'widgets/typical_savings_number/typical_savings_number.dart';
+import 'widgets/typical_savings_title/cubit/typical_savings_title_cubit.dart';
+import 'widgets/typical_savings_title/typical_savings_title.dart';
 
 class HomeScreenBody extends StatefulWidget {
-
+  
   @override
   State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
@@ -14,51 +22,51 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   final ScrollController _controller = ScrollController();
   final GlobalKey _businessListViewKey = GlobalKey();
+  final GlobalKey _firstImageWindowKey = GlobalKey();
+  final GlobalKey _secondImageWindowKey = GlobalKey();
+  final GlobalKey _thirdImageWindowKey = GlobalKey();
 
+  late ParallaxBloc _parallaxBloc;
+  
   double get _screenWidth => MediaQuery.of(context).size.width;
   double get _screenHeight => MediaQuery.of(context).size.height;
 
   @override
+  void initState() {
+    super.initState();
+    _parallaxBloc = BlocProvider.of<ParallaxBloc>(context);
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
-      child: BlocBuilder<HomeScreenCubit, double>(
-        builder: (context, offset) {
+      child: BlocBuilder<ParallaxBloc, ParallaxState>(
+        builder: (context, state) {
           return Stack(
             children: [
               Positioned(
-                top: -.25 * offset,
-                child: Image.asset(
-                  'landscape/bar_landscape.jpg',
+                top: -.25 * (state.offset - state.offsetAdjustment),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: state.currentBackground,
                   fit: BoxFit.fitWidth,
-                  width: _screenWidth,
                   height: _screenHeight,
+                  width: _screenWidth,
                 )
               ),
-              Positioned(
-                top: (_screenHeight * .8) - offset,
-                left: 0,
-                right: 0,
-                height: _screenHeight * .2,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: const [0, 1],
-                      colors: [Colors.indigo.withOpacity(0), Colors.indigo]
-                    )
-                  ),
-                  child: const SizedBox(width: double.infinity),
-                )
-              ),
+              _imageText(state: state),
               ListView(
                 key: _businessListViewKey,
                 cacheExtent: 100,
                 addAutomaticKeepAlives: false,
                 controller: _controller,
                 children: [
-                  SizedBox(height: _screenHeight),
+                  SizedBox(
+                    key: _firstImageWindowKey,
+                    height: _screenHeight,
+                    child: _titleText(state: state),
+                  ),
                   BusinessDataRow(businessListViewKey: _businessListViewKey, scrollController: _controller),
                   const SizedBox(
                     height: 40.0,
@@ -66,7 +74,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       decoration: BoxDecoration(color: Colors.white),
                     ),
                   ),
-                  SavingsCalculatorRow(businessListViewKey: _businessListViewKey, scrollController: _controller)
+                  PricingRow(businessListViewKey: _businessListViewKey, scrollController: _controller),
+                  SizedBox(key: _secondImageWindowKey, height: _screenHeight),
+                  SavingsRow(businessListViewKey: _businessListViewKey, scrollController:  _controller),
+                  SizedBox(key: _thirdImageWindowKey, height: _screenHeight),
+                  FaqsRow()
                 ],
               )
             ],
@@ -82,9 +94,170 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     super.dispose();
   }
 
+  Widget _titleText({required ParallaxState state}) {
+    return Stack(
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          top: .5 * (state.offset.h - state.offsetAdjustment.h) + .4.sh,
+          child: Align(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Welcome to Nova Pay",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 56.sp
+                  ),
+                ),
+                SizedBox(width: 35.w),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h)
+                  ),
+                  onPressed: () => _goToSignup(), 
+                  child: Text(
+                    "Get Started",
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40.sp
+                  ),
+                  )
+                )
+              ],
+            )
+          )
+        )
+      ],
+    );
+  }
+  
+  Widget _imageText({required ParallaxState state}) {
+    if (state.currentBackground == ParallaxBloc.secondImage) {
+      return Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: -2 * (state.offset.h - state.offsetAdjustment.h) - 150.h,
+            child: Align(
+              alignment: Alignment.center,
+              child: BlocProvider<TypicalSavingsTitleCubit>(
+                create: (_) => TypicalSavingsTitleCubit(),
+                child: TypicalSavingsTitle(
+                  businessListViewKey: _businessListViewKey,
+                  scrollController: _controller,
+                  secondImageWindowKey: _secondImageWindowKey,
+                ),
+              ),
+            )
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: -1.5 * (state.offset.h - state.offsetAdjustment.h),
+            child: Align(
+              alignment: Alignment.center,
+              child: BlocProvider<TypicalSavingsNumberBloc>(
+                create: (_) => TypicalSavingsNumberBloc(),
+                child: TypicalSavingsNumber(
+                  businessListViewKey: _businessListViewKey,
+                  scrollController: _controller,
+                  secondImageWindowKey: _secondImageWindowKey,
+                ),
+              )
+            )
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
+  }
+  
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {
-      context.read<HomeScreenCubit>().scrollUpdated(offset: notification.metrics.pixels);
+      _resetImage(notification: notification);
+    }
+
+    return false;
+  }
+
+  void _goToSignup() {
+    print('Go To Signup');
+  }
+  
+  void _resetImage({required ScrollNotification notification}) {
+    if (_firstImageVisible(offset: notification.metrics.pixels)) return;
+    if (_secondImageVisible(offset: notification.metrics.pixels)) return;
+    if (_thirdImageVisible(offset: notification.metrics.pixels)) return;
+    
+    _parallaxBloc.add(ScrollUpdated(offset: notification.metrics.pixels));
+  }
+
+  bool _firstImageVisible({required double offset}) {
+    RenderObject? businessListViewObject = _businessListViewKey.currentContext?.findRenderObject();
+    RenderObject? firstImageWindowKey = _firstImageWindowKey.currentContext?.findRenderObject();
+
+    if (businessListViewObject == null || firstImageWindowKey == null) return false;
+
+    final double listViewHeight = businessListViewObject.paintBounds.height;
+    final double objectTop = firstImageWindowKey.getTransformTo(businessListViewObject).getTranslation().y;
+
+    if (objectTop < listViewHeight && _parallaxBloc.state.currentBackground != ParallaxBloc.firstImage) {
+      _parallaxBloc.add(BackgroundChanged(
+        newBackground: ParallaxBloc.firstImage,
+        currentOffset: offset,
+        offsetAdjustment: 0
+      ));
+      return true;
+    }
+    return false;
+  }
+
+  bool _secondImageVisible({required double offset}) {
+    RenderObject? businessListViewObject = _businessListViewKey.currentContext?.findRenderObject();
+    RenderObject? secondImageWindowKey = _secondImageWindowKey.currentContext?.findRenderObject();
+
+    if (businessListViewObject == null || secondImageWindowKey == null) return false;
+
+    final double listViewHeight = businessListViewObject.paintBounds.height;
+    final double objectTop = secondImageWindowKey.getTransformTo(businessListViewObject).getTranslation().y;
+
+    if (objectTop < listViewHeight && _parallaxBloc.state.currentBackground != ParallaxBloc.secondImage) {
+      double offsetAdjustment = _parallaxBloc.state.currentBackground == ParallaxBloc.firstImage
+        ? 800.h
+        : -500.h;
+      _parallaxBloc.add(BackgroundChanged(
+        newBackground: ParallaxBloc.secondImage,
+        currentOffset: offset,
+        offsetAdjustment: offset + offsetAdjustment
+      ));
+      return true;
+    }
+    return false;
+  }
+
+  bool _thirdImageVisible({required double offset}) {
+    RenderObject? businessListViewObject = _businessListViewKey.currentContext?.findRenderObject();
+    RenderObject? thirdImageWindowKey = _thirdImageWindowKey.currentContext?.findRenderObject();
+
+    if (businessListViewObject == null || thirdImageWindowKey == null) return false;
+
+    final double listViewHeight = businessListViewObject.paintBounds.height;
+    final double objectTop = thirdImageWindowKey.getTransformTo(businessListViewObject).getTranslation().y;
+
+    if (objectTop < listViewHeight && _parallaxBloc.state.currentBackground != ParallaxBloc.thirdImage) {
+      _parallaxBloc.add(BackgroundChanged(
+        newBackground: ParallaxBloc.thirdImage,
+        currentOffset: offset,
+        offsetAdjustment: offset + 500.h
+      ));
+      return true;
     }
     return false;
   }

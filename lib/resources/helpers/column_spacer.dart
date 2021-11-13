@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 class ColumnSpacer extends StatelessWidget {
   final List<Widget> _children;
   final SizedBox _spacer;
+  final CrossAxisAlignment _crossAxisAlignment;
 
-  const ColumnSpacer({required List<Widget> children, SizedBox spacer = const SizedBox(height: 8)})
+  const ColumnSpacer({
+    required List<Widget> children,
+    SizedBox spacer = const SizedBox(height: 8),
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center
+  })
     : _children = children,
-      _spacer = spacer;
+      _spacer = spacer,
+      _crossAxisAlignment = crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class ColumnSpacer extends StatelessWidget {
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: _crossAxisAlignment,
       mainAxisSize: MainAxisSize.min,
       children: spacedChildren,
     );
