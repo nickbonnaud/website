@@ -20,14 +20,10 @@ class FaqsRow extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: BlocProvider<FaqTabBarCubit>(
-            create: (_) => FaqTabBarCubit(),
-            child: FaqRowBody()
-          )
-        ),
+        child: BlocProvider<FaqTabBarCubit>(
+          create: (_) => FaqTabBarCubit(),
+          child: FaqRowBody()
+        )
       )
     );
   }

@@ -8,6 +8,7 @@ import 'package:website/screens/widgets/widgets/faqs_row/faqs_row.dart';
 
 import 'widgets/savings_row/savings_row.dart';
 import 'widgets/pricing_row/pricing_row.dart';
+import 'widgets/scroll_down/scroll_down.dart';
 import 'widgets/typical_savings_number/bloc/typical_savings_number_bloc.dart';
 import 'widgets/typical_savings_number/typical_savings_number.dart';
 import 'widgets/typical_savings_title/cubit/typical_savings_title_cubit.dart';
@@ -97,6 +98,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   Widget _titleText({required ParallaxState state}) {
     return Stack(
       children: [
+        Positioned(
+          right: 50.w,
+          top: 1.25 * (state.offset.h - state.offsetAdjustment.h) + .7.sh,
+          child: ScrollDown()
+        ),
         Positioned(
           left: 0,
           right: 0,

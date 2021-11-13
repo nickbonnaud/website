@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:website/screens/widgets/widgets/savings_row/widgets/savings_explanation_row/savings_explanation_row.dart';
 
 import 'widgets/savings_calculator_row/savings_calculator_form/bloc/savings_calculator_form_bloc.dart';
 import 'widgets/savings_calculator_row/savings_calculator_row.dart';
@@ -25,25 +26,21 @@ class SavingsRow extends StatelessWidget {
           offset: const Offset(0, 3))
         ]
       ),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocProvider<SavingsCalculatorFormBloc>(
-                create: (_) => SavingsCalculatorFormBloc(),
-                child: SavingsCalculatorRow(),
-              ),
-            ),
-            Expanded(
-              child: SignupNowRow(
-                businessListViewKey: _businessListViewKey,
-                scrollController: _scrollController,
-              )
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          BlocProvider<SavingsCalculatorFormBloc>(
+            create: (_) => SavingsCalculatorFormBloc(),
+            child: SavingsCalculatorRow(),
+          ),
+          SavingsExplanationRow(
+            businessListViewKey: _businessListViewKey,
+            scrollController: _scrollController
+          ),
+          SignupNowRow(
+            businessListViewKey: _businessListViewKey,
+            scrollController: _scrollController,
+          )
+        ],
       ),
     );
   }

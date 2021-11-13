@@ -26,7 +26,7 @@ class TypicalSavingsNumber extends StatefulWidget {
   State<TypicalSavingsNumber> createState() => _TypicalSavingsNumberState();
 }
 
-class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with SingleTickerProviderStateMixin {
+class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with TickerProviderStateMixin {
   static const double _enterAnimationMinHeight = 500;
   static const Curve _curve = Curves.linear;
   static const Duration _duration = Duration(seconds: 2);
@@ -64,6 +64,7 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Single
           alignment: Alignment.center,
           children: [
             AnimatedSize(
+              vsync: this,
               duration: _duration,
               curve: _curve,
               child: CircleAvatar(
