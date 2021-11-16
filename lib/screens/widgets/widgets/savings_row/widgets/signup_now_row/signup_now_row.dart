@@ -5,11 +5,9 @@ import 'widgets/signup_now_text.dart';
 
 class SignupNowRow extends StatelessWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const SignupNowRow({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const SignupNowRow({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +20,11 @@ class SignupNowRow extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 100),
-              child:  SignupNowButton(businessListViewKey: _businessListViewKey, scrollController: _scrollController)
+              child: SignupNowButton(businessListViewKey: _businessListViewKey)
             ),
             Padding(
               padding: const EdgeInsets.only(right: 100),
-              child: SignupNowText(businessListViewKey: _businessListViewKey, scrollController: _scrollController),
+              child: SignupNowText(businessListViewKey: _businessListViewKey),
             ),
           ],
         ),

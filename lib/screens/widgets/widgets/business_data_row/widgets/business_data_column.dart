@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:website/resources/helpers/column_spacer.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class BusinessDataColumn extends StatefulWidget {
   final AnimatedIconData _animatedIcon;
   final String _title;
   final String _subtitle;
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
   const BusinessDataColumn({
     required AnimatedIconData animatedIcon,
     required String title,
     required String subTitle,
     required GlobalKey businessListViewKey,
-    required ScrollController scrollController
   })
     : _animatedIcon = animatedIcon,
       _title = title,
       _subtitle = subTitle,
-      _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+      _businessListViewKey = businessListViewKey;
 
   @override
   State<BusinessDataColumn> createState() => _BusinessDataColumnState();
@@ -35,8 +34,6 @@ class _BusinessDataColumnState extends State<BusinessDataColumn> with SingleTick
   void initState() {
     super.initState();
     _iconController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-
-    widget._scrollController.addListener(_updateIconEnterView);
   }
   
   @override
@@ -44,45 +41,51 @@ class _BusinessDataColumnState extends State<BusinessDataColumn> with SingleTick
     final double width = MediaQuery.of(context).size.width * (366 / 1366);
     final double height = MediaQuery.of(context).size.height * (255 / 768);
 
-    return SizedBox(
-      width: width,
-      child: ColumnSpacer(
-        spacer: const SizedBox(height: 16.0),
-        children: [
-          Container(
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 20.0)],
-              color: Colors.white,
-            ),
-            child: AnimatedIcon(
-              key: _iconGlobalKey,
-              size: width / 2,
-              icon: widget._animatedIcon,
-              progress: _iconController
-            ),
-            height: height,
-            width: width,
-            padding: const EdgeInsets.all(40),
-          ),
-          Text(
-            widget._title,
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              widget._subtitle,
-              style: const TextStyle(
-                fontSize: 28,
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _updateIconEnterView();
+      },
+      child: SizedBox(
+        width: width,
+        child: ColumnSpacer(
+          spacer: const SizedBox(height: 16.0),
+          children: [
+            Container(
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 20.0)],
+                color: Colors.white,
               ),
-              textAlign: TextAlign.center,
+              child: AnimatedIcon(
+                key: _iconGlobalKey,
+                size: width / 2,
+                icon: widget._animatedIcon,
+                progress: _iconController
+              ),
+              height: height,
+              width: width,
+              padding: const EdgeInsets.all(40),
             ),
-          )
-        ]
+            Text(
+              widget._title,
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                widget._subtitle,
+                style: const TextStyle(
+                  fontSize: 28,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            )
+          ]
+        ),
       ),
     );
   }

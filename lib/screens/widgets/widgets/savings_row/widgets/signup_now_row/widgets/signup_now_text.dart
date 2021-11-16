@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class SignupNowText extends StatefulWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const SignupNowText({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const SignupNowText({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
 
   @override
   State<SignupNowText> createState() => _SignupNowTextState();
@@ -31,20 +31,24 @@ class _SignupNowTextState extends State<SignupNowText> with SingleTickerProvider
       begin: const Offset(1.5, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
-
-    widget._scrollController.addListener(_updateSignupTextEnteredView);
   }
   
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      key: _signupTextKey,
-      position: _enterAnimation,
-      child: Text(
-        "Get Started Now!",
-        style: TextStyle(
-          fontSize: 60.sp,
-          fontWeight: FontWeight.bold
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _updateSignupTextEnteredView();
+      },
+      child: SlideTransition(
+        key: _signupTextKey,
+        position: _enterAnimation,
+        child: Text(
+          "Get Started Now!",
+          style: TextStyle(
+            fontSize: 60.sp,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );

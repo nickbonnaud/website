@@ -5,11 +5,9 @@ import 'widgets/title_column.dart';
 
 class PricingRow extends StatelessWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const PricingRow({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const PricingRow({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +22,11 @@ class PricingRow extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 100),
-                child: TitleColumn(businessListViewKey: _businessListViewKey, scrollController: _scrollController),
+                child: TitleColumn(businessListViewKey: _businessListViewKey),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 100),
-                child: InfoColumn(businessListViewKey: _businessListViewKey, scrollController: _scrollController)
+                child: InfoColumn(businessListViewKey: _businessListViewKey)
               ),
             ]
           )

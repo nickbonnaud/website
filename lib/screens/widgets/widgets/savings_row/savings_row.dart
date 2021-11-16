@@ -8,11 +8,9 @@ import 'widgets/signup_now_row/signup_now_row.dart';
 
 class SavingsRow extends StatelessWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const SavingsRow({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const SavingsRow({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
   
   @override
   Widget build(BuildContext context) {
@@ -32,14 +30,8 @@ class SavingsRow extends StatelessWidget {
             create: (_) => SavingsCalculatorFormBloc(),
             child: SavingsCalculatorRow(),
           ),
-          SavingsExplanationRow(
-            businessListViewKey: _businessListViewKey,
-            scrollController: _scrollController
-          ),
-          SignupNowRow(
-            businessListViewKey: _businessListViewKey,
-            scrollController: _scrollController,
-          )
+          SavingsExplanationRow(businessListViewKey: _businessListViewKey),
+          SignupNowRow(businessListViewKey: _businessListViewKey)
         ],
       ),
     );

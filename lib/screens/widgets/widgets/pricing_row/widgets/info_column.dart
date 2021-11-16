@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:website/resources/helpers/column_spacer.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class InfoColumn extends StatefulWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const InfoColumn({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const InfoColumn({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
 
   @override
   State<InfoColumn> createState() => _InfoColumnState();
@@ -31,92 +31,96 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
       begin: const Offset(1.5, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
-
-    widget._scrollController.addListener(_updateInfoEnteredView);
   }
   
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      key: _infoGlobalKey,
-      position: _enterAnimation,
-      child: ColumnSpacer(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacer: const SizedBox(height: 20),
-        children: [
-          Row(
-            children: const [
-              Text(
-                "1%",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _updateInfoEnteredView();
+      },
+      child: SlideTransition(
+        key: _infoGlobalKey,
+        position: _enterAnimation,
+        child: ColumnSpacer(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacer: const SizedBox(height: 20),
+          children: [
+            Row(
+              children: const [
+                Text(
+                  "1%",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "of total sale",
-                style: TextStyle(
-                  fontSize: 28,
+                SizedBox(width: 10),
+                Text(
+                  "of total sale",
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: const [
+                Text(
+                  "5¢",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: const [
-              Text(
-                "5¢",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold
+                SizedBox(width: 10),
+                Text(
+                  "per transaction",
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: const [
+                Text(
+                  "\$0",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "per transaction",
-                style: TextStyle(
-                  fontSize: 28,
+                SizedBox(width: 10),
+                Text(
+                  "setup costs",
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: const [
+                Text(
+                  "\$0",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: const [
-              Text(
-                "\$0",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "setup costs",
-                style: TextStyle(
-                  fontSize: 28,
-                ),
-              )
-            ],
-          ),
-          Row(
-            children: const [
-              Text(
-                "\$0",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "monthly fees",
-                style: TextStyle(
-                  fontSize: 28,
-                ),
-              )
-            ],
-          )
-        ]
+                SizedBox(width: 10),
+                Text(
+                  "monthly fees",
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
+                )
+              ],
+            )
+          ]
+        ),
       ),
     );
   }

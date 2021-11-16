@@ -5,21 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:website/resources/helpers/currency.dart';
 import 'package:website/resources/helpers/savings_calculator.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 import 'bloc/typical_savings_number_bloc.dart';
 
 class TypicalSavingsNumber extends StatefulWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
   final GlobalKey _secondImageWindowKey;
 
   const TypicalSavingsNumber({
     required GlobalKey businessListViewKey,
-    required ScrollController scrollController,
     required GlobalKey secondImageWindowKey
   })
     : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController,
       _secondImageWindowKey = secondImageWindowKey;
 
   @override
@@ -48,8 +46,6 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
     
     _numberBloc = BlocProvider.of<TypicalSavingsNumberBloc>(context);
 
-    widget._scrollController.addListener(_didEnterView);
-
     _numberAnimation = Tween<double>(begin: 0, end: _savingsCalculator.totalSavings.toDouble())
       .animate(_curvedAnimation);
 
@@ -58,32 +54,36 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
   
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TypicalSavingsNumberBloc, TypicalSavingsNumberState>(
-      builder: (context, state) {
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            AnimatedSize(
-              vsync: this,
-              duration: _duration,
-              curve: _curve,
-              child: CircleAvatar(
-                backgroundColor: Colors.blue,
-                radius: state.animationCompleted ? .15.sw : 0,
-              )
-            ),
-
-            Text(
-              _formatSavingsValue(savings: state.animationValue, state: state),
-              style: TextStyle(
-                fontSize: 64.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _didEnterView();
+      },
+      child: BlocBuilder<TypicalSavingsNumberBloc, TypicalSavingsNumberState>(
+        builder: (context, state) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              AnimatedSize(
+                duration: _duration,
+                curve: _curve,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  radius: state.animationCompleted ? .15.sw : 0,
+                )
               ),
-            ),
-          ],
-        );
-      }
+              Text(
+                _formatSavingsValue(savings: state.animationValue, state: state),
+                style: TextStyle(
+                  fontSize: 64.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
+            ],
+          );
+        }
+      ),
     );
   }
 

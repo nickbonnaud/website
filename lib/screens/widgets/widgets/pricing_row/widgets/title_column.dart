@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class TitleColumn extends StatefulWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const TitleColumn({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const TitleColumn({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
   
   @override
   State<TitleColumn> createState() => _TitleColumnState();
@@ -29,20 +29,24 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
       begin: const Offset(-1.5, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
-
-    widget._scrollController.addListener(_updateTitleEnteredView);
   }
   
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      key: _titleGlobalKey,
-      position: _enterAnimation,
-      child: const Text(
-        "Rates, Made Simple",
-        style: TextStyle(
-          fontSize: 60,
-          fontWeight: FontWeight.bold
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (contexy, state) {
+        _updateTitleEnteredView();
+      },
+      child: SlideTransition(
+        key: _titleGlobalKey,
+        position: _enterAnimation,
+        child: const Text(
+          "Rates, Made Simple",
+          style: TextStyle(
+            fontSize: 60,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );

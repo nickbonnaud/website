@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class Explanation extends StatefulWidget {
   final String _text;
   final AnimatedIconData _iconData;
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
   const Explanation({
     required String text,
     required AnimatedIconData iconData,
     required GlobalKey businessListViewKey,
-    required ScrollController scrollController
   })
     : _text = text,
       _iconData = iconData,
-      _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController; 
+      _businessListViewKey = businessListViewKey; 
 
   @override
   State<Explanation> createState() => _ExplanationState();
@@ -32,18 +31,22 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _iconController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-
-    widget._scrollController.addListener(_didEnterView);
   }
   
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _icon(),
-        SizedBox(height: 10.h),
-        _text()
-      ],
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _didEnterView();
+      },
+      child: Column(
+        children: [
+          _icon(),
+          SizedBox(height: 10.h),
+          _text()
+        ],
+      ),
     );
   }
 

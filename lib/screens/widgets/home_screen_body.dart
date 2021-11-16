@@ -21,7 +21,7 @@ class HomeScreenBody extends StatefulWidget {
 }
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
-  final ScrollController _controller = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   final GlobalKey _businessListViewKey = GlobalKey();
   final GlobalKey _firstImageWindowKey = GlobalKey();
   final GlobalKey _secondImageWindowKey = GlobalKey();
@@ -46,42 +46,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         builder: (context, state) {
           return Stack(
             children: [
-              Positioned(
-                top: -.25 * (state.offset - state.offsetAdjustment),
-                child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: state.currentBackground,
-                  fit: BoxFit.fitWidth,
-                  height: _screenHeight,
-                  width: _screenWidth,
-                )
-              ),
+              _backgroundImage(state: state),
               _imageText(state: state),
-              ListView(
-                key: _businessListViewKey,
-                cacheExtent: 100,
-                addAutomaticKeepAlives: false,
-                controller: _controller,
-                children: [
-                  SizedBox(
-                    key: _firstImageWindowKey,
-                    height: _screenHeight,
-                    child: _titleText(state: state),
-                  ),
-                  BusinessDataRow(businessListViewKey: _businessListViewKey, scrollController: _controller),
-                  const SizedBox(
-                    height: 40.0,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.white),
-                    ),
-                  ),
-                  PricingRow(businessListViewKey: _businessListViewKey, scrollController: _controller),
-                  SizedBox(key: _secondImageWindowKey, height: _screenHeight),
-                  SavingsRow(businessListViewKey: _businessListViewKey, scrollController:  _controller),
-                  SizedBox(key: _thirdImageWindowKey, height: _screenHeight),
-                  FaqsRow()
-                ],
-              )
+              _scrollableBody(state: state)
             ],
           );
         }
@@ -91,10 +58,58 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
+  Widget _backgroundImage({required ParallaxState state}) {
+    return Positioned(
+      top: -.25 * (state.offset - state.offsetAdjustment),
+      child: FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: state.currentBackground,
+        fit: BoxFit.fitWidth,
+        height: _screenHeight,
+        width: _screenWidth,
+      )
+    );
+  }
+  
+  Widget _scrollableBody({required ParallaxState state}) {
+    return NestedScrollView(
+      controller: _scrollController,
+      headerSliverBuilder: (context, isOk) {
+        return [
+          _appBar()
+        ];
+      },
+      body: ListView(
+        key: _businessListViewKey,
+        cacheExtent: 100,
+        addAutomaticKeepAlives: false,
+        children: [
+          SizedBox(
+            key: _firstImageWindowKey,
+            height: _screenHeight,
+            child: _titleText(state: state),
+          ),
+          BusinessDataRow(businessListViewKey: _businessListViewKey),
+          const SizedBox(
+            height: 40.0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.white),
+            ),
+          ),
+          PricingRow(businessListViewKey: _businessListViewKey),
+          SizedBox(key: _secondImageWindowKey, height: _screenHeight),
+          SavingsRow(businessListViewKey: _businessListViewKey),
+          SizedBox(key: _thirdImageWindowKey, height: _screenHeight),
+          FaqsRow()
+        ],
+      )
+    );
+  }
+  
   Widget _titleText({required ParallaxState state}) {
     return Stack(
       children: [
@@ -141,6 +156,15 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
       ],
     );
   }
+
+  Widget _appBar() {
+    return const SliverAppBar(
+      title: Text("Hello world"),
+      floating: true,
+      snap: true,
+      actions: [],
+    );
+  }
   
   Widget _imageText({required ParallaxState state}) {
     if (state.currentBackground == ParallaxBloc.secondImage) {
@@ -156,7 +180,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 create: (_) => TypicalSavingsTitleCubit(),
                 child: TypicalSavingsTitle(
                   businessListViewKey: _businessListViewKey,
-                  scrollController: _controller,
                   secondImageWindowKey: _secondImageWindowKey,
                 ),
               ),
@@ -172,7 +195,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 create: (_) => TypicalSavingsNumberBloc(),
                 child: TypicalSavingsNumber(
                   businessListViewKey: _businessListViewKey,
-                  scrollController: _controller,
                   secondImageWindowKey: _secondImageWindowKey,
                 ),
               )
@@ -188,6 +210,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {
       _resetImage(notification: notification);
+      _parallaxBloc.add(ScrollUpdated(offset: notification.metrics.pixels));
     }
 
     return false;
@@ -201,8 +224,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     if (_firstImageVisible(offset: notification.metrics.pixels)) return;
     if (_secondImageVisible(offset: notification.metrics.pixels)) return;
     if (_thirdImageVisible(offset: notification.metrics.pixels)) return;
-    
-    _parallaxBloc.add(ScrollUpdated(offset: notification.metrics.pixels));
   }
 
   bool _firstImageVisible({required double offset}) {

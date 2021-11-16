@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class SignupNowButton extends StatefulWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const SignupNowButton({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController;
+  const SignupNowButton({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey;
   
   @override
   State<SignupNowButton> createState() => _SignupNowButtonState();
@@ -31,35 +31,39 @@ class _SignupNowButtonState extends State<SignupNowButton> with SingleTickerProv
       begin: const Offset(-1.5, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
-
-    widget._scrollController.addListener(_updateSignupButtonEnteredView);
   }
   
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      key: _signupButtonKey,
-      position: _enterAnimation,
-      child: ConstrainedBox(
-        constraints: BoxConstraints.tightFor(
-          width: 125.w,
-          height: 125.w
-        ),
-        child: ElevatedButton(
-          onPressed: () => _goToSignup(),
-          child: Text(
-            "Sign Up",
-            style: TextStyle(
-              fontSize: 25.sp,
-              fontWeight: FontWeight.bold
-            ),
+    return BlocListener<ParallaxBloc, ParallaxState>(
+      listenWhen: (previousState, currentState) => previousState.offset != currentState.offset,
+      listener: (context, state) {
+        _updateSignupButtonEnteredView();
+      },
+      child: SlideTransition(
+        key: _signupButtonKey,
+        position: _enterAnimation,
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(
+            width: 125.w,
+            height: 125.w
           ),
-          style: ElevatedButton.styleFrom(
-            elevation: 20,
-            shape: const CircleBorder()
+          child: ElevatedButton(
+            onPressed: () => _goToSignup(),
+            child: Text(
+              "Sign Up",
+              style: TextStyle(
+                fontSize: 25.sp,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              elevation: 20,
+              shape: const CircleBorder()
+            )
           )
         )
-      )
+      ),
     );
   }
 

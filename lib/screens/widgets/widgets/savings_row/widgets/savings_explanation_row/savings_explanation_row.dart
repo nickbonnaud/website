@@ -4,11 +4,9 @@ import 'package:website/screens/widgets/widgets/savings_row/widgets/savings_expl
 
 class SavingsExplanationRow extends StatelessWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const SavingsExplanationRow({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController; 
+  const SavingsExplanationRow({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey; 
   
   @override
   Widget build(BuildContext context) {
@@ -34,16 +32,14 @@ class SavingsExplanationRow extends StatelessWidget {
                   child: Explanation(
                     text: "AI driven security reduces per transaction fees by eliminating fraud.",
                     iconData: AnimatedIcons.add_event,
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController
+                    businessListViewKey: _businessListViewKey
                   ),
                 ),
                 Expanded(
                   child: Explanation(
                     text: "No recurring fees, setup costs, or equipment rental fees.",
                     iconData: AnimatedIcons.arrow_menu,
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController
+                    businessListViewKey: _businessListViewKey
                   )
                 ),
               ],
@@ -56,19 +52,16 @@ class SavingsExplanationRow extends StatelessWidget {
                   child: Explanation(
                     text: "Unique payment processing method reduces third party fees, cutting out the middle man.",
                     iconData: AnimatedIcons.arrow_menu,
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController
+                    businessListViewKey: _businessListViewKey
                   )
                 ),
                 Expanded(
                   child: Explanation(
                     text: "No hidden fees or surprise rate changes.",
                     iconData: AnimatedIcons.arrow_menu,
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController
+                    businessListViewKey: _businessListViewKey
                   ),
                 )
-                
               ],
             )
           ],

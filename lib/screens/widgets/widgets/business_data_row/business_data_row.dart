@@ -6,11 +6,9 @@ import 'widgets/business_data_column.dart';
 
 class BusinessDataRow extends StatelessWidget {
   final GlobalKey _businessListViewKey;
-  final ScrollController _scrollController;
 
-  const BusinessDataRow({required GlobalKey businessListViewKey, required ScrollController scrollController})
-    : _businessListViewKey = businessListViewKey,
-      _scrollController = scrollController; 
+  const BusinessDataRow({required GlobalKey businessListViewKey})
+    : _businessListViewKey = businessListViewKey; 
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +44,7 @@ class BusinessDataRow extends StatelessWidget {
                     animatedIcon: AnimatedIcons.add_event,
                     title: "First Info Icon",
                     subTitle: "Some more data about this first icon.",
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController,
+                    businessListViewKey: _businessListViewKey
                   )
                 ),
                 Expanded(
@@ -55,8 +52,7 @@ class BusinessDataRow extends StatelessWidget {
                     animatedIcon: AnimatedIcons.ellipsis_search,
                     title: "Second Info Icon",
                     subTitle: "Data about the next icon and some more data as well",
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController,
+                    businessListViewKey: _businessListViewKey
                   )
                 ),
                 Expanded(
@@ -64,8 +60,7 @@ class BusinessDataRow extends StatelessWidget {
                     animatedIcon: AnimatedIcons.list_view,
                     title: "Last Info Icon",
                     subTitle: "Data about the final icon and blah blah blah",
-                    businessListViewKey: _businessListViewKey,
-                    scrollController: _scrollController,
+                    businessListViewKey: _businessListViewKey
                   )
                 ),
               ]
