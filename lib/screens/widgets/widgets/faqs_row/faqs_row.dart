@@ -5,7 +5,6 @@ import 'widgets/faq_row_body.dart';
 import 'widgets/widgets/faq_tab_bar/cubit/faq_tab_bar_cubit.dart';
 
 class FaqsRow extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
