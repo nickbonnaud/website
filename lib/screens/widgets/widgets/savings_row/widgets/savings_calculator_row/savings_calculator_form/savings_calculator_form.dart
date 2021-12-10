@@ -53,120 +53,91 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
   Widget _body({required SavingsCalculatorFormState state}) {
     if (state.formSubmitted) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 7,
-            child: RowSpacer(
-              spacer: SizedBox(width: 20.w),
+          RichText(
+            text: TextSpan(
+              text:  "You can save ",
+              style: TextStyle(
+                fontSize: 36.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black
+              ),
               children: [
-                const Text(
-                  "Your Total Savings: ",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black
-                  )
-                ),
-                Text(
-                  Currency.create(cents: state.totalSavings),
+                TextSpan(
+                  text: Currency.create(cents: state.totalSavings < 0 ? 0 : state.totalSavings),
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black
+                    color: Color.fromRGBO(28, 132, 26, 1)
                   )
-                ),
-              ],
+                )
+              ]
             )
           ),
-          Expanded(
-            flex: 3,
-            child: _resetButton()
-          )
+          _resetButton()
         ],
       );
     }
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          flex: 7,
-          child: _formField(state: state)
-        ),
-        Expanded(
-          flex: 3,
-          child: _submitButton(state: state)
-        )
+        _formField(state: state),
+        _submitButton(state: state)
       ],
     );
   }
   
   Widget _resetButton() {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        width: 125.w,
-        height: 125.w
-      ),
-      child: ElevatedButton(
-        onPressed: () => _formBloc.add(ResetForm()),
-        child: Text(
-          "Reset",
-          style: TextStyle(
-            fontSize: 25.sp,
-            fontWeight: FontWeight.bold
-          ),
+    return ElevatedButton(
+      onPressed: () => _formBloc.add(ResetForm()),
+      child: Text(
+        "Reset",
+        style: TextStyle(
+          fontSize: 32.sp,
+          fontWeight: FontWeight.bold
         ),
-        style: ElevatedButton.styleFrom(
-          elevation: 20,
-          shape: const CircleBorder()
-        )
+      ),
+      style: ElevatedButton.styleFrom(
+        elevation: 20,
+        padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h)
       )
     );
   }
   
   Widget _submitButton({required SavingsCalculatorFormState state}) {
     if (!state.isFieldVisible) {
-      return ConstrainedBox(
-        constraints: BoxConstraints.tightFor(
-          width: 125.w,
-          height: 125.w
-        ),
-        child: ElevatedButton(
-          onPressed: () => _formBloc.add(FieldVisibilityChanged(fieldVisible: !state.isFieldVisible)),
-          child: Text(
-            "Start",
-            style: TextStyle(
-              fontSize: 25.sp,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            elevation: 20,
-            shape: const CircleBorder()
-          )
-        )
-      );
-    }
-    
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        width: 125.w,
-        height: 125.w
-      ),
-      child: ElevatedButton(
-        onPressed: state.isFieldValid && _controller.text.isNotEmpty
-          ? () => _submit()
-          : null,
+      return ElevatedButton(
+        onPressed: () => _formBloc.add(FieldVisibilityChanged(fieldVisible: !state.isFieldVisible)),
         child: Text(
-          _buttonText(state: state),
+          "Start",
           style: TextStyle(
-            fontSize: 25.sp,
+            fontSize: 32.sp,
             fontWeight: FontWeight.bold
           ),
         ),
         style: ElevatedButton.styleFrom(
           elevation: 20,
-          shape: const CircleBorder()
+          padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h)
         )
+      );
+    }
+    
+    return ElevatedButton(
+      onPressed: state.isFieldValid && _controller.text.isNotEmpty
+        ? () => _submit()
+        : null,
+      child: Text(
+        _buttonText(state: state),
+        style: TextStyle(
+          fontSize: 32.sp,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        elevation: 20,
+        padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h)
       )
     );
   }
@@ -183,30 +154,33 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
       );
     }
     
-    return TextFormField(
-      controller: _controller,
-      focusNode: _focusNode,
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      autocorrect: false,
-      onFieldSubmitted: (_) => _submit(),
-      decoration: InputDecoration(
-        hintText: _hintText(state: state),
-        hintStyle: const TextStyle(
+    return SizedBox(
+      width: .3.sw,
+      child: TextFormField(
+        controller: _controller,
+        focusNode: _focusNode,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        autocorrect: false,
+        onFieldSubmitted: (_) => _submit(),
+        decoration: InputDecoration(
+          hintText: _hintText(state: state),
+          hintStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 32,
+            color: Colors.black26
+          )
+        ),
+        style: const TextStyle(
           fontWeight: FontWeight.w700,
-          fontSize: 32,
-          color: Colors.black26
-        )
-      ),
-      style: const TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 32
-      ),
-      validator: (_) => !state.isFieldValid && _controller.text.isNotEmpty
-        ? "Please only use digits!"
-        : null,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters: [_inputFormatter],
+          fontSize: 32
+        ),
+        validator: (_) => !state.isFieldValid && _controller.text.isNotEmpty
+          ? "Please only use digits!"
+          : null,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        inputFormatters: [_inputFormatter],
+      )
     );
   }
   

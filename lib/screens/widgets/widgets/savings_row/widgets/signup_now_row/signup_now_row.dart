@@ -1,34 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'widgets/signup_now_button.dart';
-import 'widgets/signup_now_text.dart';
+import 'cubit/signup_now_row_cubit.dart';
 
-class SignupNowRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
+class SignupNowRow extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SignupNowRowState();
+}
 
-  const SignupNowRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
+class  _SignupNowRowState extends State<SignupNowRow> {
+  double _iconSize = 80.sp;
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 40),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 100),
-              child: SignupNowButton(businessListViewKey: _businessListViewKey)
+    return BlocListener<SignupNowRowCubit, bool>(
+      listener: (context, isFocused) {
+        _iconSize = isFocused ? 90.sp : 80.sp;
+      },
+      child: MouseRegion(
+        onEnter: (_) => _mouseEnter(context: context),
+        onExit: (_) => _mouseExit(context: context),
+        child: TextButton.icon(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.transparent),
+            overlayColor: MaterialStateProperty.all(Colors.transparent)
+          ),
+          onPressed: () => _goToSignup(),
+          label: BlocBuilder<SignupNowRowCubit, bool>(
+            builder: (context, state) {
+              return AnimatedSize(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.linear,
+                child: Icon(
+                  Icons.chevron_right,
+                  size: _iconSize,
+                  color: const Color(0xFF016FB9),
+                ),
+              );
+            },
+          ),
+          icon: Text(
+            "Get Started Now",
+            style: TextStyle(
+              fontSize: 60.sp,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF016FB9)
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 100),
-              child: SignupNowText(businessListViewKey: _businessListViewKey),
-            ),
-          ],
-        ),
+          )
+        )
       ),
     );
+  }
+
+  void _mouseEnter({required BuildContext context}) {
+    BlocProvider.of<SignupNowRowCubit>(context).hoverStatusChanged(isHovered: true);
+  }
+
+  void _mouseExit({required BuildContext context}) {
+    BlocProvider.of<SignupNowRowCubit>(context).hoverStatusChanged(isHovered: false);
+  }
+
+  void _goToSignup() {
+    
   }
 }

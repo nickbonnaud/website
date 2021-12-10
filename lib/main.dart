@@ -4,6 +4,8 @@ import 'package:website/routing/app_router.dart';
 import 'package:website/routing/routes.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(MyApp());
 }
 

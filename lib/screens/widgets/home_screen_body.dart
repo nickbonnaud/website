@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
-import 'package:website/screens/widgets/widgets/business_data_row/business_data_row.dart';
 import 'package:website/screens/widgets/widgets/faqs_row/faqs_row.dart';
+import 'package:website/screens/widgets/widgets/intro_row/intro_row.dart';
 
+import 'widgets/dashboard_row/dashboard_row.dart';
 import 'widgets/savings_row/savings_row.dart';
-import 'widgets/pricing_row/pricing_row.dart';
 import 'widgets/scroll_down/scroll_down.dart';
 import 'widgets/typical_savings_number/bloc/typical_savings_number_bloc.dart';
 import 'widgets/typical_savings_number/typical_savings_number.dart';
@@ -96,19 +96,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         ),
         SliverToBoxAdapter(
           key: _aboutKey,
-          child: BusinessDataRow(businessListViewKey: _businessListViewKey),
-        ),
-        const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 40.0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.white),
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          key: _pricingKey,
-          child: PricingRow(businessListViewKey: _businessListViewKey),
+          child: IntroRow(businessListViewKey: _businessListViewKey),
         ),
         SliverToBoxAdapter(
           key: _secondImageWindowKey,
@@ -123,53 +111,48 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           child: SizedBox(height: _screenHeight),
         ),
         SliverToBoxAdapter(
-          key: _faqsKey,
-          child: FaqsRow()
-        ),
+          child: DashboardRow(businessListViewKey: _businessListViewKey),
+        )
+        // SliverToBoxAdapter(
+        //   key: _faqsKey,
+        //   child: FaqsRow()
+        // ),
       ],
     );
   }
   
   Widget _appBar() {
     return SliverAppBar(
-      title: const Text("Hello world"),
+      backgroundColor: const Color(0xfff5f5f3),
+      leading: Padding(
+        padding: EdgeInsets.only(left: 20.w, top: 5.h, bottom: 5.h),
+        child: const Image(image: AssetImage('assets/abstract_logo.png')),
+      ),
       floating: true,
       snap: true,
       actions: [
         TextButton(
           onPressed: () => _goToSection(sectionKey: _aboutKey),
           child: const Text(
-            "About",
-            style: TextStyle(
-              color: Colors.white
-            ),
+            "About"
           )
         ),
         TextButton(
           onPressed: () => _goToSection(sectionKey: _pricingKey),
           child: const Text(
-            "Prices",
-            style: TextStyle(
-              color: Colors.white
-            ),
+            "Prices"
           )
         ),
         TextButton(
           onPressed: () => _goToSection(sectionKey: _savingsKey),
           child: const Text(
-            "Savings",
-            style: TextStyle(
-              color: Colors.white
-            ),
+            "Savings"
           )
         ),
         TextButton(
           onPressed: () => _goToSection(sectionKey: _faqsKey),
           child: const Text(
-            "FAQs",
-            style: TextStyle(
-              color: Colors.white
-            ),
+            "FAQs"
           )
         )
       ],
@@ -192,7 +175,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               top: .5 * (state.offset.h - state.offsetAdjustment.h) + .4.sh,
               child: Align(
                 alignment: Alignment.center,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -203,19 +186,22 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                         fontSize: 56.sp
                       ),
                     ),
-                    SizedBox(width: 35.w),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h)
-                      ),
-                      onPressed: () => _goToSignup(), 
-                      child: Text(
+                    SizedBox(height: 20.h),
+                    TextButton.icon(
+                      onPressed: () => _goToSignup(),
+                      icon: Text(
                         "Get Started",
                         style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40.sp
+                          color: const Color(0xFF016FB9),
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
-                      )
+                      label: Icon(
+                        Icons.chevron_right,
+                        size: 70.sp,
+                        color: const Color(0xFF016FB9),
+                      ),
                     )
                   ],
                 )

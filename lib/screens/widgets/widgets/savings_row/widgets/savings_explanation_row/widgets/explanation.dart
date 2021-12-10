@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class Explanation extends StatefulWidget {
   final String _text;
-  final AnimatedIconData _iconData;
+  final String _animationPath;
   final GlobalKey _businessListViewKey;
 
   const Explanation({
     required String text,
-    required AnimatedIconData iconData,
+    required String animationPath,
     required GlobalKey businessListViewKey,
   })
     : _text = text,
-      _iconData = iconData,
+      _animationPath = animationPath,
       _businessListViewKey = businessListViewKey; 
 
   @override
@@ -22,7 +23,7 @@ class Explanation extends StatefulWidget {
 }
 
 class _ExplanationState extends State<Explanation> with SingleTickerProviderStateMixin {
-  static const double _enterAnimationMinHeight = 100;
+  final double _enterAnimationMinHeight = .4.sh;
   final GlobalKey _iconGlobalKey = GlobalKey();
   
   late AnimationController _iconController;
@@ -41,12 +42,15 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
         _didEnterView();
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _icon(),
+          Align(
+            child: _icon()
+          ),
           SizedBox(height: 10.h),
           _text()
         ],
-      ),
+      )
     );
   }
 
@@ -57,11 +61,15 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   }
 
   Widget _icon() {
-    return AnimatedIcon(
-      key: _iconGlobalKey,
-      size: .1.sw,
-      icon: widget._iconData,
-      progress: _iconController
+    return MouseRegion(
+      onEnter: (_) => _playAnimation(),
+      child: Lottie.asset(
+        widget._animationPath,
+        key: _iconGlobalKey,
+        controller: _iconController,
+        width: .15.sw,
+        height: .15.sw,
+      )
     );
   }
 
@@ -72,6 +80,12 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
         fontSize: 28.sp
       ),
     );
+  }
+  
+  void _playAnimation() {
+    if (_iconController.isAnimating) return;
+    _iconController.reset();
+    _iconController.forward();
   }
   
   void _didEnterView() {
