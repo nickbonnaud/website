@@ -27,12 +27,13 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   final GlobalKey _firstImageWindowKey = GlobalKey();
   final GlobalKey _secondImageWindowKey = GlobalKey();
   final GlobalKey _thirdImageWindowKey = GlobalKey();
+  final GlobalKey _fourthImageWindowKey = GlobalKey();
 
   late ParallaxBloc _parallaxBloc;
 
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _pricingKey = GlobalKey();
-  final GlobalKey _savingsKey = GlobalKey();
+  final GlobalKey _integrationKey = GlobalKey();
   final GlobalKey _faqsKey = GlobalKey();
   
   double get _screenWidth => MediaQuery.of(context).size.width;
@@ -103,7 +104,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           child: SizedBox(height: _screenHeight),
         ),
         SliverToBoxAdapter(
-          key: _savingsKey,
+          key: _pricingKey,
           child: SavingsRow(businessListViewKey: _businessListViewKey),
         ),
         SliverToBoxAdapter(
@@ -111,12 +112,17 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           child: SizedBox(height: _screenHeight),
         ),
         SliverToBoxAdapter(
+          key: _integrationKey,
           child: DashboardRow(businessListViewKey: _businessListViewKey),
-        )
-        // SliverToBoxAdapter(
-        //   key: _faqsKey,
-        //   child: FaqsRow()
-        // ),
+        ),
+        SliverToBoxAdapter(
+          key: _fourthImageWindowKey,
+          child: SizedBox(height: _screenHeight),
+        ),
+        SliverToBoxAdapter(
+          key: _faqsKey,
+          child: FaqsRow()
+        ),
       ],
     );
   }
@@ -144,9 +150,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           )
         ),
         TextButton(
-          onPressed: () => _goToSection(sectionKey: _savingsKey),
+          onPressed: () => _goToSection(sectionKey: _integrationKey),
           child: const Text(
-            "Savings"
+            "Integrate"
           )
         ),
         TextButton(
@@ -222,7 +228,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               Positioned(
                 left: 0,
                 right: 0,
-                top: -2 * (state.offset.h - state.offsetAdjustment.h) - 150.h,
+                top: -.5 * ((state.offset.h - state.offsetAdjustment.h) - 200.h),
                 child: Align(
                   alignment: Alignment.center,
                   child: BlocProvider<TypicalSavingsTitleCubit>(
@@ -237,7 +243,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               Positioned(
                 left: 0,
                 right: 0,
-                top: -1.5 * (state.offset.h - state.offsetAdjustment.h),
+                top: -.5 * ((state.offset.h - state.offsetAdjustment.h) - 400.h),
                 child: Align(
                   alignment: Alignment.center,
                   child: BlocProvider<TypicalSavingsNumberBloc>(
@@ -255,7 +261,24 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           return Positioned(
             left: 0,
             right: 0,
-            top: -(state.offsetAdjustment.h - state.offset.h ) + 200.h,
+            top: -(state.offsetAdjustment.h - state.offset.h) + 200.h,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "An all in one solution.",
+                style: TextStyle(
+                  fontSize: 60.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              )
+            )
+          );
+        } else if (state.currentBackground == ParallaxBloc.fourthImage) {
+          return Positioned(
+            left: 0,
+            right: 0,
+            top: .2 * (state.offsetAdjustment.h - state.offset.h) + 300.h,
             child: Align(
               alignment: Alignment.center,
               child: Text(
@@ -298,20 +321,32 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     final double firstWindowOffset = _imageOffset(windowKey: _firstImageWindowKey, businessListViewObject: businessListViewObject);
     final double secondWindowOffset = _imageOffset(windowKey: _secondImageWindowKey, businessListViewObject: businessListViewObject);
     final double thirdWindowOffset = _imageOffset(windowKey: _thirdImageWindowKey, businessListViewObject: businessListViewObject);
+    final double fourthWindowOffset = _imageOffset(windowKey: _fourthImageWindowKey, businessListViewObject: businessListViewObject);
 
-    if (thirdWindowOffset < listViewHeight) {
+    if (fourthWindowOffset < listViewHeight) {
+      if (_parallaxBloc.state.currentBackground != ParallaxBloc.fourthImage) {
+        _parallaxBloc.add(BackgroundChanged(
+          newBackground: ParallaxBloc.fourthImage,
+          currentOffset: offset,
+          offsetAdjustment: offset + 600.h
+        ));
+      }
+    } else if (thirdWindowOffset < listViewHeight) {
       if (_parallaxBloc.state.currentBackground != ParallaxBloc.thirdImage) {
+        double offsetAdjustment = _parallaxBloc.state.currentBackground == ParallaxBloc.secondImage
+          ? 600.h
+          : -2000.h;
         _parallaxBloc.add(BackgroundChanged(
           newBackground: ParallaxBloc.thirdImage,
           currentOffset: offset,
-          offsetAdjustment: offset + 600.h
+          offsetAdjustment: offset + offsetAdjustment
         ));
       }
     } else if (secondWindowOffset < listViewHeight) {
       if (_parallaxBloc.state.currentBackground != ParallaxBloc.secondImage) {
         double offsetAdjustment = _parallaxBloc.state.currentBackground == ParallaxBloc.firstImage
-          ? 800.h
-          : -900.h;
+          ? 600.h
+          : -1800.h;
         _parallaxBloc.add(BackgroundChanged(
           newBackground: ParallaxBloc.secondImage,
           currentOffset: offset,

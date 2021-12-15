@@ -6,9 +6,10 @@ part 'parallax_event.dart';
 part 'parallax_state.dart';
 
 class ParallaxBloc extends Bloc<ParallaxEvent, ParallaxState> {
-  static const firstImage = '/assets/landscape/coffee_landscape.jpg';
-  static const secondImage = '/assets/landscape/restaurant_landscape.jpg';
-  static const thirdImage = '/assets/landscape/bar_landscape.jpg';
+  static const firstImage = '/assets/landscape/coffee_shop.jpg';
+  static const secondImage = '/assets/landscape/restaurant.jpg';
+  static const thirdImage = '/assets/landscape/bar.jpg';
+  static const fourthImage = '/assets/landscape/sports_bar.jpg';
   
   ParallaxBloc({required String initialBackground})
     : super(ParallaxState.initial(initialBackground: initialBackground)) {

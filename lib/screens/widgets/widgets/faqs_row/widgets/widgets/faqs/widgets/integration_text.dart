@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'widgets/cubit/signup_button_cubit.dart';
+import 'widgets/signup_button.dart';
 
 class IntegrationText extends StatelessWidget {
 
@@ -41,25 +45,12 @@ class IntegrationText extends StatelessWidget {
         ),
         SizedBox(height: 30.h),
         Align(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h)
-            ),
-            onPressed: () => _goToSignup(), 
-            child: Text(
-              "Signup Now",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.sp
-              ),
-            )
-          ),
+          child: BlocProvider<SignupButtonCubit>(
+            create: (_) => SignupButtonCubit(),
+            child: SignupButton(),
+          ) 
         )
       ],
     );
-  }
-
-  void _goToSignup() {
-    print('go to signup');
   }
 }
