@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'cubit/signup_button_cubit.dart';
+import 'cubit/ready_button_cubit.dart';
 
-class SignupButton extends StatefulWidget {
+class ReadyButton extends StatefulWidget {
 
   @override
-  State<SignupButton> createState() => _SignupButtonState();
+  State<ReadyButton> createState() => _ReadyButtonState();
 }
 
-class _SignupButtonState extends State<SignupButton> {
-  double _iconSize = 80.sp;
+class _ReadyButtonState extends State<ReadyButton> {
+  double _iconSize = 100.sp;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignupButtonCubit, bool>(
+    return BlocListener<ReadyButtonCubit, bool>(
       listener: (context, isFocused) {
-        _iconSize = isFocused ? 80.sp : 70.sp;
+        _iconSize = isFocused ? 100.sp : 90.sp;
       },
       child: MouseRegion(
         onEnter: (_) => _mouseEnter(),
@@ -28,7 +28,7 @@ class _SignupButtonState extends State<SignupButton> {
             overlayColor: MaterialStateProperty.all(Colors.transparent)
           ),
           onPressed: () => _goToSignup(),
-          label: BlocBuilder<SignupButtonCubit, bool>(
+          label: BlocBuilder<ReadyButtonCubit, bool>(
             builder: (_, __) {
               return AnimatedSize(
                 duration: const Duration(milliseconds: 500),
@@ -41,13 +41,17 @@ class _SignupButtonState extends State<SignupButton> {
               );
             }
           ),
-          icon: Text(
-            "Signup Now",
-            style: TextStyle(
-              fontSize: 50.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF016FB9)
-            ),
+          icon: BlocBuilder<ReadyButtonCubit, bool>(
+            builder: (context, isFocused) {
+              return Text(
+                "Ready to Start",
+                style: TextStyle(
+                  fontSize: 50.sp,
+                  fontWeight: FontWeight.bold,
+                  decoration: isFocused ? TextDecoration.underline : TextDecoration.none
+                ),
+              );
+            }
           ),
         ),
       ),
@@ -55,11 +59,11 @@ class _SignupButtonState extends State<SignupButton> {
   }
 
   void _mouseEnter() {
-    BlocProvider.of<SignupButtonCubit>(context).hoverStatusChanged(isHovered: true);
+    BlocProvider.of<ReadyButtonCubit>(context).hoverStatusChanged(isFocused: true);
   }
 
   void _mouseExit() {
-    BlocProvider.of<SignupButtonCubit>(context).hoverStatusChanged(isHovered: false);
+    BlocProvider.of<ReadyButtonCubit>(context).hoverStatusChanged(isFocused: false);
   }
 
   void _goToSignup() {

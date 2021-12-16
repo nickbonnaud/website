@@ -32,12 +32,12 @@ class DashboardRow extends StatelessWidget {
           DashboardLaptopRow(businessListViewKey: _businessListViewKey),
           SizedBox(height: 60.h),
           DashboardFeaturesRow(businessListViewKey: _businessListViewKey),
-          SizedBox(height: 60.h),
+          SizedBox(height: 15.h),
           BlocProvider<RegisterButtonCubit>(
             create: (_) => RegisterButtonCubit(),
             child: RegisterButton()
           ),
-          SizedBox(height: 60.h),
+          SizedBox(height: 15.h),
           DashboardComplementRow(businessListViewKey: _businessListViewKey),
           SizedBox(height: 60.h)
         ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class Explanation extends StatefulWidget {
@@ -27,11 +29,13 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   final GlobalKey _iconGlobalKey = GlobalKey();
   
   late AnimationController _iconController;
+  late VisibilityFinder _visibilityFinder;
   
   @override
   void initState() {
     super.initState();
     _iconController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _iconGlobalKey, enterAnimationMinHeight: _enterAnimationMinHeight);
   }
   
   @override
@@ -42,7 +46,9 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
         _didEnterView();
       },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: ResponsiveWrapper.of(context).isLargerThan(TABLET)
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
         children: [
           Align(
             child: _icon()
@@ -91,15 +97,7 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   void _didEnterView() {
     if (_iconController.status != AnimationStatus.dismissed) return;
 
-    RenderObject? businessListViewObject = widget._businessListViewKey.currentContext?.findRenderObject();
-    RenderObject? iconObject = _iconGlobalKey.currentContext?.findRenderObject();
-
-    if (businessListViewObject == null || iconObject == null) return;
-
-    final double listViewHeight = businessListViewObject.paintBounds.height;
-    final double iconObjectTop = iconObject.getTransformTo(businessListViewObject).getTranslation().y;
-
-    final bool iconVisible = (iconObjectTop + _enterAnimationMinHeight) < listViewHeight;
+    bool iconVisible = _visibilityFinder.isVisible();
 
     if (iconVisible) {
       _iconController.forward();

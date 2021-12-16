@@ -28,7 +28,7 @@ class  _SignupNowRowState extends State<SignupNowRow> {
           ),
           onPressed: () => _goToSignup(),
           label: BlocBuilder<SignupNowRowCubit, bool>(
-            builder: (context, state) {
+            builder: (_, __) {
               return AnimatedSize(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.linear,
@@ -40,13 +40,17 @@ class  _SignupNowRowState extends State<SignupNowRow> {
               );
             },
           ),
-          icon: Text(
-            "Get Started Now",
-            style: TextStyle(
-              fontSize: 60.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF016FB9)
-            ),
+          icon: BlocBuilder<SignupNowRowCubit, bool>(
+            builder: (context, isFocused) {
+              return Text(
+                "Get Started Now",
+                style: TextStyle(
+                  fontSize: 60.sp,
+                  fontWeight: FontWeight.bold,
+                  decoration: isFocused ? TextDecoration.underline : TextDecoration.none
+                ),
+              );
+            }
           )
         )
       ),

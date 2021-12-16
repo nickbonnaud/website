@@ -9,7 +9,7 @@ class RegisterButton extends StatefulWidget {
   State<StatefulWidget> createState() => _RegisterButtonState();
 }
 
-class _RegisterButtonState extends State <RegisterButton> {
+class _RegisterButtonState extends State<RegisterButton> {
   double _iconSize = 80.sp;
   
   @override
@@ -40,13 +40,17 @@ class _RegisterButtonState extends State <RegisterButton> {
               );
             }
           ),
-          icon: Text(
-            "Register Today",
-            style: TextStyle(
-              fontSize: 50.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF016FB9)
-            ),
+          icon: BlocBuilder<RegisterButtonCubit, bool>(
+            builder: (context, isFocused) {
+              return Text(
+                "Register Today",
+                style: TextStyle(
+                  fontSize: 50.sp,
+                  fontWeight: FontWeight.bold,
+                  decoration: isFocused ? TextDecoration.underline : TextDecoration.none
+                ),
+              );
+            }
           ),
         ),
       ),

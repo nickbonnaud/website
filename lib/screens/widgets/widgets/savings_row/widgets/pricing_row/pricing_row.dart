@@ -24,11 +24,11 @@ class PricingRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 100),
+              padding: EdgeInsets.only(left: 20.w),
               child: TitleColumn(businessListViewKey: _businessListViewKey),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 100),
+              padding: EdgeInsets.only(right: 20.w),
               child: InfoColumn(businessListViewKey: _businessListViewKey)
             ),
           ]

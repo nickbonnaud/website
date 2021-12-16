@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/calculator_title_bloc.dart';
 
 import '../savings_calculator_form/bloc/savings_calculator_form_bloc.dart';
@@ -47,7 +48,7 @@ class _CalculatorTitleExit extends State<CalculatorTitleExit> with SingleTickerP
             return Text(
               state.exitTitle,
               style: TextStyle(
-                fontSize: 36,
+                fontSize: 36.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black.withOpacity(state.exitOpacity)
               )

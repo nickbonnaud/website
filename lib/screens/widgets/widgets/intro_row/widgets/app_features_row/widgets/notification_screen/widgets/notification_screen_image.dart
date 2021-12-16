@@ -48,7 +48,7 @@ class _NotificationScreenImageState extends State<NotificationScreenImage> {
                   right: 0,
                   top: state.entryPosition == null
                     ? 0
-                    : _parallaxBloc.parallaxOffset,
+                    : _parallaxBloc.parallaxOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

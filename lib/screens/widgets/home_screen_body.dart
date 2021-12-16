@@ -5,8 +5,11 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 import 'package:website/screens/widgets/widgets/faqs_row/faqs_row.dart';
 import 'package:website/screens/widgets/widgets/intro_row/intro_row.dart';
+import 'package:website/themes/global_colors.dart';
 
 import 'widgets/dashboard_row/dashboard_row.dart';
+import 'widgets/get_started_button/cubit/get_started_button_cubit.dart';
+import 'widgets/get_started_button/get_started_button.dart';
 import 'widgets/savings_row/savings_row.dart';
 import 'widgets/scroll_down/scroll_down.dart';
 import 'widgets/typical_savings_number/bloc/typical_savings_number_bloc.dart';
@@ -68,7 +71,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     return BlocBuilder<ParallaxBloc, ParallaxState>(
       builder: (context, state) {
         return Positioned(
-          top: -.25 * (state.offset - state.offsetAdjustment),
+          top: -.25 * (state.offset.h - state.offsetAdjustment.h),
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: state.currentBackground,
@@ -121,7 +124,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         ),
         SliverToBoxAdapter(
           key: _faqsKey,
-          child: FaqsRow()
+          child: FaqsRow(businessListViewKey: _businessListViewKey)
         ),
       ],
     );
@@ -140,7 +143,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         TextButton(
           onPressed: () => _goToSection(sectionKey: _aboutKey),
           child: const Text(
-            "About"
+            "About",
           )
         ),
         TextButton(
@@ -193,21 +196,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    TextButton.icon(
-                      onPressed: () => _goToSignup(),
-                      icon: Text(
-                        "Get Started",
-                        style: TextStyle(
-                          color: const Color(0xFF016FB9),
-                          fontSize: 50.sp,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      label: Icon(
-                        Icons.chevron_right,
-                        size: 70.sp,
-                        color: const Color(0xFF016FB9),
-                      ),
+                    BlocProvider<GetStartedButtonCubit>(
+                      create: (_) => GetStartedButtonCubit(),
+                      child: GetStartedButton(),
                     )
                   ],
                 )

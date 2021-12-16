@@ -48,8 +48,8 @@ class _LaptopImageState extends State<LaptopImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _laptopParallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _laptopParallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

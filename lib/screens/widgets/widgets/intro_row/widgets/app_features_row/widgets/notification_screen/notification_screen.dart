@@ -16,7 +16,7 @@ class NotificationScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(36, 79, 122, .3),
+        color: Color.fromRGBO(214, 228, 242, 1),
         borderRadius: BorderRadius.all(Radius.circular(20))
       ),
       child: Row(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:website/resources/helpers/column_spacer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class InfoColumn extends StatefulWidget {
@@ -21,6 +22,8 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
   late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _enterAnimation;
 
+  late VisibilityFinder _visibilityFinder;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,8 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
       begin: const Offset(2, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
+
+    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _infoGlobalKey, enterAnimationMinHeight: _enterAnimationMinHeight);
   }
   
   @override
@@ -43,84 +48,86 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
       child: SlideTransition(
         key: _infoGlobalKey,
         position: _enterAnimation,
-        child: ColumnSpacer(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacer: const SizedBox(height: 20),
           children: [
             Row(
-              children: const [
+              children: [
                 Text(
                   "1%",
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 36.sp,
                     fontWeight: FontWeight.bold
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "of total sale",
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 28.sp,
                   ),
                 )
               ],
             ),
+            SizedBox(height: 20.h),
             Row(
-              children: const [
+              children: [
                 Text(
                   "5¢",
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 36.sp,
                     fontWeight: FontWeight.bold
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "per transaction",
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 28.sp,
                   ),
                 )
               ],
             ),
+            SizedBox(height: 20.h),
             Row(
-              children: const [
+              children: [
                 Text(
                   "\$0",
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 36.sp,
                     fontWeight: FontWeight.bold
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "setup costs",
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 28.sp,
                   ),
                 )
               ],
             ),
+            SizedBox(height: 20.h),
             Row(
-              children: const [
+              children: [
                 Text(
                   "\$0",
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 36.sp,
                     fontWeight: FontWeight.bold
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "monthly fees",
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 28.sp,
                   ),
                 )
               ],
             )
-          ]
-        ),
+          ],
+        )
       ),
     );
   }
@@ -134,16 +141,8 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
   void _updateInfoEnteredView() {
     if (_animationController.status != AnimationStatus.dismissed) return;
 
-    RenderObject? businessListViewObject = widget._businessListViewKey.currentContext?.findRenderObject();
-    RenderObject? iconObject = _infoGlobalKey.currentContext?.findRenderObject();
-
-    if (businessListViewObject == null || iconObject == null) return;
-
-    final double listViewHeight = businessListViewObject.paintBounds.height;
-    final double iconObjectTop = iconObject.getTransformTo(businessListViewObject).getTranslation().y;
-
-    final bool iconVisible = (iconObjectTop + _enterAnimationMinHeight) < listViewHeight;
-
+    bool iconVisible = _visibilityFinder.isVisible();
+    
     if (iconVisible) {
       _animationController.forward();
     }

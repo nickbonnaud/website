@@ -48,8 +48,8 @@ class _PhoneImageState extends State<PhoneImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _imageParallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _imageParallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

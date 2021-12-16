@@ -46,8 +46,8 @@ class _ReceiptImageState extends State<ReceiptImage> {
                   height: 1.5.sh,
                   left: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _imageParallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _imageParallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

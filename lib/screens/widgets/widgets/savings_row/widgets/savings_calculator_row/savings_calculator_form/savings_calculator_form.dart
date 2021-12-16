@@ -89,10 +89,10 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
           children: [
             TextSpan(
               text: Currency.create(cents: state.totalSavings < 0 ? 0 : state.totalSavings),
-              style: const TextStyle(
-                fontSize: 40,
+              style: TextStyle(
+                fontSize: 40.sp,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(28, 132, 26, 1)
+                color: const Color.fromRGBO(28, 132, 26, 1)
               )
             )
           ]
@@ -147,10 +147,10 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
   
   Widget _formField({required SavingsCalculatorFormState state}) {
     if (!state.isFieldVisible) {
-      return const Text(
+      return Text(
         "Calculate how much Nova can save you!",
         style: TextStyle(
-          fontSize: 36,
+          fontSize: 36.sp,
           fontWeight: FontWeight.bold,
           color: Colors.black
         )
@@ -168,15 +168,15 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
         onFieldSubmitted: (_) => _submit(),
         decoration: InputDecoration(
           hintText: _hintText(state: state),
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: 32,
+            fontSize: 32.sp,
             color: Colors.black26
           )
         ),
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w700,
-          fontSize: 32
+          fontSize: 32.sp
         ),
         validator: (_) => !state.isFieldValid && _controller.text.isNotEmpty
           ? "Please only use digits!"

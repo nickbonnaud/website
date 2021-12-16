@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
 class TitleColumn extends StatefulWidget {
@@ -21,6 +22,8 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
   late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _enterAnimation;
 
+  late VisibilityFinder _visibilityFinder;
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +33,8 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
       begin: const Offset(-2.0, 0),
       end: Offset.zero
     ).animate(_curvedAnimation);
+
+    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _titleGlobalKey, enterAnimationMinHeight: _enterAnimationMinHeight);
   }
   
   @override
@@ -74,15 +79,7 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
   void _updateTitleEnteredView() {
     if (_animationController.status != AnimationStatus.dismissed) return;
 
-    RenderObject? businessListViewObject = widget._businessListViewKey.currentContext?.findRenderObject();
-    RenderObject? iconObject = _titleGlobalKey.currentContext?.findRenderObject();
-
-    if (businessListViewObject == null || iconObject == null) return;
-
-    final double listViewHeight = businessListViewObject.paintBounds.height;
-    final double iconObjectTop = iconObject.getTransformTo(businessListViewObject).getTranslation().y;
-
-    final bool iconVisible = (iconObjectTop + _enterAnimationMinHeight) < listViewHeight;
+    bool iconVisible = _visibilityFinder.isVisible();
 
     if (iconVisible) {
       _animationController.forward();

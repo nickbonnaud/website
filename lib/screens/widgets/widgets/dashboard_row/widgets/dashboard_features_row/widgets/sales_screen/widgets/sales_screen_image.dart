@@ -49,12 +49,12 @@ class _SalesScreenImageState extends State<SalesScreenImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _parallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _parallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,
-                    image: '/assets/dashboard/tablet.png',
+                    image: '/assets/dashboard/tablet_1.png',
                     fit: BoxFit.contain,
                   )
                 );

@@ -59,7 +59,7 @@ class IntroRow extends StatelessWidget {
               textAlign: TextAlign.center,
             )
           ),
-          SizedBox(height: 150.h),
+          SizedBox(height: 60.h),
           PaymentImageRow(businessListViewKey: _businessListViewKey),
           SizedBox(height: 60.h),
           AppFeaturesRow(businessListViewKey: _businessListViewKey),

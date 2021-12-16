@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:website/resources/helpers/responsive_layout_helper.dart';
 import 'package:website/screens/widgets/widgets/savings_row/widgets/savings_explanation_row/widgets/explanation.dart';
 
 class SavingsExplanationRow extends StatelessWidget {
+  final ResponsiveLayoutHelper _layoutHelper = ResponsiveLayoutHelper();
   final GlobalKey _businessListViewKey;
 
-  const SavingsExplanationRow({required GlobalKey businessListViewKey})
+  SavingsExplanationRow({required GlobalKey businessListViewKey})
     : _businessListViewKey = businessListViewKey; 
   
   @override
@@ -28,71 +31,70 @@ class SavingsExplanationRow extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Explanation(
-                    text: "AI driven security reduces per transaction fees by eliminating fraud.",
-                    animationPath: 'lotties/brain.zip',
-                    businessListViewKey: _businessListViewKey
-                  ),
-                ),
-                SizedBox(width: 60.w),
-                Expanded(
-                  child: Explanation(
-                    text: "No recurring fees or equipment rental costs.",
-                    animationPath: 'lotties/register.zip',
-                    businessListViewKey: _businessListViewKey
-                  )
-                ),
-              ],
+            _responsiveLayout(
+              context: context,
+              firstWidget: Explanation(
+                text: "AI driven security reduces per transaction fees by eliminating fraud.",
+                animationPath: 'lotties/brain.zip',
+                businessListViewKey: _businessListViewKey
+              ),
+              secondWidget: Explanation(
+                text: "No recurring fees or equipment rental costs.",
+                animationPath: 'lotties/register.zip',
+                businessListViewKey: _businessListViewKey
+              )
             ),
             SizedBox(height: 30.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Explanation(
-                    text: "No hidden fees or surprise rate changes.",
-                    animationPath: 'lotties/invoice.zip',
-                    businessListViewKey: _businessListViewKey
-                  )
-                ),
-                SizedBox(width: 60.w),
-                Expanded(
-                  child: Explanation(
-                    text: "Unique payment method reduces third party fees, cutting out the middle man.",
-                    animationPath: 'lotties/piggy_bank.zip',
-                    businessListViewKey: _businessListViewKey
-                  ),
-                )
-              ],
+            _responsiveLayout(
+              context: context,
+              firstWidget: Explanation(
+                text: "No hidden fees or surprise rate changes.",
+                animationPath: 'lotties/invoice.zip',
+                businessListViewKey: _businessListViewKey
+              ),
+              secondWidget: Explanation(
+                text: "Unique payment method reduces third party fees, cutting out the middle man.",
+                animationPath: 'lotties/piggy_bank.zip',
+                businessListViewKey: _businessListViewKey
+              )
             ),
             SizedBox(height: 30.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Explanation(
-                    text: "Zero setup or installation costs.",
-                    animationPath: 'lotties/free.zip',
-                    businessListViewKey: _businessListViewKey
-                  )
-                ),
-                SizedBox(width: 60.w),
-                Expanded(
-                  child: Explanation(
-                    text: "No minimum per transaction amount.",
-                    animationPath: 'lotties/coins.zip',
-                    businessListViewKey: _businessListViewKey
-                  ),
-                )
-              ],
+            _responsiveLayout(
+              context: context,
+              firstWidget: Explanation(
+                text: "Zero setup or installation costs.",
+                animationPath: 'lotties/free.zip',
+                businessListViewKey: _businessListViewKey
+              ),
+              secondWidget: Explanation(
+                text: "No minimum per transaction amount.",
+                animationPath: 'lotties/coins.zip',
+                businessListViewKey: _businessListViewKey
+              )
             )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _responsiveLayout({required BuildContext context, required Widget firstWidget, required Widget secondWidget}) {
+    return ResponsiveRowColumn(
+      layout: _layoutHelper.setLayout(context: context, deviceSize: TABLET),
+      rowCrossAxisAlignment: CrossAxisAlignment.start,
+      columnCrossAxisAlignment: CrossAxisAlignment.center,
+      columnSpacing: 30.h,
+      rowSpacing: 60.w,
+      children: [
+        ResponsiveRowColumnItem(
+          rowFit: FlexFit.tight,
+          child: firstWidget
+        ),
+        ResponsiveRowColumnItem(
+          rowFit: FlexFit.tight,
+          child: secondWidget
+        )
+      ],
     );
   }
 }

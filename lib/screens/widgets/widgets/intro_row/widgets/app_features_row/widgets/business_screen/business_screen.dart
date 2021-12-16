@@ -16,7 +16,7 @@ class BusinessScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 20.w),
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(65, 41, 87, .2),
+        color: Color.fromRGBO(236, 229, 242, 1),
         borderRadius: BorderRadius.all(Radius.circular(20))
       ),
       child: Row(
@@ -36,7 +36,7 @@ class BusinessScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 50.sp,
                       fontWeight: FontWeight.w800,
-                      color: const Color.fromRGBO(65, 41, 87, 1)
+                      color: const Color.fromRGBO(121, 96, 241, 1)
                     )
                   ),
                   const TextSpan(

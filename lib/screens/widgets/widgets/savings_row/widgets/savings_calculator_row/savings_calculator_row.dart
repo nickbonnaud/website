@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:website/resources/helpers/column_spacer.dart';
 
 import 'savings_calculator_form/bloc/savings_calculator_form_bloc.dart';
 import 'savings_calculator_form/savings_calculator_form.dart';
@@ -17,8 +16,7 @@ class SavingsCalculatorRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 76.w, vertical: 40.h),
         child: BlocBuilder<SavingsCalculatorFormBloc, SavingsCalculatorFormState>(
         builder: (context, state) {
-          return ColumnSpacer(
-            spacer: const SizedBox(height: 20),
+          return Column(
             children: [
               if (state.isFieldVisible && !state.formSubmitted) 
                 BlocProvider<CalculatorTitleBloc>(
@@ -31,6 +29,8 @@ class SavingsCalculatorRow extends StatelessWidget {
                     ],
                   ),
                 ),
+              if (state.isFieldVisible && !state.formSubmitted)
+                SizedBox(height: 20.h),
               SavingsCalculatorForm(),
             ]
           );

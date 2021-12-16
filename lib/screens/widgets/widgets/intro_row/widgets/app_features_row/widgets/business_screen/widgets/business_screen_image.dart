@@ -48,8 +48,8 @@ class _BusinessScreenImageState extends State<BusinessScreenImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _parallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _parallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

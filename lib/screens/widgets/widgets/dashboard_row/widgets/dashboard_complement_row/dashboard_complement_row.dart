@@ -16,9 +16,9 @@ class DashboardComplementRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(top: 80.h, left: 20.w),
         decoration: const BoxDecoration(
-          color: Color.fromRGBO(245, 245, 247, 1),
+          color: Color.fromRGBO(241, 238, 254, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: Row(
@@ -34,7 +34,7 @@ class DashboardComplementRow extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.lightBlueAccent[100]
+                        color: const Color.fromRGBO(121, 96, 241, 1)
                       ),
                       children: [
                         TextSpan(
@@ -62,7 +62,7 @@ class DashboardComplementRow extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 50.sp,
                             fontWeight: FontWeight.w800,
-                            color: Colors.lightBlueAccent[100]
+                            color: const Color.fromRGBO(121, 96, 241, 1)
                           ),
                         ),
                         TextSpan(

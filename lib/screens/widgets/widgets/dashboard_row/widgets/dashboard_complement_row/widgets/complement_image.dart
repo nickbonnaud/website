@@ -26,9 +26,9 @@ class _ComplementImageState extends State<ComplementImage> {
   
   @override
   void initState() {
+    super.initState();
     _parallaxBloc = BlocProvider.of<DashboardComplementParallaxBloc>(context);
     _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey);
-    super.initState();
   }
   
   @override
@@ -47,8 +47,8 @@ class _ComplementImageState extends State<ComplementImage> {
                   height: 1.5.sh,
                   left: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset
-                    : _parallaxBloc.parallaxOffset + _initialOffset,
+                    ? _initialOffset.h
+                    : _parallaxBloc.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
                     key: _imageKey,
                     placeholder: kTransparentImage,

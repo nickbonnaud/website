@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:website/resources/helpers/currency.dart';
 import 'package:website/resources/helpers/savings_calculator.dart';
+import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
 import 'bloc/typical_savings_number_bloc.dart';
@@ -35,6 +34,8 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
   late CurvedAnimation _curvedAnimation;
   late Animation<double> _numberAnimation;
 
+  late VisibilityFinder _visibilityFinder;
+
   late TypicalSavingsNumberBloc _numberBloc;
   
   @override
@@ -43,6 +44,8 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
 
     _animationController = AnimationController(vsync: this, duration: _duration);
     _curvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
+
+    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: widget._secondImageWindowKey, enterAnimationMinHeight: _enterAnimationMinHeight);
     
     _numberBloc = BlocProvider.of<TypicalSavingsNumberBloc>(context);
 
@@ -104,14 +107,7 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
     if (_numberBloc.state.animationCompleted) return;
     if (_animationController.status != AnimationStatus.dismissed) return;
 
-    RenderObject? businessListViewObject = widget._businessListViewKey.currentContext?.findRenderObject();
-    RenderObject? savingsNumber = widget._secondImageWindowKey.currentContext?.findRenderObject();
-
-    if (businessListViewObject == null || savingsNumber == null) return;
-    final double listViewHeight = businessListViewObject.paintBounds.height;
-    final double savingsNumberTop = savingsNumber.getTransformTo(businessListViewObject).getTranslation().y;
-
-    final bool savingsNumberVisible = (savingsNumberTop + _enterAnimationMinHeight) < listViewHeight;
+    bool savingsNumberVisible = _visibilityFinder.isVisible();
 
     if (savingsNumberVisible) {
       _numberBloc.add(AnimationFinished());
