@@ -16,35 +16,55 @@ class OperationRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, right: 20.w),
+        padding: EdgeInsets.fromLTRB(40.w, 40.h, 60.w, 0),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(254, 244, 247, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
         ),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocProvider<OperationRowParallaxBloc>(
-              create: (_) => OperationRowParallaxBloc(),
-              child: OperationImage(businessListViewKey: _businessListViewKey),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _header(),
-                  SizedBox(height: 40.h),
-                  _assignmentText(),
-                  SizedBox(height: 20.h),
-                  _optionalText(),
-                  SizedBox(height: 20.h),
-                  _billClosedText()
-                ],
-              )
+            _header(),
+            SizedBox(height: 40.h),
+            _assignmentText(),
+            SizedBox(height: 20.h),
+            _optionalText(),
+            SizedBox(height: 20.h),
+            _billClosedText(),
+            Align(
+              alignment: Alignment.center,
+              child: BlocProvider<OperationRowParallaxBloc>(
+                create: (_) => OperationRowParallaxBloc(),
+                child: OperationImage(businessListViewKey: _businessListViewKey),
+              ),
             )
           ],
-        )
+        ),
+        // child: Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //   children: [
+        //     BlocProvider<OperationRowParallaxBloc>(
+        //       create: (_) => OperationRowParallaxBloc(),
+        //       child: OperationImage(businessListViewKey: _businessListViewKey),
+        //     ),
+        //     Expanded(
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         children: [
+        //           _header(),
+        //           SizedBox(height: 40.h),
+        //           _assignmentText(),
+        //           SizedBox(height: 20.h),
+        //           _optionalText(),
+        //           SizedBox(height: 20.h),
+        //           _billClosedText()
+        //         ],
+        //       )
+        //     )
+        //   ],
+        // )
       ),
     );
   }
@@ -58,12 +78,10 @@ class OperationRow extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: const Color.fromRGBO(230, 37, 101, 1)
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "Nova Pay",
             style: TextStyle(
-              fontSize: 45.sp,
-              fontWeight: FontWeight.bold,
               color: Colors.black
             ),
           )
@@ -80,13 +98,11 @@ class OperationRow extends StatelessWidget {
           fontSize: 36.sp,
           fontWeight: FontWeight.w500,
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "automatically.",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromRGBO(230, 37, 101, 1)
+              color: Color.fromRGBO(230, 37, 101, 1)
             ),
           )
         ]
@@ -102,21 +118,15 @@ class OperationRow extends StatelessWidget {
           fontSize: 36.sp,
           fontWeight: FontWeight.w500,
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "assign ",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromRGBO(230, 37, 101, 1)
+              color: Color.fromRGBO(230, 37, 101, 1)
             ), 
           ),
           TextSpan(
             text: "a bill through your POS.",
-            style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-            ),
           )
         ]
       )
@@ -131,21 +141,15 @@ class OperationRow extends StatelessWidget {
           fontSize: 36.sp,
           fontWeight: FontWeight.w500,
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "leaves ",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromRGBO(230, 37, 101, 1)
+              color: Color.fromRGBO(230, 37, 101, 1)
             ), 
           ),
           TextSpan(
             text: "your business.",
-            style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-            ),
           )
         ]
       )

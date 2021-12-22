@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 import 'package:website/screens/widgets/widgets/faqs_row/faqs_row.dart';
 import 'package:website/screens/widgets/widgets/intro_row/intro_row.dart';
-import 'package:website/themes/global_colors.dart';
 
 import 'widgets/dashboard_row/dashboard_row.dart';
 import 'widgets/get_started_button/cubit/get_started_button_cubit.dart';
@@ -175,7 +175,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           children: [
             Positioned(
               right: 50.w,
-              top: 1.25 * (state.offset.h - state.offsetAdjustment.h) + .7.sh,
+              top: 1.25 * (state.offset.h - state.offsetAdjustment.h) + (
+                ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
+                  ? .55.sh : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+                  ? .5.sh : .6.sh
+              ),
               child: ScrollDown()
             ),
             Positioned(

@@ -16,7 +16,7 @@ class ResultsRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, left: 20.w),
+        padding: EdgeInsets.only(right: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(240, 252, 251, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
@@ -24,6 +24,13 @@ class ResultsRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child: BlocProvider<ResultsRowParallaxBloc>(
+                create: (_) => ResultsRowParallaxBloc(),
+                child: ResultsImage(businessListViewKey: _businessListViewKey),
+              )
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,10 +46,6 @@ class ResultsRow extends StatelessWidget {
                 ],
               )
             ),
-            BlocProvider<ResultsRowParallaxBloc>(
-              create: (_) => ResultsRowParallaxBloc(),
-              child: ResultsImage(businessListViewKey: _businessListViewKey),
-            )
           ],
         )
       ),

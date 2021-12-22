@@ -16,7 +16,7 @@ class IntegrationRow  extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, left: 20.w),
+        padding: EdgeInsets.only(left: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(241, 246, 250, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
@@ -58,12 +58,10 @@ class IntegrationRow  extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: const Color.fromRGBO(96, 152, 198, 1)
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "Nova Pay",
             style: TextStyle(
-              fontSize: 45.sp,
-              fontWeight: FontWeight.bold,
               color: Colors.black
             ),
           )
@@ -80,13 +78,11 @@ class IntegrationRow  extends StatelessWidget {
           fontSize: 36.sp,
           fontWeight: FontWeight.w500,
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "minutes.",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromRGBO(96, 152, 198, 1)
+              color: Color.fromRGBO(96, 152, 198, 1)
             ),
           )
         ]
@@ -102,21 +98,15 @@ class IntegrationRow  extends StatelessWidget {
           fontSize: 36.sp,
           fontWeight: FontWeight.w500,
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "current ",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromRGBO(96, 152, 198, 1)
+              color: Color.fromRGBO(96, 152, 198, 1)
             )
           ),
           TextSpan(
             text: "POS system, Nova Pay works with most.",
-            style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-            ),
           )
         ]
       )
@@ -132,12 +122,10 @@ class IntegrationRow  extends StatelessWidget {
           fontWeight: FontWeight.w500,
           color: const Color.fromRGBO(96, 152, 198, 1)
         ),
-        children: [
+        children: const [
           TextSpan(
             text: "initial setup fees or recurring costs.",
             style: TextStyle(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
               color: Colors.black
             )
           )

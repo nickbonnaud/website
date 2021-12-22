@@ -148,7 +148,7 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
   Widget _formField({required SavingsCalculatorFormState state}) {
     if (!state.isFieldVisible) {
       return Text(
-        "Calculate how much Nova can save you!",
+        "Calculate your savings!",
         style: TextStyle(
           fontSize: 36.sp,
           fontWeight: FontWeight.bold,

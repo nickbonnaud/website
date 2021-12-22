@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'bloc/business_screen_parallax_bloc.dart';
 import 'widgets/business_screen_image.dart';
@@ -14,7 +15,7 @@ class BusinessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 20.w),
+      padding: EdgeInsets.only(right: 20.w),
       decoration: const BoxDecoration(
         color: Color.fromRGBO(236, 229, 242, 1),
         borderRadius: BorderRadius.all(Radius.circular(20))
@@ -22,33 +23,36 @@ class BusinessScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          Expanded(
+            child: BlocProvider<BusinessScreenParallaxBloc>(
+              create: (_) => BusinessScreenParallaxBloc(),
+              child: BusinessScreenImage(businessListViewKey: _businessListViewKey),
+            )
+          ),
+          Expanded(
             child: RichText(
               text: TextSpan(
                 text: "Reach ",
                 style: TextStyle(
-                  fontSize: 50.sp,
+                  fontSize: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+                    ? 50.sp : 30.sp,
                   fontWeight: FontWeight.w800,
                 ),
-                children: [
+                children: const [
                   TextSpan(
                     text: "new ",
                     style: TextStyle(
-                      fontSize: 50.sp,
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromRGBO(121, 96, 241, 1)
+                      color: Color.fromRGBO(121, 96, 241, 1)
                     )
                   ),
-                  const TextSpan(
-                    text: "customers."
+                  TextSpan(
+                    text: "customers",
+                    style: TextStyle(
+                    ),
                   )
                 ]
               ),
             )
-          ),
-          BlocProvider<BusinessScreenParallaxBloc>(
-            create: (_) => BusinessScreenParallaxBloc(),
-            child: BusinessScreenImage(businessListViewKey: _businessListViewKey),
           ),
         ],
       ),

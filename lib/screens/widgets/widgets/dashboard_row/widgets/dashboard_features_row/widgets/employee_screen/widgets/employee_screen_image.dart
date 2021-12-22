@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
@@ -18,7 +19,7 @@ class EmployeeScreenImage extends StatefulWidget {
 }
 
 class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
-  static final _initialOffset = 75.h;
+  static const double _initialOffset = 150;
   final GlobalKey _imageKey = GlobalKey();
 
   late EmployeeScreenParallaxBloc _parallaxBloc;
@@ -36,16 +37,16 @@ class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .7.sh,
-        width: .2.sw,
+        height: .6.sh,
+        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+          ? .2.sw : .15.sw,
         child: Stack(
           children: [
             BlocBuilder<EmployeeScreenParallaxBloc, EmployeeScreenParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .6.sh,
-                  left: 0,
+                  height: .4.sh,
                   right: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h

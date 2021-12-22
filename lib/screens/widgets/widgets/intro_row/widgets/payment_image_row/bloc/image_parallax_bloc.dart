@@ -10,7 +10,7 @@ class ImageParallaxBloc extends Bloc<ImageParallaxEvent, ImageParallaxState> {
     _eventHandler();
   }
 
-  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .25;
+  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .1;
   
   void _eventHandler() {
     on<ImageVisibilityChanged>((event, emit) => _mapImageVisibilityChangedToState(event: event, emit: emit));

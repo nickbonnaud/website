@@ -10,7 +10,7 @@ class NotificationScreenParallaxBloc extends Bloc<NotificationScreenParallaxEven
     _eventHandler();
   }
 
-  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .75;
+  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .2;
 
   void _eventHandler() {
     on<ImageVisibilityChanged>((event, emit) => _mapImageVisibilityChangedToState(event: event, emit: emit));

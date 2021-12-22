@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'bloc/sales_screen_parallax_bloc.dart';
 import 'widgets/sales_screen_image.dart';
@@ -14,7 +15,7 @@ class SalesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 20.w),
+      padding: EdgeInsets.only(left: 20.w),
       decoration: const BoxDecoration(
         color: Color.fromRGBO(254, 248, 234, 1),
         borderRadius: BorderRadius.all(Radius.circular(20))
@@ -22,31 +23,32 @@ class SalesScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          Expanded(
             child: RichText(
               text: TextSpan(
                 text: "Intuitive sales ",
                 style: TextStyle(
-                  fontSize: 50.sp,
+                  fontSize: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+                    ? 50.sp : 30.sp,
                   fontWeight: FontWeight.w800,
                 ),
-                children: [
+                children: const [
                   TextSpan(
-                    text: "tracking.",
+                    text: "tracking",
                     style: TextStyle(
-                      fontSize: 50.sp,
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromRGBO(253, 192, 47, 1)
+                      color: Color.fromRGBO(253, 192, 47, 1)
                     )
                   ),
                 ]
               ),
             )
           ),
-          BlocProvider<SalesScreenParallaxBloc>(
-            create: (_) => SalesScreenParallaxBloc(),
-            child: SalesScreenImage(businessListViewKey: _businessListViewKey),
-          ),
+          Expanded(
+            child: BlocProvider<SalesScreenParallaxBloc>(
+              create: (_) => SalesScreenParallaxBloc(),
+              child: SalesScreenImage(businessListViewKey: _businessListViewKey),
+            )
+          )
         ],
       ),
     );

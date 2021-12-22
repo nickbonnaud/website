@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1200, 641),
+      designSize: const Size(800, 928),
       builder: () => MaterialApp(
         title: 'Flutter Demo',
         initialRoute: Routes.app,
@@ -32,8 +32,7 @@ class MyApp extends StatelessWidget {
             breakpoints: [
               const ResponsiveBreakpoint.resize(450, name: MOBILE),
               const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-              const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-              const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+              const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
               const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
             ]
           );

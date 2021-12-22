@@ -10,7 +10,7 @@ class OperationRowParallaxBloc extends Bloc<OperationRowParallaxEvent, Operation
     _eventHandler();
   }
 
-  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .25;
+  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .15;
 
   void _eventHandler() {
     on<ImageVisibilityChanged>((event, emit) => _mapImageVisibilityChangedToState(event: event, emit: emit));

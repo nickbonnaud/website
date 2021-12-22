@@ -16,13 +16,13 @@ class PaymentImageRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(245, 245, 247, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Column(
@@ -35,7 +35,7 @@ class PaymentImageRow extends StatelessWidget {
                       color: Colors.lightBlueAccent[100]
                     ),
                   ),
-                  SizedBox(height: .2.sh),
+                  SizedBox(height: 60.h),
                   Text(
                     "Customers pay with the Nova App.",
                     style: TextStyle(

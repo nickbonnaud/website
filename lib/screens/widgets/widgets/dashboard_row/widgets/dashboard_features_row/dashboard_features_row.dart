@@ -21,8 +21,8 @@ class DashboardFeaturesRow extends StatelessWidget {
         layout: _layoutHelper.setLayout(context: context, deviceSize: TABLET),
         rowCrossAxisAlignment: CrossAxisAlignment.start,
         columnCrossAxisAlignment: CrossAxisAlignment.center,
-        columnSpacing: 60.h,
         rowSpacing: 20.w,
+        columnSpacing: 60.h,
         children: [
           ResponsiveRowColumnItem(
             rowFit: FlexFit.tight,

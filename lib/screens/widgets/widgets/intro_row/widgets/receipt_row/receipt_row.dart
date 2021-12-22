@@ -16,7 +16,7 @@ class ReceiptRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 248, 239, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
@@ -24,9 +24,11 @@ class ReceiptRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            BlocProvider<ReceiptImageParallaxBloc>(
-              create: (_) => ReceiptImageParallaxBloc(),
-              child: ReceiptImage(businessListViewKey: _businessListViewKey),
+            Expanded(
+              child: BlocProvider<ReceiptImageParallaxBloc>(
+                create: (_) => ReceiptImageParallaxBloc(),
+                child: ReceiptImage(businessListViewKey: _businessListViewKey),
+              )
             ),
             Expanded(
               child: Column(
@@ -50,7 +52,7 @@ class ReceiptRow extends StatelessWidget {
                       ]
                     )
                   ),
-                  SizedBox(height: .2.sh),
+                  SizedBox(height: 60.h),
                   RichText(
                     text: TextSpan(
                       text: "Customer can view their live bill, ",

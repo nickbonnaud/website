@@ -10,7 +10,7 @@ class EmployeeScreenParallaxBloc extends Bloc<EmployeeScreenParallaxEvent, Emplo
     _eventHandler();
   }
 
-  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .1;
+  double get parallaxOffset => (state.entryPosition! - state.currentPosition!) * .2;
 
   void _eventHandler() {
     on<ImageVisibilityChanged>((event, emit) => _mapImageVisibilityChangedToState(event: event, emit: emit));

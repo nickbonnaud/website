@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
@@ -51,80 +52,80 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  "1%",
-                  style: TextStyle(
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.bold
-                  ),
+            RichText(
+              text: TextSpan(
+                text: "1% ",
+                style: TextStyle(
+                  fontSize: _isMobile() ? 40.sp : 36.sp,
+                  fontWeight: FontWeight.bold
                 ),
-                SizedBox(width: 10.w),
-                Text(
-                  "of total sale",
-                  style: TextStyle(
-                    fontSize: 28.sp,
-                  ),
-                )
-              ],
+                children: [
+                  TextSpan(
+                    text: "of total sale",
+                    style: TextStyle(
+                      fontSize: _isMobile() ? 32.sp : 28.sp,
+                      fontWeight: FontWeight.normal
+                    ),
+                  )
+                ]
+              )
             ),
             SizedBox(height: 20.h),
-            Row(
-              children: [
-                Text(
-                  "5¢",
-                  style: TextStyle(
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.bold
-                  ),
+            RichText(
+              text: TextSpan(
+                text: "5¢ ",
+                style: TextStyle(
+                  fontSize: _isMobile() ? 40.sp : 36.sp,
+                  fontWeight: FontWeight.bold
                 ),
-                SizedBox(width: 10.w),
-                Text(
-                  "per transaction",
-                  style: TextStyle(
-                    fontSize: 28.sp,
-                  ),
-                )
-              ],
+                children: [
+                  TextSpan(
+                    text: "per transaction",
+                    style: TextStyle(
+                      fontSize: _isMobile() ? 32.sp : 28.sp,
+                      fontWeight: FontWeight.normal
+                    ),
+                  )
+                ]
+              )
             ),
             SizedBox(height: 20.h),
-            Row(
-              children: [
-                Text(
-                  "\$0",
-                  style: TextStyle(
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.bold
-                  ),
+            RichText(
+              text: TextSpan(
+                text: "\$0 ",
+                style: TextStyle(
+                  fontSize: _isMobile() ? 40.sp : 36.sp,
+                  fontWeight: FontWeight.bold
                 ),
-                SizedBox(width: 10.w),
-                Text(
-                  "setup costs",
-                  style: TextStyle(
-                    fontSize: 28.sp,
-                  ),
-                )
-              ],
+                children: [
+                  TextSpan(
+                    text: "setup costs",
+                    style: TextStyle(
+                      fontSize: _isMobile() ? 32.sp : 28.sp,
+                      fontWeight: FontWeight.normal
+                    ),
+                  )
+                ]
+              )
             ),
             SizedBox(height: 20.h),
-            Row(
-              children: [
-                Text(
-                  "\$0",
-                  style: TextStyle(
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.bold
-                  ),
+            RichText(
+              text: TextSpan(
+                text: "\$0 ",
+                style: TextStyle(
+                  fontSize: _isMobile() ? 40.sp : 36.sp,
+                  fontWeight: FontWeight.bold
                 ),
-                SizedBox(width: 10.w),
-                Text(
-                  "monthly fees",
-                  style: TextStyle(
-                    fontSize: 28.sp,
-                  ),
-                )
-              ],
+                children: [
+                  TextSpan(
+                    text: "monthly fees",
+                    style: TextStyle(
+                      fontSize: _isMobile() ? 32.sp : 28.sp,
+                      fontWeight: FontWeight.normal
+                    ),
+                  )
+                ]
+              )
             )
           ],
         )
@@ -136,6 +137,10 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  bool _isMobile() {
+    return ResponsiveWrapper.of(context).isSmallerThan(MOBILE);
   }
 
   void _updateInfoEnteredView() {

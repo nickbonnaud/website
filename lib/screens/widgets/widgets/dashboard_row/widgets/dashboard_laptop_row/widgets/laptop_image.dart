@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
@@ -18,11 +19,11 @@ class LaptopImage extends StatefulWidget {
 }
 
 class _LaptopImageState extends State<LaptopImage> {
-  static final _initialOffset = 100.h;
   final GlobalKey _imageKey = GlobalKey();
 
   late LaptopParallaxBloc _laptopParallaxBloc;
   late VisibilityFinder _visibilityFinder;
+  late double _initialOffset;
   
   @override
   void initState() {
@@ -33,18 +34,24 @@ class _LaptopImageState extends State<LaptopImage> {
   
   @override
   Widget build(BuildContext context) {
+    _initialOffset = ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+      ? 0 : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
+      ? 25 : 50;
+
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .4.sw,
-        width: .5.sw,
+        height: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+          ? .4.sh : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+          ? .45.sh : .55.sh,
+        width: .7.sw,
         child: Stack(
           children: [
             BlocBuilder<LaptopParallaxBloc, LaptopParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .6.sh,
+                  height: .55.sh,
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
@@ -54,7 +61,7 @@ class _LaptopImageState extends State<LaptopImage> {
                     key: _imageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/laptop.png',
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                   )
                 ); 
               }
@@ -74,7 +81,7 @@ class _LaptopImageState extends State<LaptopImage> {
   void _updateScroll({required ParallaxState parallaxState}) {
     _laptopParallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset);
+    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset.h);
     if (imageVisible != _laptopParallaxBloc.state.isImageVisible) {
       _laptopParallaxBloc.add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

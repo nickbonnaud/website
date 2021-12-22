@@ -25,7 +25,7 @@ class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateM
   void initState() {
     super.initState();
 
-    _width = 30.w;
+    _width = 30.sp;
     _height = 2.5 * _width;
 
     _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1));

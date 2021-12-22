@@ -16,7 +16,7 @@ class DashboardComplementRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 80.h, left: 20.w),
+        padding: EdgeInsets.only(left: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(241, 238, 254, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
@@ -36,19 +36,17 @@ class DashboardComplementRow extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         color: const Color.fromRGBO(121, 96, 241, 1)
                       ),
-                      children: [
+                      children: const [
                         TextSpan(
                           text: "of all.",
                           style: TextStyle(
-                            fontSize: 50.sp,
-                            fontWeight: FontWeight.w800,
                             color: Colors.black
                           ),
                         )
                       ]
                     )
                   ),
-                  SizedBox(height: .1.sh),
+                  SizedBox(height: 60.h),
                   RichText(
                     text: TextSpan(
                       text: "Nova Dashboard ",
@@ -56,26 +54,20 @@ class DashboardComplementRow extends StatelessWidget {
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w800,
                       ),
-                      children: [
+                      children: const [
                         TextSpan(
                           text: "complements ",
                           style: TextStyle(
-                            fontSize: 50.sp,
-                            fontWeight: FontWeight.w800,
-                            color: const Color.fromRGBO(121, 96, 241, 1)
+                            color: Color.fromRGBO(121, 96, 241, 1)
                           ),
                         ),
                         TextSpan(
                           text: "your POS, not replaces it.",
-                          style: TextStyle(
-                            fontSize: 50.sp,
-                            fontWeight: FontWeight.w800,
-                          ),
                         )
                       ]
                     )
                   ),
-                  SizedBox(height: .1.sh),
+                  SizedBox(height: 60.h),
                   Text(
                     "Use it when you want, or not at all.",
                     style: TextStyle(

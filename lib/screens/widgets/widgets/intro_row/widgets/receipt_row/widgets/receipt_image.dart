@@ -17,7 +17,7 @@ class ReceiptImage extends StatefulWidget {
 }
 
 class _ReceiptImageState extends State<ReceiptImage> {
-  static final _initialOffset = 100.h;
+  static const double _initialOffset = 200;
   final GlobalKey _imageKey = GlobalKey();
 
   late ReceiptImageParallaxBloc _imageParallaxBloc;
@@ -35,15 +35,15 @@ class _ReceiptImageState extends State<ReceiptImage> {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .8.sh,
-        width: .4.sw,
+        height: .5.sh,
+        width: .2.sw,
         child: Stack(
           children: [
             BlocBuilder<ReceiptImageParallaxBloc, ReceiptImageParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: 1.5.sh,
+                  height: .45.sh,
                   left: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
@@ -52,7 +52,7 @@ class _ReceiptImageState extends State<ReceiptImage> {
                     key: _imageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_4.png',
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                   )
                 ); 
               }

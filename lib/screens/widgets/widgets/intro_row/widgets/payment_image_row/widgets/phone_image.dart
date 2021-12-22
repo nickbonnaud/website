@@ -18,7 +18,7 @@ class PhoneImage extends StatefulWidget {
 }
 
 class _PhoneImageState extends State<PhoneImage> {
-  static final _initialOffset = 100.h;
+  static const double _initialOffset = 100;
   final GlobalKey _imageKey = GlobalKey();
 
   late ImageParallaxBloc _imageParallaxBloc;
@@ -36,8 +36,8 @@ class _PhoneImageState extends State<PhoneImage> {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .8.sh,
-        width: .4.sw,
+        height: .7.sh,
+        width: .25.sw,
         child: Stack(
           children: [
             BlocBuilder<ImageParallaxBloc, ImageParallaxState>(
@@ -54,7 +54,7 @@ class _PhoneImageState extends State<PhoneImage> {
                     key: _imageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_2.png',
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain
                   )
                 );
               }
@@ -74,7 +74,7 @@ class _PhoneImageState extends State<PhoneImage> {
   void _updateScroll({required ParallaxState parallaxState}) {
     _imageParallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset);
+    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset.h);
     if (imageVisible != _imageParallaxBloc.state.isImageVisible) {
       _imageParallaxBloc.add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

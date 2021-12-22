@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
 
@@ -51,16 +52,15 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
           text: TextSpan(
             text: "Rates, Made ",
             style: TextStyle(
-              fontSize: 60.sp,
+              fontSize: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+                ? 60.sp : 50.sp,
               fontWeight: FontWeight.bold
             ),
-            children: [
+            children: const [
               TextSpan(
                 text: "Simple",
                 style: TextStyle(
-                  fontSize: 60.sp,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromRGBO(28, 132, 26, 1)
+                  color: Color.fromRGBO(28, 132, 26, 1)
                 ),
               )
             ]

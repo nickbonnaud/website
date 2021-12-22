@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/bloc/parallax_bloc.dart';
@@ -18,7 +19,7 @@ class IntegrationImage extends StatefulWidget {
 }
 
 class _IntegrationImageState extends State<IntegrationImage> {
-  static final _initialOffset = 100.h;
+  static const double _initialOffset = 175;
   final GlobalKey _imageKey = GlobalKey();
 
   late IntegrationRowParallaxBloc _parallaxBloc;
@@ -36,15 +37,17 @@ class _IntegrationImageState extends State<IntegrationImage> {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .8.sh,
-        width: .4.sw,
+        height: .7.sh,
+        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) 
+          ? .55.sw : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
+          ? .4.sw : .3.sw,
         child: Stack(
           children: [
             BlocBuilder<IntegrationRowParallaxBloc, IntegrationRowParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: 1.5.sh,
+                  height: .4.sh,
                   left: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
@@ -53,7 +56,7 @@ class _IntegrationImageState extends State<IntegrationImage> {
                     key: _imageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/laptop.png',
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                   )
                 ); 
               }
@@ -73,7 +76,7 @@ class _IntegrationImageState extends State<IntegrationImage> {
   void _updateScroll({required ParallaxState parallaxState}) {
     _parallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset);
+    bool imageVisible = _visibilityFinder.isVisible(initialOffset: _initialOffset.h);
     if (imageVisible != _parallaxBloc.state.isImageVisible) {
       _parallaxBloc.add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

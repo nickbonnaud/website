@@ -15,7 +15,7 @@ class PricingRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 20.w),
+        padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(206, 248, 219, .4),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -23,12 +23,14 @@ class PricingRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20.w),
-              child: TitleColumn(businessListViewKey: _businessListViewKey),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 10.w),
+                child: TitleColumn(businessListViewKey: _businessListViewKey),
+              )
             ),
             Padding(
-              padding: EdgeInsets.only(right: 20.w),
+              padding: EdgeInsets.only(left: 10.w),
               child: InfoColumn(businessListViewKey: _businessListViewKey)
             ),
           ]

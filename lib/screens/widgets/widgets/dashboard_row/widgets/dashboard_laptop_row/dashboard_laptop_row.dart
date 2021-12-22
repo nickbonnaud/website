@@ -16,7 +16,7 @@ class DashboardLaptopRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.fromLTRB(60.w, 80.h, 60.w, 40.h),
+        padding: EdgeInsets.fromLTRB(60.w, 40.h, 60.w, 0),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(254, 244, 247, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
