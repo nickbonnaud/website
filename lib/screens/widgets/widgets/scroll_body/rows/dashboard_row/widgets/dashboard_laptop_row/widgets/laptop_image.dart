@@ -44,7 +44,7 @@ class _LaptopImageState extends State<LaptopImage> {
         height: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
           ? .4.sh : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
           ? .45.sh : .55.sh,
-        width: .7.sw,
+        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? .95.sw : .7.sw,
         child: Stack(
           children: [
             BlocBuilder<LaptopParallaxBloc, LaptopParallaxState>(

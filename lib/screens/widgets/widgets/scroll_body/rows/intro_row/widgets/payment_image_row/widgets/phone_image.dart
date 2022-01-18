@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
@@ -37,7 +38,8 @@ class _PhoneImageState extends State<PhoneImage> {
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
         height: .7.sh,
-        width: .25.sw,
+        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+        ? .4.sw : .25.sw,
         child: Stack(
           children: [
             BlocBuilder<ImageParallaxBloc, ImageParallaxState>(

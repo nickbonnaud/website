@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../bloc/background_parallax_bloc.dart';
 import 'bloc/background_text_bloc.dart';
@@ -57,12 +58,13 @@ class BackgroundText extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "An all in one solution.",
+                "An all in one solution",
                 style: TextStyle(
-                  fontSize: 60.sp,
+                  fontSize: _textSize(context: context),
                   fontWeight: FontWeight.bold,
                   color: Colors.white
                 ),
+                textAlign: TextAlign.center,
               )
             )
           );
@@ -74,9 +76,9 @@ class BackgroundText extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "Ready To Get Started?",
+                "Ready to get started?",
                 style: TextStyle(
-                  fontSize: 60.sp,
+                  fontSize: _textSize(context: context),
                   fontWeight: FontWeight.bold,
                   color: Colors.white
                 ),
@@ -124,5 +126,14 @@ class BackgroundText extends StatelessWidget {
       return initialPosition - state.percentDistance * initialPosition;
     }
     return (initialPosition - state.percentDistance * initialPosition) - 400;
+  }
+
+  double _textSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 128.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 96.sp;
+    }
+    return 64.sp;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/helpers/currency.dart';
 import 'package:website/resources/helpers/savings_calculator.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
@@ -72,13 +73,13 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
                 curve: _curve,
                 child: CircleAvatar(
                   backgroundColor: Colors.blue,
-                  radius: state.animationCompleted ? 150.sp : 0,
+                  radius: state.animationCompleted ? _circleRadius() : 0,
                 )
               ),
               Text(
                 _formatSavingsValue(savings: state.animationValue, state: state),
                 style: TextStyle(
-                  fontSize: 64.sp,
+                  fontSize: _fontSize(),
                   fontWeight: FontWeight.bold,
                   color: Colors.white
                 ),
@@ -101,6 +102,20 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
     return state.animationCompleted
       ? Currency.create(cents: savings.round())
       : "";
+  }
+
+  double _circleRadius() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 300.sp;
+    }
+    return 150.sp;
+  }
+
+  double _fontSize() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 128.sp;
+    }
+    return 64.sp;
   }
   
   void _didEnterView() {

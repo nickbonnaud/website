@@ -80,7 +80,7 @@ class ResultsRow extends StatelessWidget {
       text: TextSpan(
         text: "No processing or delivering bills, ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -103,7 +103,7 @@ class ResultsRow extends StatelessWidget {
       text: TextSpan(
         text: "Increase satisfaction and safety with ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -126,7 +126,7 @@ class ResultsRow extends StatelessWidget {
       text: TextSpan(
         text: "Reduce transaction fees with industry level ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [

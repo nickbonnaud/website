@@ -38,16 +38,14 @@ class _ResultsImageState extends State<ResultsImage> {
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
         height: .7.sh,
-        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) 
-          ? .55.sw : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
-          ? .4.sw : .3.sw,
+        width: _imageWidth(),
         child: Stack(
           children: [
             BlocBuilder<ResultsRowParallaxBloc, ResultsRowParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .4.sh,
+                  height: .5.sh,
                   right: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
@@ -71,6 +69,15 @@ class _ResultsImageState extends State<ResultsImage> {
   void dispose() {
     _parallaxBloc.close();
     super.dispose();
+  }
+
+  double _imageWidth() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return .55.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .4.sw;
+    }
+    return .2.sw;
   }
 
   void _updateScroll({required ParallaxState parallaxState}) {

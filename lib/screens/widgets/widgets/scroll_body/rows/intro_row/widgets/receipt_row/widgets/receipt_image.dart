@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/helpers/visibility_finder.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
@@ -35,7 +36,7 @@ class _ReceiptImageState extends State<ReceiptImage> {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
-        height: .5.sh,
+        height: .6.sh,
         width: .2.sw,
         child: Stack(
           children: [
@@ -43,8 +44,9 @@ class _ReceiptImageState extends State<ReceiptImage> {
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .45.sh,
-                  left: 0,
+                  height: .5.sh,
+                  left: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? null : 0,
+                  right: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? 0 : null,
                   top: state.entryPosition == null
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,

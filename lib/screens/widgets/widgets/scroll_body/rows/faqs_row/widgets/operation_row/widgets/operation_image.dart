@@ -41,8 +41,7 @@ class _OperationImageState extends State<OperationImage> {
       listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
       child: SizedBox(
         height: .3.sh,
-        width: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
-        ? .7.sw : .6.sw,
+        width: _imageWidth(),
         child: Stack(
           children: [
             BlocBuilder<OperationRowParallaxBloc, OperationRowParallaxState>(
@@ -74,6 +73,15 @@ class _OperationImageState extends State<OperationImage> {
   void dispose() {
     _parallaxBloc.close();
     super.dispose();
+  }
+
+  double _imageWidth() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return .8.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .7.sw;
+    }
+    return .6.sw;
   }
 
   void _updateScroll({required ParallaxState parallaxState}) {

@@ -77,7 +77,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Seamless setup in a matter of ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -97,7 +97,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Keep your ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -120,7 +120,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Zero ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context, largeMobileText: true),
+          fontSize: _textSizer.fullRowBody(context: context),
           fontWeight: FontWeight.w500,
           color: const Color.fromRGBO(96, 152, 198, 1)
         ),

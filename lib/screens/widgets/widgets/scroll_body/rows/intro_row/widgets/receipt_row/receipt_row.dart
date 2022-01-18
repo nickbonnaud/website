@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/helpers/text_sizer.dart';
 
 import 'bloc/receipt_image_parallax_bloc.dart';
@@ -18,13 +19,13 @@ class ReceiptRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 56.w),
       child: Container(
-        padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
+        padding: EdgeInsets.only(top: 20.h, right: 20.w),
         decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 248, 239, 1),
           borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: BlocProvider<ReceiptImageParallaxBloc>(
@@ -32,8 +33,10 @@ class ReceiptRow extends StatelessWidget {
                 child: ReceiptImage(businessListViewKey: _businessListViewKey),
               )
             ),
+            _separator(context: context),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
                     text: TextSpan(
@@ -80,5 +83,12 @@ class ReceiptRow extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _separator({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return SizedBox(width: 20.w);
+    }
+    return Container();
   }
 }

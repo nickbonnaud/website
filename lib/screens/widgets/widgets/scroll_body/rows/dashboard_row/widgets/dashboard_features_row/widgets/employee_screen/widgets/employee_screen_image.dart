@@ -44,7 +44,7 @@ class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .4.sh,
+                  height: .5.sh,
                   right: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
