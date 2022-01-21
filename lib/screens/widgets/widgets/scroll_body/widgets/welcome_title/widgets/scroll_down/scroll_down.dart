@@ -16,7 +16,6 @@ class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateM
   // final Curve _curve = Curves.bounceIn;
   // final Curve _curve = Curves.easeInQuint;
   
-  late final double _height;
   late final AnimationController _controller;
   late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _animationOffset;
