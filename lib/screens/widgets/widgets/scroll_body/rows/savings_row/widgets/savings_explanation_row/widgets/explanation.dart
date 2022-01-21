@@ -108,8 +108,7 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   
   void _playAnimation() {
     if (_iconController.isAnimating) return;
-    _iconController.reset();
-    _iconController.forward();
+    _iconController.forward().then((_) => _iconController.reset());
   }
   
   void _didEnterView() {
@@ -118,7 +117,7 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
     bool iconVisible = _visibilityFinder.isVisible();
 
     if (iconVisible) {
-      _iconController.forward();
+      _iconController.forward().then((value) => _iconController.reset());
     }
   }
 }

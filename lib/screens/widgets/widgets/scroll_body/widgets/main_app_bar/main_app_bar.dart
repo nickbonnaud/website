@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 class MainAppBar extends StatelessWidget {
   final ScrollController _scrollController;
@@ -31,38 +32,77 @@ class MainAppBar extends StatelessWidget {
     return SliverAppBar(
       backgroundColor: const Color(0xfff5f5f3),
       leading: Padding(
-        padding: EdgeInsets.only(left: 20.w, top: 5.h, bottom: 5.h),
-        child: const Image(image: AssetImage('assets/abstract_logo.png')),
+        padding: EdgeInsets.only(left: 20.w),
+        child: const Image(
+          image: AssetImage('assets/abstract_logo.png'),
+          fit: BoxFit.contain,
+        ),
       ),
       floating: true,
       snap: true,
       actions: [
         TextButton(
           onPressed: () => _goToSection(context: context, sectionKey: _aboutKey),
-          child: const Text(
+          child: Text(
             "About",
+            style: TextStyle(
+              fontSize: _textSize(context: context)
+            ),
           )
         ),
         TextButton(
           onPressed: () => _goToSection(context: context, sectionKey: _pricingKey),
-          child: const Text(
-            "Prices"
+          child: Text(
+            "Prices",
+            style: TextStyle(
+              fontSize: _textSize(context: context)
+            ),
           )
         ),
         TextButton(
           onPressed: () => _goToSection(context: context, sectionKey: _integrationKey),
-          child: const Text(
-            "Integrate"
+          child: Text(
+            "Integrate",
+            style: TextStyle(
+              fontSize: _textSize(context: context)
+            ),
           )
         ),
         TextButton(
           onPressed: () => _goToSection(context: context, sectionKey: _faqsKey),
-          child: const Text(
-            "FAQs"
+          child: Text(
+            "FAQs",
+            style: TextStyle(
+              fontSize: _textSize(context: context)
+            ),
+          )
+        ),
+        const VerticalDivider(),
+        TextButton(
+          onPressed: () => _goToDashboard(),
+          child: Text(
+            "Login",
+            style: TextStyle(
+              fontSize: _textSize(context: context)
+            ),
           )
         )
       ],
     );
+  }
+  
+  double _imageOffset({required GlobalKey windowKey, required RenderObject businessListViewObject}) {
+    RenderObject imageWindow = windowKey.currentContext!.findRenderObject()!;
+    return imageWindow.getTransformTo(businessListViewObject).getTranslation().y;
+  }
+
+  double _textSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 48.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 32.sp;
+    }
+    return 24.sp;
   }
 
   void _goToSection({required BuildContext context, required GlobalKey sectionKey}) {
@@ -72,8 +112,8 @@ class MainAppBar extends StatelessWidget {
     Scrollable.ensureVisible(sectionKey.currentContext!, duration: Duration(milliseconds: duration), curve: Curves.easeOut);
   }
 
-  double _imageOffset({required GlobalKey windowKey, required RenderObject businessListViewObject}) {
-    RenderObject imageWindow = windowKey.currentContext!.findRenderObject()!;
-    return imageWindow.getTransformTo(businessListViewObject).getTranslation().y;
+  void _goToDashboard() {
+    // TODO
+    // add go to customer app page
   }
 }
