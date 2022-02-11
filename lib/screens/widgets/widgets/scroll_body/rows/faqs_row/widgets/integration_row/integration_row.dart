@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:website/resources/helpers/text_sizer.dart';
+import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/integration_row_parallax_bloc.dart';
 import 'widgets/integration_image.dart';

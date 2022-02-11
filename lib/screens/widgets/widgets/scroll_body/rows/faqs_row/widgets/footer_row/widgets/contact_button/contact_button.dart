@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:website/resources/helpers/query_param_encoder.dart';
+import 'package:website/resources/query_param_encoder.dart';
 
 import 'cubit/contact_button_cubit.dart';
 

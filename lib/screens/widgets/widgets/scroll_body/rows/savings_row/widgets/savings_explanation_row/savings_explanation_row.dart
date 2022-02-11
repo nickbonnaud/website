@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:website/resources/helpers/responsive_layout_helper.dart';
-import 'package:website/resources/helpers/text_sizer.dart';
+import 'package:website/resources/responsive_layout_helper.dart';
+import 'package:website/resources/text_sizer.dart';
 
 import 'widgets/explanation.dart';
 

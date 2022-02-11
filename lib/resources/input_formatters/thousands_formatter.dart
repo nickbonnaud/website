@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:website/resources/helpers/input_formatters/formatter.dart';
+import 'package:website/resources/input_formatters/formatter.dart';
 
 class ThousandsFormatter extends Formatter {
   static const String separator = ',';

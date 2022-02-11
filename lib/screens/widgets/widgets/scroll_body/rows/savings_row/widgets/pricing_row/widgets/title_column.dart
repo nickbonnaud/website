@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:website/resources/helpers/text_sizer.dart';
-import 'package:website/resources/helpers/visibility_finder.dart';
+import 'package:website/resources/text_sizer.dart';
+import 'package:website/resources/visibility_finder.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 class TitleColumn extends StatefulWidget {

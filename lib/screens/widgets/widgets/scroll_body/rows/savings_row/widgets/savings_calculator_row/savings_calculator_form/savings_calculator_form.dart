@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:website/resources/helpers/currency.dart';
-import 'package:website/resources/helpers/input_formatters/cents_formatter.dart';
-import 'package:website/resources/helpers/input_formatters/dollar_formatter.dart';
-import 'package:website/resources/helpers/input_formatters/formatter.dart';
-import 'package:website/resources/helpers/input_formatters/percent_formatter.dart';
-import 'package:website/resources/helpers/input_formatters/thousands_formatter.dart';
+import 'package:website/resources/currency.dart';
+import 'package:website/resources/input_formatters/cents_formatter.dart';
+import 'package:website/resources/input_formatters/dollar_formatter.dart';
+import 'package:website/resources/input_formatters/formatter.dart';
+import 'package:website/resources/input_formatters/percent_formatter.dart';
+import 'package:website/resources/input_formatters/thousands_formatter.dart';
 
 import 'bloc/savings_calculator_form_bloc.dart';
 

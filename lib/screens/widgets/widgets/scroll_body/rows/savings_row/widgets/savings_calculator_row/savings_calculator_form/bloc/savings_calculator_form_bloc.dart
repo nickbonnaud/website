@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:website/resources/helpers/debouncer.dart';
-import 'package:website/resources/helpers/savings_calculator.dart';
+import 'package:website/resources/debouncer.dart';
+import 'package:website/resources/savings_calculator.dart';
 
 part 'savings_calculator_form_event.dart';
 part 'savings_calculator_form_state.dart';

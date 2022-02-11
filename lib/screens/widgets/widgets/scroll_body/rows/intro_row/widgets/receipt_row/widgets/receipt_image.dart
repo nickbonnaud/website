@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:website/resources/helpers/visibility_finder.dart';
+import 'package:website/resources/visibility_finder.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 import '../bloc/receipt_image_parallax_bloc.dart';
 

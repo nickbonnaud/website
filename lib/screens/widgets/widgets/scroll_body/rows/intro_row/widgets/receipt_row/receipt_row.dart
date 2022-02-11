@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:website/resources/helpers/text_sizer.dart';
+import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/receipt_image_parallax_bloc.dart';
 import 'widgets/receipt_image.dart';
