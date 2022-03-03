@@ -114,6 +114,6 @@ class MainAppBar extends StatelessWidget {
 
   void _goToDashboard() {
     // TODO
-    // add go to customer app page
+    // add go to dashboard
   }
 }

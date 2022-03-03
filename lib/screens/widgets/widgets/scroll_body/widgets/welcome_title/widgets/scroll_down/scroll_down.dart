@@ -11,10 +11,6 @@ class ScrollDown extends StatefulWidget {
 
 class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateMixin {
   final Curve _curve = Curves.easeInBack;
-  // final Curve _curve = Curves.easeOut;
-  // final Curve _curve = Curves.linearToEaseOut;
-  // final Curve _curve = Curves.bounceIn;
-  // final Curve _curve = Curves.easeInQuint;
   
   late final AnimationController _controller;
   late final CurvedAnimation _curvedAnimation;
