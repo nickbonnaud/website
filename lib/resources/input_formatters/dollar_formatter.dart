@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:website/resources/helpers/input_formatters/formatter.dart';
+import 'package:website/resources/input_formatters/formatter.dart';
 
 class DollarFormatter extends Formatter {
   static const String prefix = "\$";

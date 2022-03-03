@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:website/resources/helpers/input_formatters/formatter.dart';
+import 'package:website/resources/input_formatters/formatter.dart';
 
-class CentsFormatter extends Formatter {
-  static const String suffix = "¢";
+class PercentFormatter extends Formatter {
+  static const String suffix = "%";
   String value = '';
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) return newValue.copyWith(text: '');
 
-    int? newValueInteger = int.tryParse(newValue.text.replaceAll(suffix, ""));
-    if (newValueInteger == null) return oldValue;
+    double? newValueDouble = double.tryParse(newValue.text.replaceAll(suffix, ""));
+    if (newValueDouble == null || newValueDouble > 100) return oldValue;
 
     if (newValue.text.length < oldValue.text.length && !newValue.text.endsWith(suffix)) {
       int selectionIndex = newValue.text.length - newValue.selection.extentOffset;
@@ -45,6 +45,4 @@ class CentsFormatter extends Formatter {
   String unMasked() {
     return value.replaceAll(RegExp(suffix), '');
   }
-
-  
 }

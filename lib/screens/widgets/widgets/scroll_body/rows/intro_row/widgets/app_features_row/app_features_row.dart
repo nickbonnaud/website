@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:website/resources/helpers/responsive_layout_helper.dart';
+import 'package:website/resources/responsive_layout_helper.dart';
 
 import 'widgets/business_screen/bloc/business_screen_parallax_bloc.dart';
 import 'widgets/business_screen/business_screen.dart';

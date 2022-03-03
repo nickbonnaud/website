@@ -21,16 +21,4 @@ class VisibilityFinder {
 
     return (childObjectTop + _enterAnimationMinHeight + initialOffset) < parentViewHeight;
   }
-
-  bool isVisibleParallaxBackground({required double imageHeight}) {
-    RenderObject? parentObject = _parentKey.currentContext?.findRenderObject();
-    RenderObject? childObject = _childKey.currentContext?.findRenderObject();
-
-    if (parentObject == null || childObject == null) return false;
-
-    final double parentViewHeight = parentObject.paintBounds.height;
-    final double childObjectTop = childObject.getTransformTo(parentObject).getTranslation().y;
-
-    return (childObjectTop < parentViewHeight) && (childObjectTop + imageHeight >= 0);
-  }
 }

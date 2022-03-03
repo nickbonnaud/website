@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(990, 825),
       builder: () => MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Nova Pay',
         initialRoute: Routes.app,
         onGenerateRoute: (settings) => _router.goTo(context: context, settings: settings),
         theme: MainTheme.themeData(context: context),
