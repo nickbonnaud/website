@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets/pricing_row/pricing_row.dart';
 import 'widgets/savings_calculator_row/savings_calculator_form/bloc/savings_calculator_form_bloc.dart';
 import 'widgets/savings_calculator_row/savings_calculator_row.dart';
+import 'widgets/savings_explanation_row/bloc/savings_explanation_bloc.dart';
 import 'widgets/savings_explanation_row/savings_explanation_row.dart';
 import 'widgets/signup_now_row/cubit/signup_now_row_cubit.dart';
 import 'widgets/signup_now_row/signup_now_row.dart';
@@ -37,7 +38,10 @@ class SavingsRow extends StatelessWidget {
           SizedBox(height: 30.h),
           PricingRow(businessListViewKey: _businessListViewKey),
           SizedBox(height: 60.h),
-          SavingsExplanationRow(businessListViewKey: _businessListViewKey),
+          BlocProvider<SavingsExplanationBloc>(
+            create: (_) => SavingsExplanationBloc(),
+            child: SavingsExplanationRow(businessListViewKey: _businessListViewKey)
+          ),
           BlocProvider<SavingsCalculatorFormBloc>(
             create: (_) => SavingsCalculatorFormBloc(),
             child: SavingsCalculatorRow(),

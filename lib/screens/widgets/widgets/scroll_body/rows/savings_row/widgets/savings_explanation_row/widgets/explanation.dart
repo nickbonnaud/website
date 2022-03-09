@@ -6,6 +6,8 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/visibility_finder.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
+import '../bloc/savings_explanation_bloc.dart';
+
 class Explanation extends StatefulWidget {
   final String _text;
   final String _animationPath;
@@ -30,12 +32,14 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   
   late AnimationController _iconController;
   late VisibilityFinder _visibilityFinder;
+  late SavingsExplanationBloc _savingsExplanationBloc;
   
   @override
   void initState() {
     super.initState();
     _iconController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _iconGlobalKey, enterAnimationMinHeight: _enterAnimationMinHeight);
+    _savingsExplanationBloc = BlocProvider.of<SavingsExplanationBloc>(context);
   }
   
   @override
@@ -63,6 +67,7 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   @override
   void dispose() {
     _iconController.dispose();
+    _savingsExplanationBloc.close();
     super.dispose();
   }
 
@@ -112,11 +117,12 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   }
   
   void _didEnterView() {
-    if (_iconController.status != AnimationStatus.dismissed) return;
+    if (_iconController.status != AnimationStatus.dismissed || _savingsExplanationBloc.animationPlayed(animation: widget._animationPath)) return;
 
     bool iconVisible = _visibilityFinder.isVisible();
 
     if (iconVisible) {
+      _savingsExplanationBloc.add(AnimationPlayed(animation: widget._animationPath));
       _iconController.forward().then((value) => _iconController.reset());
     }
   }

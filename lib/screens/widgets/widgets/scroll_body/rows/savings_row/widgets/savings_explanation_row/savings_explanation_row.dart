@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:website/resources/responsive_layout_helper.dart';
 import 'package:website/resources/text_sizer.dart';
 
+import 'bloc/savings_explanation_bloc.dart';
 import 'widgets/explanation.dart';
 
 class SavingsExplanationRow extends StatelessWidget {
@@ -38,12 +40,12 @@ class SavingsExplanationRow extends StatelessWidget {
               context: context,
               firstWidget: Explanation(
                 text: "AI driven security reduces per transaction fees by eliminating fraud.",
-                animationPath: 'lotties/brain.zip',
+                animationPath: SavingsExplanationBloc.brainAnimation,
                 businessListViewKey: _businessListViewKey
               ),
               secondWidget: Explanation(
                 text: "No recurring fees or equipment rental costs.",
-                animationPath: 'lotties/register.zip',
+                animationPath: SavingsExplanationBloc.registerAnimation,
                 businessListViewKey: _businessListViewKey
               )
             ),
@@ -52,12 +54,12 @@ class SavingsExplanationRow extends StatelessWidget {
               context: context,
               firstWidget: Explanation(
                 text: "No hidden fees or surprise rate changes.",
-                animationPath: 'lotties/invoice.zip',
+                animationPath: SavingsExplanationBloc.invoiceAnimation,
                 businessListViewKey: _businessListViewKey
               ),
               secondWidget: Explanation(
                 text: "Payment method reduces third party fees, cutting out the middle man.",
-                animationPath: 'lotties/piggy_bank.zip',
+                animationPath: SavingsExplanationBloc.piggyBankAnimation,
                 businessListViewKey: _businessListViewKey
               )
             ),
@@ -66,12 +68,12 @@ class SavingsExplanationRow extends StatelessWidget {
               context: context,
               firstWidget: Explanation(
                 text: "Zero setup or installation costs.",
-                animationPath: 'lotties/free.zip',
+                animationPath: SavingsExplanationBloc.freeAnimation,
                 businessListViewKey: _businessListViewKey
               ),
               secondWidget: Explanation(
                 text: "No minimum per transaction amount.",
-                animationPath: 'lotties/coins.zip',
+                animationPath: SavingsExplanationBloc.coinsAnimation,
                 businessListViewKey: _businessListViewKey
               )
             )

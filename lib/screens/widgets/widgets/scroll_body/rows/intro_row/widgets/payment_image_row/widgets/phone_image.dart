@@ -39,7 +39,7 @@ class _PhoneImageState extends State<PhoneImage> {
       child: SizedBox(
         height: .7.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-        ? .4.sw : .25.sw,
+          ? .4.sw : .25.sw,
         child: Stack(
           children: [
             BlocBuilder<ImageParallaxBloc, ImageParallaxState>(
