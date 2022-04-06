@@ -7,11 +7,10 @@ import 'bloc/integration_row_parallax_bloc.dart';
 import 'widgets/integration_image.dart';
 
 class IntegrationRow  extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  IntegrationRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const IntegrationRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class IntegrationRow  extends StatelessWidget {
             ),
             BlocProvider<IntegrationRowParallaxBloc>(
               create: (_) => IntegrationRowParallaxBloc(),
-              child: IntegrationImage(businessListViewKey: _businessListViewKey),
+              child: const IntegrationImage(),
             )
           ],
         ),

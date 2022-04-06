@@ -5,11 +5,10 @@ import 'package:website/resources/text_sizer.dart';
 import 'widgets/sales_screen_image.dart';
 
 class SalesScreen extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  SalesScreen({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const SalesScreen({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,8 @@ class SalesScreen extends StatelessWidget {
               ),
             )
           ),
-          Expanded(
-            child: SalesScreenImage(businessListViewKey: _businessListViewKey),
+          const Expanded(
+            child: SalesScreenImage(),
           )
         ],
       ),

@@ -4,38 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/dashboard_complement_parallax_bloc.dart';
 
-class ComplementImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-
-  const ComplementImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
-  @override
-  State<ComplementImage> createState() => _ComplementImageState();
-}
-
-class _ComplementImageState extends State<ComplementImage> {
+class ComplementImage extends StatelessWidget {
   static const double _initialOffset = 100;
-  final GlobalKey _imageKey = GlobalKey();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late DashboardComplementParallaxBloc _parallaxBloc;
-  late VisibilityFinder _visibilityFinder;
-  
-  @override
-  void initState() {
-    super.initState();
-    _parallaxBloc = BlocProvider.of<DashboardComplementParallaxBloc>(context);
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
-  
+  const ComplementImage({Key? key})
+    : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .7.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
@@ -53,7 +37,7 @@ class _ComplementImageState extends State<ComplementImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.dashboardComplementImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/phone_1.png',
                     fit: BoxFit.fitHeight,
@@ -67,18 +51,12 @@ class _ComplementImageState extends State<ComplementImage> {
     );
   }
 
-  @override
-  void dispose() {
-    _parallaxBloc.close();
-    super.dispose();
-  }
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
+    BlocProvider.of<DashboardComplementParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-  void _updateScroll({required ParallaxState parallaxState}) {
-    _parallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
-
-    bool imageVisible = _visibilityFinder.isVisible();
-    if (imageVisible != _parallaxBloc.state.isImageVisible) {
-      _parallaxBloc.add(ImageVisibilityChanged(
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.dashboardComplementImageKey);
+    if (imageVisible != BlocProvider.of<DashboardComplementParallaxBloc>(context).state.isImageVisible) {
+      BlocProvider.of<DashboardComplementParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,
         entryPosition: imageVisible ? parallaxState.offset : null
       ));

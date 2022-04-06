@@ -5,6 +5,8 @@ import 'package:website/screens/home_screen.dart';
 
 class AppRouter {
 
+  const AppRouter();
+
   Route goTo({required BuildContext context, required RouteSettings settings}) {
     final RouteData routeData = RouteData.init(settings: settings);
 
@@ -12,10 +14,10 @@ class AppRouter {
 
     switch (routeData.route) {
       case Routes.app:
-        route = _createRouteDefault(screen: HomeScreen(), name: routeData.route);
+        route = _createRouteDefault(screen: const HomeScreen(), name: routeData.route);
         break;
       default:
-        route = _createRouteDefault(screen: HomeScreen(), name: '/');
+        route = _createRouteDefault(screen: const HomeScreen(), name: '/');
     }
 
     return route;

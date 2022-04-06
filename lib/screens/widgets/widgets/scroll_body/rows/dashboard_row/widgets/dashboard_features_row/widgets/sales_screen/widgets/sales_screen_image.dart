@@ -4,37 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/sales_screen_parallax_bloc.dart';
 
-class SalesScreenImage extends StatefulWidget {
-
-  final GlobalKey _businessListViewKey;
-
-  const SalesScreenImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
-  @override
-  State<SalesScreenImage> createState() => _SalesScreenImageState();
-}
-
-class _SalesScreenImageState extends State<SalesScreenImage> {
+class SalesScreenImage extends StatelessWidget {
   static const double _initialOffset = 125;
-  final GlobalKey _imageKey = GlobalKey();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late VisibilityFinder _visibilityFinder;
-
-  @override
-  void initState() {
-    super.initState();
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
+  const SalesScreenImage({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .6.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
@@ -51,7 +36,7 @@ class _SalesScreenImageState extends State<SalesScreenImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.dashboardSalesImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/tablet_1.png',
                     fit: BoxFit.contain,
@@ -65,10 +50,10 @@ class _SalesScreenImageState extends State<SalesScreenImage> {
     );
   }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
     BlocProvider.of<SalesScreenParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.dashboardSalesImageKey);
     if (imageVisible != BlocProvider.of<SalesScreenParallaxBloc>(context).state.isImageVisible) {
       BlocProvider.of<SalesScreenParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

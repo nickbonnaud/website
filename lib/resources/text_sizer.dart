@@ -4,6 +4,8 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 
 class TextSizer {
 
+  const TextSizer();
+
   double fullRowHeader({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 70.sp;

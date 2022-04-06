@@ -11,6 +11,9 @@ import 'widgets/view_app_button/view_app_button.dart';
 
 class FooterRow extends StatelessWidget {
 
+  const FooterRow({Key? key})
+    : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,15 +23,15 @@ class FooterRow extends StatelessWidget {
         children: [
           BlocProvider<ContactButtonCubit>(
             create: (_) => ContactButtonCubit(),
-            child: ContactButton(),
+            child: const ContactButton(),
           ),
           BlocProvider<DashboardButtonCubit>(
             create: (_) => DashboardButtonCubit(),
-            child: DashboardButton(),
+            child: const DashboardButton(),
           ),
           BlocProvider<ViewAppButtonCubit>(
             create: (_) => ViewAppButtonCubit(),
-            child: ViewAppButton(),
+            child: const ViewAppButton(),
           )
         ],
       )

@@ -11,10 +11,9 @@ import 'widgets/signup_now_row/cubit/signup_now_row_cubit.dart';
 import 'widgets/signup_now_row/signup_now_row.dart';
 
 class SavingsRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
 
-  const SavingsRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const SavingsRow({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -33,18 +32,18 @@ class SavingsRow extends StatelessWidget {
           SizedBox(height: 30.h),
           BlocProvider<SignupNowRowCubit>(
             create: (_) => SignupNowRowCubit(),
-            child: SignupNowRow(),
+            child: const SignupNowRow(),
           ),
           SizedBox(height: 30.h),
-          PricingRow(businessListViewKey: _businessListViewKey),
+          const PricingRow(),
           SizedBox(height: 60.h),
           BlocProvider<SavingsExplanationBloc>(
             create: (_) => SavingsExplanationBloc(),
-            child: SavingsExplanationRow(businessListViewKey: _businessListViewKey)
+            child: const SavingsExplanationRow()
           ),
           BlocProvider<SavingsCalculatorFormBloc>(
             create: (_) => SavingsCalculatorFormBloc(),
-            child: SavingsCalculatorRow(),
+            child: const SavingsCalculatorRow(),
           ),
         ],
       ),

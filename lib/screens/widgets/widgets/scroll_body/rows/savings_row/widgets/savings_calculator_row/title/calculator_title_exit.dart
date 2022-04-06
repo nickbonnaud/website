@@ -8,15 +8,15 @@ import '../savings_calculator_form/bloc/savings_calculator_form_bloc.dart';
 
 class CalculatorTitleExit extends StatefulWidget {
   
+  const CalculatorTitleExit({Key? key})
+    : super(key: key);
+  
   @override
   State<CalculatorTitleExit> createState() => _CalculatorTitleExit();
 }
 
-class _CalculatorTitleExit extends State<CalculatorTitleExit> with SingleTickerProviderStateMixin {
-  static const Duration _duration = Duration(seconds: 1);
-  
+class _CalculatorTitleExit extends State<CalculatorTitleExit> with SingleTickerProviderStateMixin {  
   late final AnimationController _animationController;
-  late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _exitAnimation;
   
   late final CalculatorTitleBloc _titleBloc;
@@ -25,12 +25,11 @@ class _CalculatorTitleExit extends State<CalculatorTitleExit> with SingleTickerP
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(vsync: this, duration: _duration);
-    _curvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _exitAnimation = Tween<Offset>(
       begin: Offset.zero,
       end: const Offset(-1.5, 0)
-    ).animate(_curvedAnimation);
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
 
     _titleBloc = BlocProvider.of<CalculatorTitleBloc>(context);
 

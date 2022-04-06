@@ -6,6 +6,10 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'cubit/register_button_cubit.dart';
 
 class RegisterButton extends StatefulWidget {
+
+  const RegisterButton({Key? key})
+    : super(key: key);
+  
   @override
   State<StatefulWidget> createState() => _RegisterButtonState();
 }

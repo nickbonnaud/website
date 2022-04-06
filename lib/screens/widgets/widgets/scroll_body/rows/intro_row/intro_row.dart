@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'widgets/app_features_row/app_features_row.dart';
 import 'widgets/payment_image_row/payment_image_row.dart';
 import 'widgets/receipt_row/receipt_row.dart';
 
 class IntroRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
 
-  const IntroRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const IntroRow({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,9 @@ class IntroRow extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 30.h),
-          Image(
-            image: const AssetImage('assets/logo.png'),
+          FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: '/assets/logo.png',
             width: _logoSize(context: context),
             fit: BoxFit.contain,
           ),
@@ -61,11 +62,11 @@ class IntroRow extends StatelessWidget {
             )
           ),
           SizedBox(height: 60.h),
-          PaymentImageRow(businessListViewKey: _businessListViewKey),
+          const PaymentImageRow(),
           SizedBox(height: 60.h),
-          AppFeaturesRow(businessListViewKey: _businessListViewKey),
+          const AppFeaturesRow(),
           SizedBox(height: 60.h),
-          ReceiptRow(businessListViewKey: _businessListViewKey),
+          const ReceiptRow(),
           SizedBox(height: 60.h)
         ],
       )

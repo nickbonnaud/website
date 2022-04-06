@@ -7,11 +7,10 @@ import 'bloc/laptop_parallax_bloc.dart';
 import 'widgets/laptop_image.dart';
 
 class DashboardLaptopRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  DashboardLaptopRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const DashboardLaptopRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ class DashboardLaptopRow extends StatelessWidget {
             ),
             BlocProvider<LaptopParallaxBloc>(
               create: (_) => LaptopParallaxBloc(),
-              child: LaptopImage(businessListViewKey: _businessListViewKey)
+              child: const LaptopImage()
             ),
           ],
         ),

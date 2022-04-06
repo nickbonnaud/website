@@ -7,11 +7,10 @@ import 'bloc/dashboard_complement_parallax_bloc.dart';
 import 'widgets/complement_image.dart';
 
 class DashboardComplementRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  DashboardComplementRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const DashboardComplementRow({Key? key})
+    :super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +81,7 @@ class DashboardComplementRow extends StatelessWidget {
             ),
             BlocProvider<DashboardComplementParallaxBloc>(
               create: (_) => DashboardComplementParallaxBloc(),
-              child: ComplementImage(businessListViewKey: _businessListViewKey)
+              child: const ComplementImage()
             )
           ],
         ),

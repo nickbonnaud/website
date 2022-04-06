@@ -4,37 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 import '../bloc/receipt_image_parallax_bloc.dart';
 
-class ReceiptImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-
-  const ReceiptImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey; 
-
-  @override
-  State<ReceiptImage> createState() => _ReceiptImageState();
-}
-
-class _ReceiptImageState extends State<ReceiptImage> {
+class ReceiptImage extends StatelessWidget {
   static const double _initialOffset = 200;
-  final GlobalKey _imageKey = GlobalKey();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late ReceiptImageParallaxBloc _imageParallaxBloc;
-  late VisibilityFinder _visibilityFinder;
-  
-  @override
-  void initState() {
-    super.initState();
-    _imageParallaxBloc = BlocProvider.of<ReceiptImageParallaxBloc>(context);
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
+  const ReceiptImage({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .6.sh,
         width: .2.sw,
@@ -51,7 +35,7 @@ class _ReceiptImageState extends State<ReceiptImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.receiptImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_4.png',
                     fit: BoxFit.contain,
@@ -65,18 +49,16 @@ class _ReceiptImageState extends State<ReceiptImage> {
     );
   }
 
-  @override
-  void dispose() {
-    _imageParallaxBloc.close();
-    super.dispose();
-  }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
-    _imageParallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
+    ReceiptImageParallaxBloc parallaxBloc =  BlocProvider.of<ReceiptImageParallaxBloc>(context);
+    parallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
-    if (imageVisible != _imageParallaxBloc.state.isImageVisible) {
-      _imageParallaxBloc.add(ImageVisibilityChanged(
+    KeyHolderCubit keyHoldercubit = BlocProvider.of<KeyHolderCubit>(context);
+    
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: keyHoldercubit.state.mainScrollKey, childKey: keyHoldercubit.state.receiptImageKey);
+    if (imageVisible != parallaxBloc.state.isImageVisible) {
+      parallaxBloc.add(ImageVisibilityChanged(
         isImageVisible: imageVisible,
         entryPosition: imageVisible ? parallaxState.offset : null
       ));

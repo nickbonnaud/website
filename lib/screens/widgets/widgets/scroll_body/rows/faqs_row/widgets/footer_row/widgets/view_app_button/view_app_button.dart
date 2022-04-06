@@ -8,6 +8,9 @@ import 'cubit/view_app_button_cubit.dart';
 
 class ViewAppButton extends StatefulWidget {
 
+  const ViewAppButton({Key? key})
+    : super(key: key);
+  
   @override
   State<ViewAppButton> createState() => _ViewAppButtonState();
 }

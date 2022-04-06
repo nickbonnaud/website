@@ -7,11 +7,10 @@ import 'bloc/results_row_parallax_bloc.dart';
 import 'widgets/results_image.dart';
 
 class ResultsRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  ResultsRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const ResultsRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class ResultsRow extends StatelessWidget {
               padding: EdgeInsets.only(right: 10.w),
               child: BlocProvider<ResultsRowParallaxBloc>(
                 create: (_) => ResultsRowParallaxBloc(),
-                child: ResultsImage(businessListViewKey: _businessListViewKey),
+                child: const ResultsImage(),
               )
             ),
             Expanded(

@@ -5,26 +5,26 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 
 class ScrollDown extends StatefulWidget {
 
+  const ScrollDown({Key? key})
+    : super(key: key);
+  
   @override
   State<ScrollDown> createState() => _ScrollDownState();
 }
 
-class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateMixin {
-  final Curve _curve = Curves.easeInBack;
-  
+class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateMixin {  
   late final AnimationController _controller;
-  late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _animationOffset;
 
   @override
   void initState() {
     super.initState();
+    
     _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _curvedAnimation = CurvedAnimation(parent: _controller, curve: _curve);
     _animationOffset = Tween<Offset>(
       begin: const Offset(0, .3),
       end: const Offset(0, -.3)
-    ).animate(_curvedAnimation);
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInBack));
     _controller.repeat(reverse: true);
   }
 

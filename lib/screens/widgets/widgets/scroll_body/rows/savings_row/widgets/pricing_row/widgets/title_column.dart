@@ -2,40 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:website/resources/text_sizer.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 class TitleColumn extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
 
-  const TitleColumn({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const TitleColumn({Key? key})
+    : super(key: key);
   
   @override
   State<TitleColumn> createState() => _TitleColumnState();
 }
 
 class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStateMixin {
-  static const double _enterAnimationMinHeight = 100;
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _titleGlobalKey = GlobalKey();
+  final TextSizer _textSizer = const TextSizer();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 100);
 
   late final AnimationController _animationController;
-  late final CurvedAnimation _curvedAnimation;
   late final Animation<Offset> _enterAnimation;
 
-  late VisibilityFinder _visibilityFinder;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _curvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _enterAnimation = Tween<Offset>(
       begin: const Offset(-2.0, 0),
       end: Offset.zero
-    ).animate(_curvedAnimation);
-
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _titleGlobalKey, enterAnimationMinHeight: _enterAnimationMinHeight);
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
   }
   
   @override
@@ -46,7 +40,7 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
         _updateTitleEnteredView();
       },
       child: SlideTransition(
-        key: _titleGlobalKey,
+        key: BlocProvider.of<KeyHolderCubit>(context).state.pricingTitleKey,
         position: _enterAnimation,
         child: RichText(
           text: TextSpan(
@@ -78,7 +72,9 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
   void _updateTitleEnteredView() {
     if (_animationController.status != AnimationStatus.dismissed) return;
 
-    bool iconVisible = _visibilityFinder.isVisible();
+    KeyHolderCubit cubit = BlocProvider.of<KeyHolderCubit>(context);
+    
+    bool iconVisible = _visibilityFinder.isVisible(parentKey: cubit.state.mainScrollKey, childKey: cubit.state.pricingTitleKey);
 
     if (iconVisible) {
       _animationController.forward();

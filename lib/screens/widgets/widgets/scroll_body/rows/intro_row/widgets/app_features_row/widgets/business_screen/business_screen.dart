@@ -6,11 +6,10 @@ import 'package:website/resources/text_sizer.dart';
 import 'widgets/business_screen_image.dart';
 
 class BusinessScreen extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  BusinessScreen({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const BusinessScreen({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,8 @@ class BusinessScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: BusinessScreenImage(businessListViewKey: _businessListViewKey),
+          const Expanded(
+            child: BusinessScreenImage(),
           ),
           _separator(context: context),
           Expanded(

@@ -7,11 +7,10 @@ import 'bloc/operation_row_parallax_bloc.dart';
 import 'widgets/operation_image.dart';
 
 class OperationRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  OperationRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const OperationRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class OperationRow extends StatelessWidget {
               alignment: Alignment.center,
               child: BlocProvider<OperationRowParallaxBloc>(
                 create: (_) => OperationRowParallaxBloc(),
-                child: OperationImage(businessListViewKey: _businessListViewKey),
+                child: const OperationImage(),
               ),
             )
           ],

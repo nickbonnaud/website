@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
+import 'package:website/screens/widgets/widgets/scroll_body/rows/faqs_row/widgets/footer_row/footer_row.dart';
 
 import 'rows/dashboard_row/dashboard_row.dart';
 import 'rows/faqs_row/faqs_row.dart';
@@ -9,108 +12,65 @@ import 'widgets/welcome_title/welcome_title.dart';
 
 class ScrollBody extends StatelessWidget {
   final ScrollController _scrollController;
-
-  final GlobalKey _businessListViewKey;
-
-  final GlobalKey _firstImageWindowKey;
-  final GlobalKey _firstImageWindowBottomKey;
-
-  final GlobalKey _secondImageWindowKey;
-  final GlobalKey _secondImageWindowBottomKey;
-
-  final GlobalKey _thirdImageWindowKey;
-  final GlobalKey _thirdImageWindowBottomKey;
-
-  final GlobalKey _fourthImageWindowKey;
-
-  final GlobalKey _aboutKey;
-  final GlobalKey _pricingKey;
-  final GlobalKey _integrationKey;
-  final GlobalKey _faqsKey;
   
-  const ScrollBody({
-    required ScrollController scrollController,
-    required GlobalKey businessListViewKey,
-    required GlobalKey firstImageWindowKey,
-    required GlobalKey firstImageWindowBottomKey,
-    required GlobalKey secondImageWindowKey,
-    required GlobalKey secondImageWindowBottomKey,
-    required GlobalKey thirdImageWindowKey,
-    required GlobalKey thirdImageWindowBottomKey,
-    required GlobalKey fourthImageWindowKey,
-    required GlobalKey aboutKey,
-    required GlobalKey pricingKey,
-    required GlobalKey integrationKey,
-    required GlobalKey faqsKey
-  })
+  const ScrollBody({required ScrollController scrollController, Key? key})
     : _scrollController = scrollController,
-      _businessListViewKey = businessListViewKey,
-      _firstImageWindowKey = firstImageWindowKey,
-      _firstImageWindowBottomKey = firstImageWindowBottomKey,
-      _secondImageWindowKey = secondImageWindowKey,
-      _secondImageWindowBottomKey = secondImageWindowBottomKey,
-      _thirdImageWindowKey = thirdImageWindowKey,
-      _thirdImageWindowBottomKey = thirdImageWindowBottomKey,
-      _fourthImageWindowKey = fourthImageWindowKey,
-      _aboutKey = aboutKey,
-      _pricingKey = pricingKey,
-      _integrationKey = integrationKey,
-      _faqsKey = faqsKey;
+      super(key: key);
   
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      key: _businessListViewKey,
+      key: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey,
       shrinkWrap: true,
       controller: _scrollController,
       slivers: [
         _appBar(),
         SliverToBoxAdapter(
-          key: _firstImageWindowKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.firstImageWindowKey,
           child: SizedBox(
             height: _screenHeight(context: context),
-            child: WelcomeTitle(),
+            child: const WelcomeTitle(),
           ),
         ),
         SliverToBoxAdapter(
-          key: _firstImageWindowBottomKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.firstImageWindowBottomKey,
           child: Container(),
         ),
         SliverToBoxAdapter(
-          key: _aboutKey,
-          child: IntroRow(businessListViewKey: _businessListViewKey),
+          key: BlocProvider.of<KeyHolderCubit>(context).state.aboutKey,
+          child: const IntroRow(),
         ),
         SliverToBoxAdapter(
-          key: _secondImageWindowKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.secondImageWindowKey,
           child: SizedBox(height: _screenHeight(context: context)),
         ),
         SliverToBoxAdapter(
-          key: _secondImageWindowBottomKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.secondImageWindowBottomKey,
           child: Container(),
         ),
         SliverToBoxAdapter(
-          key: _pricingKey,
-          child: SavingsRow(businessListViewKey: _businessListViewKey),
+          key: BlocProvider.of<KeyHolderCubit>(context).state.pricingKey,
+          child: const SavingsRow(),
         ),
         SliverToBoxAdapter(
-          key: _thirdImageWindowKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.thirdImageWindowKey,
           child: SizedBox(height: _screenHeight(context: context)),
         ),
         SliverToBoxAdapter(
-          key: _thirdImageWindowBottomKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.thirdImageWindowBottomKey,
           child: Container(),
         ),
         SliverToBoxAdapter(
-          key: _integrationKey,
-          child: DashboardRow(businessListViewKey: _businessListViewKey),
+          key: BlocProvider.of<KeyHolderCubit>(context).state.integrationKey,
+          child: const DashboardRow(),
         ),
         SliverToBoxAdapter(
-          key: _fourthImageWindowKey,
+          key: BlocProvider.of<KeyHolderCubit>(context).state.fourthImageWindowKey,
           child: SizedBox(height: _screenHeight(context: context)),
         ),
         SliverToBoxAdapter(
-          key: _faqsKey,
-          child: FaqsRow(businessListViewKey: _businessListViewKey)
+          key: BlocProvider.of<KeyHolderCubit>(context).state.faqsKey,
+          child: const FaqsRow()
         ),
       ],
     );
@@ -121,13 +81,6 @@ class ScrollBody extends StatelessWidget {
   }
 
   Widget _appBar() {
-    return MainAppBar(
-      scrollController: _scrollController,
-      businessListViewKey: _businessListViewKey,
-      aboutKey: _aboutKey,
-      pricingKey: _pricingKey,
-      integrationKey: _integrationKey,
-      faqsKey: _faqsKey
-    );
+    return MainAppBar(scrollController: _scrollController);
   }
 }

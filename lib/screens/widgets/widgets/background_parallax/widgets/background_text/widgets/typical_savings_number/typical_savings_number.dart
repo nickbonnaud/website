@@ -5,48 +5,37 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/currency.dart';
 import 'package:website/resources/savings_calculator.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import 'bloc/typical_savings_number_bloc.dart';
 
 class TypicalSavingsNumber extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-  final GlobalKey _secondImageWindowKey;
 
-  const TypicalSavingsNumber({
-    required GlobalKey businessListViewKey,
-    required GlobalKey secondImageWindowKey
-  })
-    : _businessListViewKey = businessListViewKey,
-      _secondImageWindowKey = secondImageWindowKey;
+  const TypicalSavingsNumber({Key? key})
+    : super(key: key);
 
   @override
   State<TypicalSavingsNumber> createState() => _TypicalSavingsNumberState();
 }
 
 class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with TickerProviderStateMixin {
-  static const double _enterAnimationMinHeight = 500;
   static const Curve _curve = Curves.linear;
   static const Duration _duration = Duration(seconds: 2);
 
   final SavingsCalculator _savingsCalculator = const SavingsCalculator();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 500);
 
   late AnimationController _animationController;
   late CurvedAnimation _curvedAnimation;
   late Animation<double> _numberAnimation;
-
-  late VisibilityFinder _visibilityFinder;
-
   late TypicalSavingsNumberBloc _numberBloc;
   
   @override
   void initState() {
     super.initState();
-
     _animationController = AnimationController(vsync: this, duration: _duration);
     _curvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
-
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: widget._secondImageWindowKey, enterAnimationMinHeight: _enterAnimationMinHeight);
     
     _numberBloc = BlocProvider.of<TypicalSavingsNumberBloc>(context);
 
@@ -122,7 +111,9 @@ class _TypicalSavingsNumberState extends State<TypicalSavingsNumber> with Ticker
     if (_numberBloc.state.animationCompleted) return;
     if (_animationController.status != AnimationStatus.dismissed) return;
 
-    bool savingsNumberVisible = _visibilityFinder.isVisible();
+    KeyHolderCubit cubit = BlocProvider.of<KeyHolderCubit>(context);
+    
+    bool savingsNumberVisible = _visibilityFinder.isVisible(parentKey: cubit.state.mainScrollKey, childKey: cubit.state.secondImageWindowKey);
 
     if (savingsNumberVisible) {
       _numberBloc.add(AnimationFinished());

@@ -5,10 +5,9 @@ import 'widgets/info_column.dart';
 import 'widgets/title_column.dart';
 
 class PricingRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
 
-  const PricingRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const PricingRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +25,12 @@ class PricingRow extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: 10.w),
-                child: TitleColumn(businessListViewKey: _businessListViewKey),
+                child: const TitleColumn(),
               )
             ),
             Padding(
               padding: EdgeInsets.only(left: 10.w),
-              child: InfoColumn(businessListViewKey: _businessListViewKey)
+              child: const InfoColumn()
             ),
           ]
         ),

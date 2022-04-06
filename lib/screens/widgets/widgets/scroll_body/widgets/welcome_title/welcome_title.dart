@@ -10,6 +10,9 @@ import 'widgets/scroll_down/scroll_down.dart';
 
 class WelcomeTitle extends StatelessWidget {
 
+  const WelcomeTitle({Key? key})
+    : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ParallaxBloc, ParallaxState>(
@@ -19,7 +22,7 @@ class WelcomeTitle extends StatelessWidget {
             Positioned(
               right: _scrollDownRight(context: context),
               top: 1.25 * state.offset + _scrollDownTop(context: context),
-              child: ScrollDown()
+              child: const ScrollDown()
             ),
             Positioned(
               left: 0,
@@ -41,7 +44,7 @@ class WelcomeTitle extends StatelessWidget {
                     SizedBox(height: 40.h),
                     BlocProvider<GetStartedButtonCubit>(
                       create: (_) => GetStartedButtonCubit(),
-                      child: GetStartedButton(),
+                      child: const GetStartedButton(),
                     )
                   ],
                 )

@@ -1,31 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:transparent_image/transparent_image.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 
 class MainAppBar extends StatelessWidget {
   final ScrollController _scrollController;
 
-  final GlobalKey _businessListViewKey;
-
-  final GlobalKey _aboutKey;
-  final GlobalKey _pricingKey;
-  final GlobalKey _integrationKey;
-  final GlobalKey _faqsKey;
-
-  const MainAppBar({
-    required ScrollController scrollController,
-    required GlobalKey businessListViewKey,
-    required GlobalKey aboutKey,
-    required GlobalKey pricingKey,
-    required GlobalKey integrationKey,
-    required GlobalKey faqsKey
-  })
+  const MainAppBar({required ScrollController scrollController, Key? key})
     : _scrollController = scrollController,
-      _businessListViewKey = businessListViewKey,
-      _aboutKey = aboutKey,
-      _pricingKey = pricingKey,
-      _integrationKey = integrationKey,
-      _faqsKey = faqsKey;
+      super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +18,20 @@ class MainAppBar extends StatelessWidget {
       backgroundColor: const Color(0xfff5f5f3),
       leading: Padding(
         padding: EdgeInsets.only(left: 20.w),
-        child: const Image(
-          image: AssetImage('assets/abstract_logo.png'),
+        child: FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: '/assets/abstract_logo.png',
           fit: BoxFit.contain,
-        ),
+        )
       ),
       floating: true,
       snap: true,
       actions: [
         TextButton(
-          onPressed: () => _goToSection(context: context, sectionKey: _aboutKey),
+          onPressed: () => _goToSection(
+            context: context,
+            sectionKey: BlocProvider.of<KeyHolderCubit>(context).state.aboutKey
+          ),
           child: Text(
             "About",
             style: TextStyle(
@@ -51,7 +40,10 @@ class MainAppBar extends StatelessWidget {
           )
         ),
         TextButton(
-          onPressed: () => _goToSection(context: context, sectionKey: _pricingKey),
+          onPressed: () => _goToSection(
+            context: context,
+            sectionKey: BlocProvider.of<KeyHolderCubit>(context).state.pricingKey
+          ),
           child: Text(
             "Prices",
             style: TextStyle(
@@ -60,7 +52,10 @@ class MainAppBar extends StatelessWidget {
           )
         ),
         TextButton(
-          onPressed: () => _goToSection(context: context, sectionKey: _integrationKey),
+          onPressed: () => _goToSection(
+            context: context,
+            sectionKey: BlocProvider.of<KeyHolderCubit>(context).state.integrationKey
+          ),
           child: Text(
             "Integrate",
             style: TextStyle(
@@ -69,7 +64,10 @@ class MainAppBar extends StatelessWidget {
           )
         ),
         TextButton(
-          onPressed: () => _goToSection(context: context, sectionKey: _faqsKey),
+          onPressed: () => _goToSection(
+            context: context,
+            sectionKey: BlocProvider.of<KeyHolderCubit>(context).state.faqsKey
+          ),
           child: Text(
             "FAQs",
             style: TextStyle(
@@ -106,7 +104,7 @@ class MainAppBar extends StatelessWidget {
   }
 
   void _goToSection({required BuildContext context, required GlobalKey sectionKey}) {
-    int offset = (_imageOffset(windowKey: sectionKey, businessListViewObject: _businessListViewKey.currentContext!.findRenderObject()!) - _scrollController.offset).round().abs();
+    int offset = (_imageOffset(windowKey: sectionKey, businessListViewObject: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey.currentContext!.findRenderObject()!) - _scrollController.offset).round().abs();
     int duration = (offset / (MediaQuery.of(context).size.height / 2)).round();
     duration = duration == 0 ? 500 : duration * 150;
     Scrollable.ensureVisible(sectionKey.currentContext!, duration: Duration(milliseconds: duration), curve: Curves.easeOut);

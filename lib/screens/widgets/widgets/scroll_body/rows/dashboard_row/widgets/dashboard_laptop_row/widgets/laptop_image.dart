@@ -4,42 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/laptop_parallax_bloc.dart';
 
-class LaptopImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
+class LaptopImage extends StatelessWidget {
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  const LaptopImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const LaptopImage({Key? key})
+    : super(key: key);
 
-  @override
-  State<LaptopImage> createState() => _LaptopImageState();
-}
-
-class _LaptopImageState extends State<LaptopImage> {
-  final GlobalKey _imageKey = GlobalKey();
-
-  late LaptopParallaxBloc _laptopParallaxBloc;
-  late VisibilityFinder _visibilityFinder;
-  late double _initialOffset;
-  
-  @override
-  void initState() {
-    super.initState();
-    _laptopParallaxBloc = BlocProvider.of<LaptopParallaxBloc>(context);
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
-  
   @override
   Widget build(BuildContext context) {
-    _initialOffset = ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-      ? 25 : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
-      ? 50 : 75;
-
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
           ? .4.sh : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
@@ -55,10 +34,10 @@ class _LaptopImageState extends State<LaptopImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset.h
-                    : state.parallaxOffset.h + _initialOffset.h,
+                    ? _initialOffset(context: context).h
+                    : state.parallaxOffset.h + _initialOffset(context: context).h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.dashboardLaptopImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/laptop.png',
                     fit: BoxFit.contain,
@@ -72,18 +51,18 @@ class _LaptopImageState extends State<LaptopImage> {
     );
   }
 
-  @override
-  void dispose() {
-    _laptopParallaxBloc.close();
-    super.dispose();
+  double _initialOffset({required BuildContext context}) {
+    return ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+      ? 25 : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
+      ? 50 : 75;
   }
   
-  void _updateScroll({required ParallaxState parallaxState}) {
-    _laptopParallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
+    BlocProvider.of<LaptopParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
-    if (imageVisible != _laptopParallaxBloc.state.isImageVisible) {
-      _laptopParallaxBloc.add(ImageVisibilityChanged(
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.dashboardLaptopImageKey);
+    if (imageVisible != BlocProvider.of<LaptopParallaxBloc>(context).state.isImageVisible) {
+      BlocProvider.of<LaptopParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,
         entryPosition: imageVisible ? parallaxState.offset : null
       ));

@@ -8,11 +8,10 @@ import 'bloc/receipt_image_parallax_bloc.dart';
 import 'widgets/receipt_image.dart';
 
 class ReceiptRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  ReceiptRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const ReceiptRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class ReceiptRow extends StatelessWidget {
             Expanded(
               child: BlocProvider<ReceiptImageParallaxBloc>(
                 create: (_) => ReceiptImageParallaxBloc(),
-                child: ReceiptImage(businessListViewKey: _businessListViewKey),
+                child: const ReceiptImage(),
               )
             ),
             _separator(context: context),

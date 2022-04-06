@@ -4,44 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/operation_row_parallax_bloc.dart';
 
-class OperationImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
+class OperationImage extends StatelessWidget {
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  const OperationImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const OperationImage({Key? key})
+    : super(key: key);
 
-  @override
-  State<OperationImage> createState() => _OperationImageState();
-}
-
-class _OperationImageState extends State<OperationImage> {
-  final GlobalKey _imageKey = GlobalKey();
-
-  late OperationRowParallaxBloc _parallaxBloc;
-  late VisibilityFinder _visibilityFinder;
-  late double _initialOffset;
-  
-  @override
-  void initState() {
-    super.initState();
-    _parallaxBloc = BlocProvider.of<OperationRowParallaxBloc>(context);
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
-  
   @override
   Widget build(BuildContext context) {
-    _initialOffset = ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-      ? 50 : 100;
-
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .3.sh,
-        width: _imageWidth(),
+        width: _imageWidth(context: context),
         child: Stack(
           children: [
             BlocBuilder<OperationRowParallaxBloc, OperationRowParallaxState>(
@@ -52,10 +32,10 @@ class _OperationImageState extends State<OperationImage> {
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
-                    ? _initialOffset.h
-                    : state.parallaxOffset.h + _initialOffset.h,
+                    ? _initialOffset(context: context).h
+                    : state.parallaxOffset.h + _initialOffset(context: context).h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.faqsOperationImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_5.png',
                     fit: BoxFit.contain,
@@ -69,13 +49,12 @@ class _OperationImageState extends State<OperationImage> {
     );
   }
 
-  @override
-  void dispose() {
-    _parallaxBloc.close();
-    super.dispose();
+  double _initialOffset({required BuildContext context}) {
+    return ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
+      ? 50 : 100;
   }
-
-  double _imageWidth() {
+  
+  double _imageWidth({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return .8.sw;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
@@ -84,12 +63,12 @@ class _OperationImageState extends State<OperationImage> {
     return .6.sw;
   }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
-    _parallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
+    BlocProvider.of<OperationRowParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
-    if (imageVisible != _parallaxBloc.state.isImageVisible) {
-      _parallaxBloc.add(ImageVisibilityChanged(
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.faqsOperationImageKey);
+    if (imageVisible != BlocProvider.of<OperationRowParallaxBloc>(context).state.isImageVisible) {
+      BlocProvider.of<OperationRowParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,
         entryPosition: imageVisible ? parallaxState.offset : null
       ));

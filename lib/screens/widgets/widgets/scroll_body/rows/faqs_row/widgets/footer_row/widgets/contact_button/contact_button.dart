@@ -10,12 +10,15 @@ import 'cubit/contact_button_cubit.dart';
 
 class ContactButton extends StatefulWidget {
   
+  const ContactButton({Key? key})
+    : super(key: key);
+  
   @override
   State<ContactButton> createState() => _ContactButtonState();
 }
 
 class _ContactButtonState extends State<ContactButton> with SingleTickerProviderStateMixin {
-  final QueryParamEncoder _queryParamEncoder = QueryParamEncoder();
+  final QueryParamEncoder _queryParamEncoder = const QueryParamEncoder();
   
   late AnimationController _iconController;
 

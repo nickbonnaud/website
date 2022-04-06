@@ -10,10 +10,9 @@ import 'widgets/ready_button/ready_button.dart';
 import 'widgets/results_row/results_row.dart';
 
 class FaqsRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
 
-  const FaqsRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const FaqsRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +29,19 @@ class FaqsRow extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 30.h),
-          IntegrationRow(businessListViewKey: _businessListViewKey),
+          const IntegrationRow(),
           SizedBox(height: 60.h),
-          OperationRow(businessListViewKey: _businessListViewKey),
+          const OperationRow(),
           SizedBox(height: 60.h),
-          ResultsRow(businessListViewKey: _businessListViewKey),
-          SizedBox(height: 60.h),
+          const ResultsRow(),
+          SizedBox(height: 30.h),
           BlocProvider<ReadyButtonCubit>(
             create: (_) => ReadyButtonCubit(),
-            child: ReadyButton(),
+            child: const ReadyButton(),
           ),
-          SizedBox(height: 120.h),
+          SizedBox(height: 30.h),
           const Divider(),
-          FooterRow(),
+          const FooterRow(),
         ],
       )
     );

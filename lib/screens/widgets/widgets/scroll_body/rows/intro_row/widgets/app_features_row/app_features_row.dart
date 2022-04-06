@@ -10,11 +10,10 @@ import 'widgets/notification_screen/bloc/notification_screen_parallax_bloc.dart'
 import 'widgets/notification_screen/notification_screen.dart';
 
 class AppFeaturesRow extends StatelessWidget {
-  final ResponsiveLayoutHelper _layoutHelper = ResponsiveLayoutHelper();
-  final GlobalKey _businessListViewKey;
+  final ResponsiveLayoutHelper _layoutHelper = const ResponsiveLayoutHelper();
 
-  AppFeaturesRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const AppFeaturesRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +34,15 @@ class AppFeaturesRow extends StatelessWidget {
           columnCrossAxisAlignment: CrossAxisAlignment.center,
           rowSpacing: 20.w,
           columnSpacing: 60.h,
+          // ignore: prefer_const_literals_to_create_immutables
           children: [
-            ResponsiveRowColumnItem(
+            const ResponsiveRowColumnItem(
               rowFit: FlexFit.tight,
-              child: BusinessScreen(businessListViewKey: _businessListViewKey)
+              child: BusinessScreen()
             ),
-            ResponsiveRowColumnItem(
+            const ResponsiveRowColumnItem(
               rowFit: FlexFit.tight,
-              child: NotificationScreen(businessListViewKey: _businessListViewKey)
+              child: NotificationScreen()
             )
           ],
         )

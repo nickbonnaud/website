@@ -4,14 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/image_parallax_bloc.dart';
-import 'widgets/phone_image.dart';
+import 'widgets/payment_image.dart';
 
 class PaymentImageRow extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  PaymentImageRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const PaymentImageRow({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,7 @@ class PaymentImageRow extends StatelessWidget {
             ),
             BlocProvider<ImageParallaxBloc>(
               create: (_) => ImageParallaxBloc(),
-              child: PhoneImage(businessListViewKey: _businessListViewKey),
+              child: const PaymentImage(),
             )
           ],
         ),

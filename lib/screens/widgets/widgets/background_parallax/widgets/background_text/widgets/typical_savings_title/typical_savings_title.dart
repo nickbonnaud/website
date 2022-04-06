@@ -4,6 +4,9 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 
 class TypicalSavingsTitle extends StatelessWidget {
   
+  const TypicalSavingsTitle({Key? key})
+    : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Text(

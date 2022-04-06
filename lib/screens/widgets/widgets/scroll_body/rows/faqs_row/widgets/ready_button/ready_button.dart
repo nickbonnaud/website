@@ -7,6 +7,9 @@ import 'cubit/ready_button_cubit.dart';
 
 class ReadyButton extends StatefulWidget {
 
+  const ReadyButton({Key? key})
+    : super(key: key);
+  
   @override
   State<ReadyButton> createState() => _ReadyButtonState();
 }

@@ -4,38 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/image_parallax_bloc.dart';
 
-class PhoneImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-
-  const PhoneImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
-  @override
-  State<PhoneImage> createState() => _PhoneImageState();
-}
-
-class _PhoneImageState extends State<PhoneImage> {
+class PaymentImage extends StatelessWidget {
   static const double _initialOffset = 100;
-  final GlobalKey _imageKey = GlobalKey();
+  final  VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late ImageParallaxBloc _imageParallaxBloc;
-  late VisibilityFinder _visibilityFinder;
-
-  @override
-  void initState() {
-    super.initState();
-    _imageParallaxBloc = BlocProvider.of<ImageParallaxBloc>(context);
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
+  const PaymentImage({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .7.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
@@ -53,7 +37,7 @@ class _PhoneImageState extends State<PhoneImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.paymentImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_2.png',
                     fit: BoxFit.contain
@@ -67,18 +51,13 @@ class _PhoneImageState extends State<PhoneImage> {
     );
   }
 
-  @override
-  void dispose() {
-    _imageParallaxBloc.close();
-    super.dispose();
-  }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
-    _imageParallaxBloc.add(CurrentPositionChanged(currentPosition: parallaxState.offset));
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
+    BlocProvider.of<ImageParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
-    if (imageVisible != _imageParallaxBloc.state.isImageVisible) {
-      _imageParallaxBloc.add(ImageVisibilityChanged(
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.paymentImageKey);
+    if (imageVisible != BlocProvider.of<ImageParallaxBloc>(context).state.isImageVisible) {
+      BlocProvider.of<ImageParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,
         entryPosition: imageVisible ? parallaxState.offset : null
       ));

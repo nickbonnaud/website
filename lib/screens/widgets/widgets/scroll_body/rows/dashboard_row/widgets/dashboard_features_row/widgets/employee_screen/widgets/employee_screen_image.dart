@@ -4,36 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/employee_screen_parallax_bloc.dart';
 
-class EmployeeScreenImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-
-  const EmployeeScreenImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
-  @override
-  State<EmployeeScreenImage> createState() => _EmployeeScreenImageState();
-}
-
-class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
+class EmployeeScreenImage extends StatelessWidget {
   static const double _initialOffset = 150;
-  final GlobalKey _imageKey = GlobalKey();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late VisibilityFinder _visibilityFinder;
+  const EmployeeScreenImage({Key? key})
+    : super(key: key);
 
-  @override
-  void initState() {
-    super.initState();
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
-  
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .6.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
@@ -50,7 +36,7 @@ class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.dashboardEmployeeImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/dashboard/phone_2.png',
                     fit: BoxFit.contain,
@@ -64,10 +50,10 @@ class _EmployeeScreenImageState extends State<EmployeeScreenImage> {
     );
   }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
     BlocProvider.of<EmployeeScreenParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: BlocProvider.of<KeyHolderCubit>(context).state.mainScrollKey, childKey: BlocProvider.of<KeyHolderCubit>(context).state.dashboardEmployeeImageKey);
     if (imageVisible != BlocProvider.of<EmployeeScreenParallaxBloc>(context).state.isImageVisible) {
       BlocProvider.of<EmployeeScreenParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

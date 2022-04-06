@@ -8,6 +8,9 @@ import 'cubit/dashboard_button_cubit.dart';
 
 class DashboardButton extends StatefulWidget {
   
+  const DashboardButton({Key? key})
+    : super(key: key);
+  
   @override
   State<DashboardButton> createState() => _DashboardButtonState();
 }

@@ -7,6 +7,9 @@ import 'cubit/get_started_button_cubit.dart';
 
 class GetStartedButton extends StatefulWidget {
 
+  const GetStartedButton({Key? key})
+    : super(key: key);
+  
   @override
   State<GetStartedButton> createState() => _GetStartedButtonState();
 }

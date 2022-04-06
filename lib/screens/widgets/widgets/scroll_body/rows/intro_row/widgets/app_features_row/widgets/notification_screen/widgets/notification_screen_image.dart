@@ -4,36 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/resources/visibility_finder.dart';
+import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 
 import '../bloc/notification_screen_parallax_bloc.dart';
 
-class NotificationScreenImage extends StatefulWidget {
-  final GlobalKey _businessListViewKey;
-
-  const NotificationScreenImage({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
-
-  @override
-  State<NotificationScreenImage> createState() => _NotificationScreenImageState();
-}
-
-class _NotificationScreenImageState extends State<NotificationScreenImage> {
+class NotificationScreenImage extends StatelessWidget {
   static const double _initialOffset = 120;
-  final GlobalKey _imageKey = GlobalKey();
+  final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
-  late VisibilityFinder _visibilityFinder;
-  
-  @override
-  void initState() {
-    super.initState();
-    _visibilityFinder = VisibilityFinder(parentKey: widget._businessListViewKey, childKey: _imageKey, enterAnimationMinHeight: 0);
-  }
-  
+  const NotificationScreenImage({Key? key})
+    : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ParallaxBloc, ParallaxState>(
-      listener: (context, parallaxState) => _updateScroll(parallaxState: parallaxState),
+      listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
         height: .6.sh,
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
@@ -50,7 +36,7 @@ class _NotificationScreenImageState extends State<NotificationScreenImage> {
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
                   child: FadeInImage.memoryNetwork(
-                    key: _imageKey,
+                    key: BlocProvider.of<KeyHolderCubit>(context).state.notificationImageKey,
                     placeholder: kTransparentImage,
                     image: '/assets/phone_app/phone_3.png',
                     fit: BoxFit.contain,
@@ -64,10 +50,12 @@ class _NotificationScreenImageState extends State<NotificationScreenImage> {
     );
   }
 
-  void _updateScroll({required ParallaxState parallaxState}) {
+  void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
     BlocProvider.of<NotificationScreenParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));
 
-    bool imageVisible = _visibilityFinder.isVisible();
+    KeyHolderCubit cubit = BlocProvider.of<KeyHolderCubit>(context);
+    
+    bool imageVisible = _visibilityFinder.isVisible(parentKey: cubit.state.mainScrollKey, childKey: cubit.state.notificationImageKey);
     if (imageVisible != BlocProvider.of<NotificationScreenParallaxBloc>(context).state.isImageVisible) {
       BlocProvider.of<NotificationScreenParallaxBloc>(context).add(ImageVisibilityChanged(
         isImageVisible: imageVisible,

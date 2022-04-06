@@ -6,11 +6,10 @@ import 'package:website/resources/text_sizer.dart';
 import 'widgets/notification_screen_image.dart';
 
 class NotificationScreen extends StatelessWidget {
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final TextSizer _textSizer = const TextSizer();
 
-  NotificationScreen({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const NotificationScreen({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +66,8 @@ class NotificationScreen extends StatelessWidget {
             )
           ),
           _separator(context: context),
-          Expanded(
-            child: NotificationScreenImage(businessListViewKey: _businessListViewKey),
+          const Expanded(
+            child: NotificationScreenImage(),
           )
         ],
       ),

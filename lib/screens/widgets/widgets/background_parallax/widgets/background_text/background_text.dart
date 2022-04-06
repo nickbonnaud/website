@@ -10,12 +10,9 @@ import 'widgets/typical_savings_number/typical_savings_number.dart';
 import 'widgets/typical_savings_title/typical_savings_title.dart';
 
 class BackgroundText extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
-  final GlobalKey _secondImageWindowKey;
   
-  const BackgroundText({required GlobalKey businessListViewKey, required GlobalKey secondImageWindowKey})
-    : _businessListViewKey = businessListViewKey,
-      _secondImageWindowKey = secondImageWindowKey;
+  const BackgroundText({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,7 @@ class BackgroundText extends StatelessWidget {
                 left: 0,
                 right: 0,
                 top: _savingsTitleTop(context: context, state: state),
-                child: Align(
+                child: const Align(
                   alignment: Alignment.center,
                   child: TypicalSavingsTitle(),
                 )
@@ -41,10 +38,7 @@ class BackgroundText extends StatelessWidget {
                   alignment: Alignment.center,
                   child: BlocProvider<TypicalSavingsNumberBloc>(
                     create: (_) => TypicalSavingsNumberBloc(),
-                    child: TypicalSavingsNumber(
-                      businessListViewKey: _businessListViewKey,
-                      secondImageWindowKey: _secondImageWindowKey,
-                    ),
+                    child: const TypicalSavingsNumber(),
                   )
                 )
               ),

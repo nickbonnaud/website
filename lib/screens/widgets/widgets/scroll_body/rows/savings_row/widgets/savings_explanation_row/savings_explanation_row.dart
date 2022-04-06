@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:website/resources/responsive_layout_helper.dart';
@@ -9,12 +8,11 @@ import 'bloc/savings_explanation_bloc.dart';
 import 'widgets/explanation.dart';
 
 class SavingsExplanationRow extends StatelessWidget {
-  final ResponsiveLayoutHelper _layoutHelper = ResponsiveLayoutHelper();
-  final TextSizer _textSizer = TextSizer();
-  final GlobalKey _businessListViewKey;
+  final ResponsiveLayoutHelper _layoutHelper = const ResponsiveLayoutHelper();
+  final TextSizer _textSizer = const TextSizer();
 
-  SavingsExplanationRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey; 
+  const SavingsExplanationRow({Key? key})
+    : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -38,43 +36,37 @@ class SavingsExplanationRow extends StatelessWidget {
             SizedBox(height: 30.h),
             _responsiveLayout(
               context: context,
-              firstWidget: Explanation(
+              firstWidget: const Explanation(
                 text: "AI driven security reduces per transaction fees by eliminating fraud.",
                 animationPath: SavingsExplanationBloc.brainAnimation,
-                businessListViewKey: _businessListViewKey
               ),
-              secondWidget: Explanation(
+              secondWidget: const Explanation(
                 text: "No recurring fees or equipment rental costs.",
                 animationPath: SavingsExplanationBloc.registerAnimation,
-                businessListViewKey: _businessListViewKey
               )
             ),
             SizedBox(height: 30.h),
             _responsiveLayout(
               context: context,
-              firstWidget: Explanation(
+              firstWidget: const Explanation(
                 text: "No hidden fees or surprise rate changes.",
                 animationPath: SavingsExplanationBloc.invoiceAnimation,
-                businessListViewKey: _businessListViewKey
               ),
-              secondWidget: Explanation(
+              secondWidget: const Explanation(
                 text: "Payment method reduces third party fees, cutting out the middle man.",
                 animationPath: SavingsExplanationBloc.piggyBankAnimation,
-                businessListViewKey: _businessListViewKey
               )
             ),
             SizedBox(height: 30.h),
             _responsiveLayout(
               context: context,
-              firstWidget: Explanation(
+              firstWidget: const Explanation(
                 text: "Zero setup or installation costs.",
                 animationPath: SavingsExplanationBloc.freeAnimation,
-                businessListViewKey: _businessListViewKey
               ),
-              secondWidget: Explanation(
+              secondWidget: const Explanation(
                 text: "No minimum per transaction amount.",
                 animationPath: SavingsExplanationBloc.coinsAnimation,
-                businessListViewKey: _businessListViewKey
               )
             )
           ],

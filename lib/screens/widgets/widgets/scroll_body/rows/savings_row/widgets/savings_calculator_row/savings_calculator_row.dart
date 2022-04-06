@@ -10,6 +10,9 @@ import 'title/calculator_title_exit.dart';
 
 class SavingsCalculatorRow extends StatelessWidget {
 
+  const SavingsCalculatorRow({Key? key})
+    : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +26,7 @@ class SavingsCalculatorRow extends StatelessWidget {
                   create: (_) => CalculatorTitleBloc(savingsCalculatorFormBloc: BlocProvider.of<SavingsCalculatorFormBloc>(context)),
                   child: Stack(
                     alignment: Alignment.center,
-                    children: [
+                    children: const [
                       CalculatorTitleExit(),
                       CalculatorTitleEnter()
                     ],
@@ -31,7 +34,7 @@ class SavingsCalculatorRow extends StatelessWidget {
                 ),
               if (state.isFieldVisible && !state.formSubmitted)
                 SizedBox(height: 20.h),
-              SavingsCalculatorForm(),
+              const SavingsCalculatorForm(),
             ]
           );
         }

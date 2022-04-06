@@ -14,6 +14,9 @@ import 'bloc/savings_calculator_form_bloc.dart';
 
 class SavingsCalculatorForm extends StatefulWidget {
 
+  const SavingsCalculatorForm({Key? key})
+    : super(key: key);
+  
   @override
   State<SavingsCalculatorForm> createState() => _SavingsCalculatorFormState();
 }

@@ -6,6 +6,10 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'cubit/signup_now_row_cubit.dart';
 
 class SignupNowRow extends StatefulWidget {
+  
+  const SignupNowRow({Key? key})
+    : super(key: key);
+  
   @override
   State<StatefulWidget> createState() => _SignupNowRowState();
 }

@@ -9,10 +9,9 @@ import 'widgets/register_button/cubit/register_button_cubit.dart';
 import 'widgets/register_button/register_button.dart';
 
 class DashboardRow extends StatelessWidget {
-  final GlobalKey _businessListViewKey;
 
-  const DashboardRow({required GlobalKey businessListViewKey})
-    : _businessListViewKey = businessListViewKey;
+  const DashboardRow({Key? key})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +28,16 @@ class DashboardRow extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 30.h),
-          DashboardLaptopRow(businessListViewKey: _businessListViewKey),
+          const DashboardLaptopRow(),
           SizedBox(height: 60.h),
-          DashboardFeaturesRow(businessListViewKey: _businessListViewKey),
+          const DashboardFeaturesRow(),
           SizedBox(height: 15.h),
           BlocProvider<RegisterButtonCubit>(
             create: (_) => RegisterButtonCubit(),
-            child: RegisterButton()
+            child: const RegisterButton()
           ),
           SizedBox(height: 15.h),
-          DashboardComplementRow(businessListViewKey: _businessListViewKey),
+          const DashboardComplementRow(),
           SizedBox(height: 60.h)
         ],
       ),
