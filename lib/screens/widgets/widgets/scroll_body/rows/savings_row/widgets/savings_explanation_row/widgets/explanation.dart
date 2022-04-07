@@ -118,6 +118,8 @@ class _ExplanationState extends State<Explanation> with SingleTickerProviderStat
   double _textSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 45.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
       return 40.sp;
     }

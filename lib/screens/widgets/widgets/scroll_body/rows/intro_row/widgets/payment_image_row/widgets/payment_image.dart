@@ -21,7 +21,7 @@ class PaymentImage extends StatelessWidget {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
-        height: .7.sh,
+        height: _boxHeight(context: context),
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
           ? .4.sw : .25.sw,
         child: Stack(
@@ -30,7 +30,7 @@ class PaymentImage extends StatelessWidget {
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .6.sh,
+                  height: _imageSize(context: context),
                   left: 0,
                   right: 0,
                   top: state.entryPosition == null
@@ -51,6 +51,21 @@ class PaymentImage extends StatelessWidget {
     );
   }
 
+  double _imageSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .55.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .45.sh;
+    }
+    return .6.sh;
+  }
+
+  double _boxHeight({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .5.sh;
+    }
+    return .7.sh;
+  }
 
   void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
     BlocProvider.of<ImageParallaxBloc>(context).add(CurrentPositionChanged(currentPosition: parallaxState.offset));

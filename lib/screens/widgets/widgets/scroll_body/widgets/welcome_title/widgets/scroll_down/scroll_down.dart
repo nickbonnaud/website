@@ -64,13 +64,16 @@ class _ScrollDownState extends State<ScrollDown> with SingleTickerProviderStateM
   double _dynamicWidth() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 100.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 50.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 55.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return 35.sp;
-    } else {
-      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return 30.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_DESKTOP')) {
+      return 25.sp;
     }
+    return 20.sp;
   }
 
   double _dynamicHeight() {

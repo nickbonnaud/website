@@ -28,9 +28,8 @@ class ReceiptImage extends StatelessWidget {
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .5.sh,
-                  left: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? null : 0,
-                  right: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? 0 : null,
+                  height: _imageSize(context: context),
+                  left: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? -25 : 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
                     : state.parallaxOffset.h + _initialOffset.h,
@@ -49,6 +48,16 @@ class ReceiptImage extends StatelessWidget {
     );
   }
 
+  double _imageSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .45.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .5.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return .6.sh;
+    }
+    return .7.sh;
+  }
 
   void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {
     ReceiptImageParallaxBloc parallaxBloc =  BlocProvider.of<ReceiptImageParallaxBloc>(context);

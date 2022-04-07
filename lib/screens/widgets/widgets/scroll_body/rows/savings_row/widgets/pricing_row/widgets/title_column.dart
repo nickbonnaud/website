@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/text_sizer.dart';
 import 'package:website/resources/visibility_finder.dart';
 import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
@@ -46,7 +48,7 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
           text: TextSpan(
             text: "Rates, Made ",
             style: TextStyle(
-              fontSize: _textSizer.fullRowHeader(context: context),
+              fontSize: _textSize(),
               fontWeight: FontWeight.bold
             ),
             children: const [
@@ -67,6 +69,17 @@ class _TitleColumnState extends State<TitleColumn> with SingleTickerProviderStat
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  double _textSize() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 40.sp;
+    }
+    return 50.sp;
   }
 
   void _updateTitleEnteredView() {

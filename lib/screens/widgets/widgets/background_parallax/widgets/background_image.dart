@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
 
@@ -19,7 +20,7 @@ class BackgroundImage extends StatelessWidget {
       },
       builder: (context, state) {
         return Positioned(
-          top: state.topOffset,
+          top: state.topOffset + _offsetAdjustment(context: context),
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: state.currentImage,
@@ -43,6 +44,13 @@ class BackgroundImage extends StatelessWidget {
   double _imageOffset({required GlobalKey windowKey, required RenderObject businessListViewObject}) {
     RenderObject imageWindow = windowKey.currentContext!.findRenderObject()!;
     return imageWindow.getTransformTo(businessListViewObject).getTranslation().y;
+  }
+
+  double _offsetAdjustment({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 50;
+    }
+    return 0;
   }
 
   void _handleScrollChanged({required BuildContext context, required BackgroundParallaxState state}) {

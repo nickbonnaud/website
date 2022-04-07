@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
-import 'package:website/screens/widgets/widgets/scroll_body/rows/faqs_row/widgets/footer_row/footer_row.dart';
 
 import 'rows/dashboard_row/dashboard_row.dart';
 import 'rows/faqs_row/faqs_row.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/dashboard_complement_parallax_bloc.dart';
@@ -33,7 +34,7 @@ class DashboardComplementRow extends StatelessWidget {
                     text: TextSpan(
                       text: "Best ",
                       style: TextStyle(
-                        fontSize: _textSizer.fullRowHeader(context: context),
+                        fontSize: _header(context: context),
                         fontWeight: FontWeight.w800,
                         color: const Color.fromRGBO(121, 96, 241, 1)
                       ),
@@ -52,7 +53,7 @@ class DashboardComplementRow extends StatelessWidget {
                     text: TextSpan(
                       text: "Nova Dashboard ",
                       style: TextStyle(
-                        fontSize: _textSizer.fullRowHeader(context: context),
+                        fontSize: _subHeader(context: context),
                         fontWeight: FontWeight.w800,
                       ),
                       children: const [
@@ -87,5 +88,23 @@ class DashboardComplementRow extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _header({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 60.sp;
+    }
+    return 50.sp;
+  }
+
+  double _subHeader({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 65.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 50.sp;
+    }
+    return 45.sp;
   }
 }

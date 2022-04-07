@@ -64,24 +64,28 @@ class _DashboardButtonState extends State<DashboardButton> with SingleTickerProv
 
   double _iconDimensions() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
-      return 110.w;
+      return 115.w;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 95.w;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 90.w;
+      return 70.w;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return 70.w;
     }
-    return 40.w;
+    return 50.w;
   }
 
   double _textSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
-      return 35.sp;
+      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 40.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
       return 30.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return 25.sp;
     }
-    return 20.sp;
+    return 28.sp;
   }
 
   void _mouseEnter() {

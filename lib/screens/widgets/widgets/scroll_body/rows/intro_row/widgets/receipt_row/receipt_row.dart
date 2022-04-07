@@ -41,7 +41,7 @@ class ReceiptRow extends StatelessWidget {
                     text: TextSpan(
                       text: "Receipts updated in ",
                       style: TextStyle(
-                        fontSize: _textSizer.fullRowHeader(context: context),
+                        fontSize: _header(context: context),
                         fontWeight: FontWeight.w800,
                       ),
                       children: const [
@@ -59,7 +59,7 @@ class ReceiptRow extends StatelessWidget {
                     text: TextSpan(
                       text: "Customer can view their live bill, ",
                       style: TextStyle(
-                        fontSize: _textSizer.fullRowBody(context: context),
+                        fontSize: _body(context: context),
                         fontWeight: FontWeight.w800,
                       ),
                       children: const [
@@ -89,5 +89,31 @@ class ReceiptRow extends StatelessWidget {
       return SizedBox(width: 20.w);
     }
     return Container();
+  }
+
+  double _header({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 55.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return 40.sp;
+    }
+    return 50.sp;
+  }
+
+  double _body({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 55.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 35.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return 35.sp;
+    }
+    return 40.sp;
   }
 }

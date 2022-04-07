@@ -29,7 +29,7 @@ class SavingsExplanationRow extends StatelessWidget {
             Text(
               "How Nova Pay reduces costs",
               style: TextStyle(
-                fontSize: _textSizer.fullRowHeader(context: context),
+                fontSize: _textSize(context: context),
                 fontWeight: FontWeight.bold
               ),
             ),
@@ -93,5 +93,16 @@ class SavingsExplanationRow extends StatelessWidget {
         )
       ],
     );
+  }
+
+  double _textSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 60.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 45.sp;
+    }
+    return 50.sp;
   }
 }

@@ -29,13 +29,14 @@ class MyApp extends StatelessWidget {
         builder: (context, widget) {
           return ResponsiveWrapper.builder(
             ClampingScrollWrapper.builder(context, widget!),
-            maxWidth: 1200,
             minWidth: 450,
             defaultScale: true,
             breakpoints: [
               const ResponsiveBreakpoint.resize(450, name: MOBILE),
+              const ResponsiveBreakpoint.autoScale(600, name: 'LARGE_MOBILE'),
               const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-              const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
+              const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+              const ResponsiveBreakpoint.resize(1400, name: 'LARGE_DESKTOP'),
               const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
             ]
           );

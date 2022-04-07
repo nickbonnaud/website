@@ -20,9 +20,7 @@ class LaptopImage extends StatelessWidget {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
-        height: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-          ? .4.sh : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
-          ? .45.sh : .55.sh,
+        height: _height(context: context),
         width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) ? .95.sw : .7.sw,
         child: Stack(
           children: [
@@ -52,9 +50,29 @@ class LaptopImage extends StatelessWidget {
   }
 
   double _initialOffset({required BuildContext context}) {
-    return ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-      ? 25 : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
-      ? 50 : 75;
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 25;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 15;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 50;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return 75;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_DESKTOP')) {
+      return 75;
+    }
+    return 100;
+  }
+
+  double _height({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return .4.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .3.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .45.sh;
+    }
+    return .55.sh;
   }
   
   void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {

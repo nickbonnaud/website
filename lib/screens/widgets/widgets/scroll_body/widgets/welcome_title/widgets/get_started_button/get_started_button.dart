@@ -65,8 +65,10 @@ class _GetStartedButtonState extends State<GetStartedButton> {
   double _textSizeAdjustment() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 40.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 20.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 0.sp;
     }
     return 0;
   }

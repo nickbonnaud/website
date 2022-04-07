@@ -60,17 +60,20 @@ class WelcomeTitle extends StatelessWidget {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return .8.sh;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return .65.sh;
-    } else {
+      return .55.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return .6.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_DESKTOP')) {
+      return .7.sh;
     }
+    return .75.sh;
   }
 
   double _scrollDownRight({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 200.w;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 150.w;
+      return 100.w;
     } else {
       return 50.w;
     }
@@ -80,7 +83,7 @@ class WelcomeTitle extends StatelessWidget {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return .4.sh;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return .35.sh;
+      return .3.sh;
     } else {
       return .25.sh;
     }
@@ -89,8 +92,10 @@ class WelcomeTitle extends StatelessWidget {
   double _titleTextSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 120.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 100.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 80.sp;
     }
     return 80.sp;
   }

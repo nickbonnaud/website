@@ -76,8 +76,10 @@ class IntroRow extends StatelessWidget {
   double _logoSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return .5.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .45.sw;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return .4.sw;
+      return .25.sw;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return .3.sw; 
     }
@@ -87,8 +89,10 @@ class IntroRow extends StatelessWidget {
   double _titleFontSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 100.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 80.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 90.sp;
+      return 70.sp;
     }
     return 80.sp;
   }
@@ -96,8 +100,10 @@ class IntroRow extends StatelessWidget {
   double _bodyFontSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 50.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 40.sp;
+    }  else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 32.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
       return 30.sp; 
     }

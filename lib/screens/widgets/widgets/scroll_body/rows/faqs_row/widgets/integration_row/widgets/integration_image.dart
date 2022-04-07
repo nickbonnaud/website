@@ -10,7 +10,7 @@ import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 import '../bloc/integration_row_parallax_bloc.dart';
 
 class IntegrationImage extends StatelessWidget {
-  static const double _initialOffset = 175;
+  static const double _initialOffset = 200;
   final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
   const IntegrationImage({Key? key})
@@ -21,10 +21,8 @@ class IntegrationImage extends StatelessWidget {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
-        height: .7.sh,
-        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE) 
-          ? .55.sw : ResponsiveWrapper.of(context).isSmallerThan(TABLET) 
-          ? .4.sw : .3.sw,
+        height: _containerHeight(context: context),
+        width: _containerWidth(context: context),
         child: Stack(
           children: [
             BlocBuilder<IntegrationRowParallaxBloc, IntegrationRowParallaxState>(
@@ -61,5 +59,25 @@ class IntegrationImage extends StatelessWidget {
         entryPosition: imageVisible ? parallaxState.offset : null
       ));
     }
+  }
+
+  double _containerHeight({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .45.sh;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .55.sh;
+    }
+    return .7.sh;
+  }
+
+  double _containerWidth({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return .55.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .4.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .25.sw;
+    }
+    return .3.sw;
   }
 }

@@ -24,7 +24,7 @@ class BackgroundText extends StatelessWidget {
               Positioned(
                 left: 0,
                 right: 0,
-                top: _savingsTitleTop(context: context, state: state),
+                top: _savingsTitleTop(context: context, state: state).h,
                 child: const Align(
                   alignment: Alignment.center,
                   child: TypicalSavingsTitle(),
@@ -33,7 +33,7 @@ class BackgroundText extends StatelessWidget {
               Positioned(
                 left: 0,
                 right: 0,
-                top: _savingsNumberTop(context: context, state: state),
+                top: _savingsNumberTop(context: context, state: state).h,
                 child: Align(
                   alignment: Alignment.center,
                   child: BlocProvider<TypicalSavingsNumberBloc>(
@@ -90,18 +90,13 @@ class BackgroundText extends StatelessWidget {
     double initialPosition = MediaQuery.of(context).size.height / 2;
 
     if (state.previousImage == BackgroundParallaxBloc.firstImage) {
-      return initialPosition - state.percentDistance * initialPosition;
+      return (initialPosition - state.percentDistance * initialPosition) - 100;
     }
     return (initialPosition - state.percentDistance * initialPosition) - 400;
   }
 
   double _savingsNumberTop({required BuildContext context, required BackgroundTextState state}) {
-    double initialPosition = MediaQuery.of(context).size.height / 2;
-    
-    if (state.previousImage == BackgroundParallaxBloc.firstImage) {
-      return (initialPosition - state.percentDistance * initialPosition) + 100;
-    }
-    return (initialPosition - state.percentDistance * initialPosition) - 300;
+    return _savingsTitleTop(context: context, state: state) + 150;
   }
 
   double _solutionTextTop({required BuildContext context, required BackgroundTextState state}) {
@@ -125,8 +120,10 @@ class BackgroundText extends StatelessWidget {
   double _textSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 128.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 100.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 96.sp;
+      return 80.sp;
     }
     return 64.sp;
   }

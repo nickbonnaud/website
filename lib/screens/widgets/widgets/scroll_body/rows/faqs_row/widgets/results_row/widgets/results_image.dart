@@ -21,8 +21,8 @@ class ResultsImage extends StatelessWidget {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
-        height: .7.sh,
-        width: _imageWidth(context: context),
+        height: _containerHeight(context: context),
+        width: _containerWidth(context: context),
         child: Stack(
           children: [
             BlocBuilder<ResultsRowParallaxBloc, ResultsRowParallaxState>(
@@ -49,11 +49,22 @@ class ResultsImage extends StatelessWidget {
     );
   }
 
-  double _imageWidth({required BuildContext context}) {
+  double _containerHeight({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .5.sh;
+    }
+    return .7.sh;
+  }
+  
+  double _containerWidth({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return .55.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return .35.sw;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return .4.sw;
+      return .25.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return .3.sw;
     }
     return .2.sw;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/laptop_parallax_bloc.dart';
@@ -30,7 +31,7 @@ class DashboardLaptopRow extends StatelessWidget {
               text: TextSpan(
                 text: "Dashboard effortlessly ",
                 style: TextStyle(
-                  fontSize: _textSizer.fullRowHeader(context: context),
+                  fontSize: _textSize(context: context),
                   fontWeight: FontWeight.w800,
                 ),
                 children: const [
@@ -54,5 +55,16 @@ class DashboardLaptopRow extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _textSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 55.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 45.sp;
+    }
+    return 50.sp;
   }
 }

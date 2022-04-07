@@ -96,8 +96,10 @@ class _CalculatorTitleEnterState extends State<CalculatorTitleEnter> with Single
   double _titleTextSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 60.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 30.sp;
     }
     return 40.sp;
   }

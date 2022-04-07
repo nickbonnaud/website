@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/integration_row_parallax_bloc.dart';
@@ -55,7 +56,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Integrating ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowHeader(context: context),
+          fontSize: _headerTextSize(context: context),
           fontWeight: FontWeight.bold,
           color: const Color.fromRGBO(96, 152, 198, 1)
         ),
@@ -76,7 +77,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Seamless setup in a matter of ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context),
+          fontSize: _bodyTextSize(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -96,7 +97,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Keep your ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context),
+          fontSize: _bodyTextSize(context: context),
           fontWeight: FontWeight.w500,
         ),
         children: const [
@@ -119,7 +120,7 @@ class IntegrationRow  extends StatelessWidget {
       text: TextSpan(
         text: "Zero ",
         style: TextStyle(
-          fontSize: _textSizer.fullRowBody(context: context),
+          fontSize: _bodyTextSize(context: context),
           fontWeight: FontWeight.w500,
           color: const Color.fromRGBO(96, 152, 198, 1)
         ),
@@ -133,5 +134,27 @@ class IntegrationRow  extends StatelessWidget {
         ]
       )
     );
+  }
+
+  double _headerTextSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 45.sp;
+    }
+    return 50.sp;
+  }
+
+  double _bodyTextSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 45.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 35.sp;
+    }
+    return 40.sp;
   }
 }

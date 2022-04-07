@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/text_sizer.dart';
 
 import 'bloc/image_parallax_bloc.dart';
@@ -31,7 +32,7 @@ class PaymentImageRow extends StatelessWidget {
                   Text(
                     "No tapping, swiping, or scanning.",
                     style: TextStyle(
-                      fontSize: _textSizer.fullRowHeader(context: context),
+                      fontSize: _textSize(context: context),
                       fontWeight: FontWeight.w800,
                       color: Colors.lightBlueAccent[100]
                     ),
@@ -40,7 +41,7 @@ class PaymentImageRow extends StatelessWidget {
                   Text(
                     "Customers pay with the Nova App.",
                     style: TextStyle(
-                      fontSize: _textSizer.fullRowHeader(context: context),
+                      fontSize: _textSize(context: context),
                       fontWeight: FontWeight.w800
                     ),
                   ),
@@ -55,5 +56,14 @@ class PaymentImageRow extends StatelessWidget {
         ),
       )
     );
+  }
+
+  double _textSize({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 55.sp;
+    }
+    return 50.sp;
   }
 }

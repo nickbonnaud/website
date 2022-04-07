@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:website/resources/text_sizer.dart';
 import 'package:website/resources/visibility_finder.dart';
 import 'package:website/screens/key_holder_cubit/key_holder_cubit.dart';
@@ -50,7 +51,7 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
               text: TextSpan(
                 text: "1% ",
                 style: TextStyle(
-                  fontSize: _textSizer.fullRowBody(context: context),
+                  fontSize: _numberTextSize(),
                   fontWeight: FontWeight.bold
                 ),
                 children: [
@@ -69,7 +70,7 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
               text: TextSpan(
                 text: "5¢ ",
                 style: TextStyle(
-                  fontSize: _textSizer.fullRowBody(context: context),
+                  fontSize: _numberTextSize(),
                   fontWeight: FontWeight.bold
                 ),
                 children: [
@@ -88,7 +89,7 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
               text: TextSpan(
                 text: "\$0 ",
                 style: TextStyle(
-                  fontSize: _textSizer.fullRowBody(context: context),
+                  fontSize: _numberTextSize(),
                   fontWeight: FontWeight.bold
                 ),
                 children: [
@@ -107,7 +108,7 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
               text: TextSpan(
                 text: "\$0 ",
                 style: TextStyle(
-                  fontSize: _textSizer.fullRowBody(context: context),
+                  fontSize: _numberTextSize(),
                   fontWeight: FontWeight.bold
                 ),
                 children: [
@@ -133,8 +134,26 @@ class _InfoColumnState extends State<InfoColumn> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  double _numberTextSize() {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 45.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 45.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 40.sp;
+    }
+    return 40.sp;
+  }
+  
   double _normalTextSize({required BuildContext context}) {
-    return _textSizer.fullRowBody(context: context) - 8.sp;
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 40.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 35.sp;
+    }
+    return 32.sp;
   }
 
   void _updateInfoEnteredView() {

@@ -258,36 +258,44 @@ class _SavingsCalculatorFormState extends State<SavingsCalculatorForm> {
   double _titleTextSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 60.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 50.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 35.sp;
     }
     return 40.sp;
   }
 
-  double _currencyTextSize() {
+  double _buttonTextSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
-      return 65.sp;
+      return 70.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 45.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 55.sp;
+      return 35.sp;
     }
-    return 45.sp;
+    return 35.sp;
   }
 
   double _inputTextSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 55.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
       return 45.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 30.sp;
     }
     return 35.sp;
   }
 
-  double _buttonTextSize() {
+  double _currencyTextSize() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
-      return 75.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 45.sp;
+      return 65.sp;
+    }else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 55.sp;
+    }  else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return 40.sp;
     }
-    return 35.sp;
+    return 45.sp;
   }
 }

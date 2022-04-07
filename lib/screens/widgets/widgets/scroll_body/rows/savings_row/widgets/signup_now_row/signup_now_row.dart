@@ -65,8 +65,6 @@ class  _SignupNowRowState extends State<SignupNowRow> {
   double _textSizeAdjustment() {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 40.sp;
-    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 20.sp;
     }
     return 0;
   }

@@ -10,7 +10,7 @@ import 'package:website/screens/parallax_bloc/parallax_bloc.dart';
 import '../bloc/dashboard_complement_parallax_bloc.dart';
 
 class ComplementImage extends StatelessWidget {
-  static const double _initialOffset = 100;
+  static const double _initialOffset = 200;
   final VisibilityFinder _visibilityFinder = const VisibilityFinder(enterAnimationMinHeight: 0);
 
   const ComplementImage({Key? key})
@@ -21,17 +21,15 @@ class ComplementImage extends StatelessWidget {
     return BlocListener<ParallaxBloc, ParallaxState>(
       listener: (context, parallaxState) => _updateScroll(context: context, parallaxState: parallaxState),
       child: SizedBox(
-        height: .7.sh,
-        width: ResponsiveWrapper.of(context).isSmallerThan(MOBILE)
-          ? .5.sw : ResponsiveWrapper.of(context).isSmallerThan(TABLET)
-          ? .35.sw: .3.sw,
+        height: .6.sh,
+        width: _containerWidth(context: context),
         child: Stack(
           children: [
             BlocBuilder<DashboardComplementParallaxBloc, DashboardComplementParallaxState>(
               buildWhen: (_, currentState) => currentState.isImageVisible,
               builder: (context, state) {
                 return Positioned(
-                  height: .6.sh,
+                  height: _imageHeight(context: context),
                   left: 0,
                   top: state.entryPosition == null
                     ? _initialOffset.h
@@ -49,6 +47,22 @@ class ComplementImage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _containerWidth({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
+      return .5.sw;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      .1.sw;
+    }
+    return .3.sw;
+  }
+  
+  double _imageHeight({required BuildContext context}) {
+    if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
+      return .40.sh;
+    }
+    return .6.sh;
   }
 
   void _updateScroll({required BuildContext context, required ParallaxState parallaxState}) {

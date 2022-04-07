@@ -97,8 +97,12 @@ class MainAppBar extends StatelessWidget {
   double _textSize({required BuildContext context}) {
     if (ResponsiveWrapper.of(context).isSmallerThan(MOBILE)) {
       return 48.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan('LARGE_MOBILE')) {
+      return 36.sp;
     } else if (ResponsiveWrapper.of(context).isSmallerThan(TABLET)) {
-      return 32.sp;
+      return 30.sp;
+    } else if (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)) {
+      return 28.sp;
     }
     return 24.sp;
   }
